@@ -1,0 +1,19 @@
+{
+  "x_bearer_token": "YOUR_X_API_BEARER_TOKEN",
+  "openai_api_key": "YOUR_AI_API_KEY_OPTIONAL",
+  "openai_model": "gpt-4o-mini",
+  "ai_provider": "openai_responses",
+  "ai_api_key": "YOUR_AI_API_KEY_OPTIONAL",
+  "ai_model": "gpt-4o-mini",
+  "ai_base_url": "https://api.openai.com/v1",
+  "ai_timeout_seconds": 90,
+  "accounts": [
+    "realDonaldTrump"
+  ],
+  "poll_seconds": 90,
+  "max_posts_per_account": 5,
+  "use_gpt": false,
+  "exclude_replies": true,
+  "exclude_retweets": true,
+  "trade_link_template": "https://www.tradingview.com/symbols/{symbol}/"
+}

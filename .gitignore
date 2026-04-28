@@ -1,0 +1,35 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Build and packaging outputs
+.build_deps/
+.pip_cache/
+.tmp/
+.installer_payload/
+build/
+dist/
+installer_dist/
+*.spec
+
+# Local user data and secrets
+.env
+.env.*
+config.json
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*token*
+*secret*
+*apikey*
+*api_key*
+*.pem
+*.key
+
+# Editor and OS files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
