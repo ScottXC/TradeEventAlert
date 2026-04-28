@@ -10,6 +10,7 @@ Windows desktop MVP for monitoring selected X accounts, turning posts into marke
 - Runs a local rule engine for event classification and ticker direction.
 - Optionally calls an AI provider for structured semantic analysis when you enable `use_gpt`.
 - Supports OpenAI Responses, OpenAI-compatible Chat Completions, xAI Grok, DeepSeek, Moonshot/Kimi, OpenRouter, and Gemini REST.
+- Supports Chinese, English, Spanish, Japanese, and Korean UI language selection in Settings. AI analysis output follows the selected language when AI is enabled.
 - Shows event category, severity, confidence, suggested asset classes, ticker direction, and reasons.
 - Supports deleting selected alerts or bulk deleting alerts by account/source, category, severity, or manual-paste source.
 - Shows a bottom status bar with click feedback, operation results, and next-step hints.

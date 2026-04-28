@@ -41,6 +41,7 @@ COLORS = {
 
 
 DEFAULT_CONFIG = {
+    "language": "zh",
     "x_bearer_token": "",
     "openai_api_key": "",
     "openai_model": "gpt-4o-mini",
@@ -57,6 +58,152 @@ DEFAULT_CONFIG = {
     "exclude_retweets": True,
     "trade_link_template": "https://www.tradingview.com/symbols/{symbol}/",
 }
+
+
+LANGUAGES = {
+    "zh": "中文",
+    "en": "English",
+    "es": "Español",
+    "ja": "日本語",
+    "ko": "한국어",
+}
+LANGUAGE_LABEL_TO_CODE = {label: code for code, label in LANGUAGES.items()}
+
+ANALYSIS_LANGUAGE_NAMES = {
+    "zh": "Simplified Chinese",
+    "en": "English",
+    "es": "Spanish",
+    "ja": "Japanese",
+    "ko": "Korean",
+}
+
+I18N = {
+    "app_title": {
+        "zh": "Trade Event Alert - X 实时事件预警",
+        "en": "Trade Event Alert - X Real-time Event Alerts",
+        "es": "Trade Event Alert - Alertas de eventos de X",
+        "ja": "Trade Event Alert - X リアルタイムイベント警報",
+        "ko": "Trade Event Alert - X 실시간 이벤트 알림",
+    },
+    "ready": {"zh": "就绪", "en": "Ready", "es": "Listo", "ja": "準備完了", "ko": "준비됨"},
+    "initial_home": {
+        "zh": "请选择操作：开始监控、立即轮询，或从粘贴分析创建预警。",
+        "en": "Choose an action: start monitoring, poll now, or create an alert from pasted text.",
+        "es": "Elige una acción: iniciar monitoreo, consultar ahora o crear una alerta desde texto pegado.",
+        "ja": "操作を選択してください: 監視開始、今すぐ取得、または貼り付け分析からアラートを作成。",
+        "ko": "작업을 선택하세요: 모니터링 시작, 즉시 조회, 또는 붙여넣기 분석으로 알림 생성.",
+    },
+    "tab_new": {"zh": "新发布内容", "en": "New Posts", "es": "Nuevos", "ja": "新規投稿", "ko": "새 게시물"},
+    "tab_past": {"zh": "过去一天", "en": "Past Day", "es": "Último día", "ja": "過去1日", "ko": "지난 하루"},
+    "tab_favorites": {"zh": "收藏夹", "en": "Favorites", "es": "Favoritos", "ja": "お気に入り", "ko": "즐겨찾기"},
+    "tab_recycle": {"zh": "回收站", "en": "Trash", "es": "Papelera", "ja": "ごみ箱", "ko": "휴지통"},
+    "tab_workflow": {"zh": "工作流", "en": "Workflow", "es": "Flujo", "ja": "ワークフロー", "ko": "워크플로"},
+    "tab_paste": {"zh": "粘贴分析", "en": "Paste Analysis", "es": "Analizar texto", "ja": "貼り付け分析", "ko": "붙여넣기 분석"},
+    "tab_settings": {"zh": "设置", "en": "Settings", "es": "Ajustes", "ja": "設定", "ko": "설정"},
+    "tab_log": {"zh": "日志", "en": "Log", "es": "Registro", "ja": "ログ", "ko": "로그"},
+    "monitor_title": {"zh": "实时事件工作台", "en": "Real-time Event Desk", "es": "Mesa de eventos en tiempo real", "ja": "リアルタイムイベント作業台", "ko": "실시간 이벤트 작업대"},
+    "monitor_subtitle": {
+        "zh": "自动抓取、语义分析、股票方向和交易链接集中处理",
+        "en": "Centralized capture, semantic analysis, ticker direction, and trade links",
+        "es": "Captura, análisis semántico, dirección de acciones y enlaces de trading en un solo lugar",
+        "ja": "自動取得、意味分析、銘柄方向、取引リンクを一元管理",
+        "ko": "자동 수집, 의미 분석, 종목 방향, 거래 링크를 한곳에서 처리",
+    },
+    "start_monitor": {"zh": "开始监控", "en": "Start", "es": "Iniciar", "ja": "開始", "ko": "시작"},
+    "stop": {"zh": "停止", "en": "Stop", "es": "Detener", "ja": "停止", "ko": "중지"},
+    "poll_now": {"zh": "立即轮询", "en": "Poll Now", "es": "Consultar ahora", "ja": "今すぐ取得", "ko": "즉시 조회"},
+    "demo_alert": {"zh": "演示预警", "en": "Demo Alert", "es": "Alerta demo", "ja": "デモ警報", "ko": "데모 알림"},
+    "refresh_list": {"zh": "刷新列表", "en": "Refresh", "es": "Actualizar", "ja": "更新", "ko": "새로고침"},
+    "favorite_selected": {"zh": "收藏选中", "en": "Favorite", "es": "Favorito", "ja": "お気に入り", "ko": "즐겨찾기"},
+    "delete_selected": {"zh": "删除选中", "en": "Delete", "es": "Eliminar", "ja": "削除", "ko": "삭제"},
+    "custom_delete": {"zh": "自定义删除", "en": "Custom Delete", "es": "Eliminar por regla", "ja": "条件削除", "ko": "사용자 삭제"},
+    "col_time": {"zh": "时间", "en": "Time", "es": "Hora", "ja": "時刻", "ko": "시간"},
+    "col_account": {"zh": "账号", "en": "Account", "es": "Cuenta", "ja": "アカウント", "ko": "계정"},
+    "col_category": {"zh": "类别", "en": "Category", "es": "Categoría", "ja": "カテゴリ", "ko": "분류"},
+    "col_severity": {"zh": "级别", "en": "Level", "es": "Nivel", "ja": "重要度", "ko": "등급"},
+    "col_confidence": {"zh": "置信度", "en": "Confidence", "es": "Confianza", "ja": "信頼度", "ko": "신뢰도"},
+    "col_headline": {"zh": "标题", "en": "Headline", "es": "Titular", "ja": "見出し", "ko": "제목"},
+    "col_symbol": {"zh": "代码", "en": "Symbol", "es": "Símbolo", "ja": "コード", "ko": "코드"},
+    "col_direction": {"zh": "方向", "en": "Direction", "es": "Dirección", "ja": "方向", "ko": "방향"},
+    "col_asset_class": {"zh": "类别", "en": "Asset Class", "es": "Clase", "ja": "資産種別", "ko": "자산군"},
+    "col_reason": {"zh": "理由", "en": "Reason", "es": "Motivo", "ja": "理由", "ko": "이유"},
+    "event_summary": {"zh": "事件摘要", "en": "Event Summary", "es": "Resumen del evento", "ja": "イベント概要", "ko": "이벤트 요약"},
+    "ticker_judgment": {"zh": "股票/ETF 判断", "en": "Stock/ETF View", "es": "Juicio acciones/ETF", "ja": "株式/ETF 判断", "ko": "주식/ETF 판단"},
+    "summary_analysis": {"zh": "摘要 / 分析", "en": "Summary / Analysis", "es": "Resumen / análisis", "ja": "概要 / 分析", "ko": "요약 / 분석"},
+    "past_title": {"zh": "过去一天内容", "en": "Past Day Content", "es": "Contenido del último día", "ja": "過去1日の内容", "ko": "지난 하루 콘텐츠"},
+    "past_subtitle": {
+        "zh": "显示抓取时属于过去 24 小时、但不是本次运行后新发布的内容。",
+        "en": "Shows items from the last 24 hours that were not newly published after this run started.",
+        "es": "Muestra elementos de las últimas 24 horas que no son nuevos desde que inició esta ejecución.",
+        "ja": "過去24時間内で、今回の実行開始後の新規投稿ではない内容を表示します。",
+        "ko": "최근 24시간 내 콘텐츠 중 이번 실행 후 새로 게시된 항목이 아닌 내용을 표시합니다.",
+    },
+    "favorites_title": {"zh": "收藏夹", "en": "Favorites", "es": "Favoritos", "ja": "お気に入り", "ko": "즐겨찾기"},
+    "favorites_subtitle": {"zh": "用于整理值得后续跟踪的信息。", "en": "Organize information worth following up.", "es": "Organiza información que vale la pena seguir.", "ja": "後で追跡したい情報を整理します。", "ko": "추적할 가치가 있는 정보를 정리합니다."},
+    "trash_title": {"zh": "内容回收站", "en": "Content Trash", "es": "Papelera de contenido", "ja": "コンテンツごみ箱", "ko": "콘텐츠 휴지통"},
+    "trash_subtitle": {"zh": "删除的内容先进入这里，可恢复或永久删除。", "en": "Deleted items go here first. Restore or permanently delete them.", "es": "Los elementos eliminados pasan aquí; puedes restaurarlos o borrarlos para siempre.", "ja": "削除した内容はここに入り、復元または完全削除できます。", "ko": "삭제된 항목은 먼저 여기에 들어오며 복원하거나 영구 삭제할 수 있습니다."},
+    "restore": {"zh": "恢复", "en": "Restore", "es": "Restaurar", "ja": "復元", "ko": "복원"},
+    "permanent_delete": {"zh": "永久删除", "en": "Delete Forever", "es": "Eliminar para siempre", "ja": "完全削除", "ko": "영구 삭제"},
+    "open_source": {"zh": "打开原帖", "en": "Open Source", "es": "Abrir fuente", "ja": "元投稿を開く", "ko": "원문 열기"},
+    "open_trade_link": {"zh": "打开交易/看盘链接", "en": "Open Trading Link", "es": "Abrir enlace de trading", "ja": "取引リンクを開く", "ko": "거래 링크 열기"},
+    "ai_window": {"zh": "AI 分析窗口", "en": "AI Analysis Window", "es": "Ventana de IA", "ja": "AI分析ウィンドウ", "ko": "AI 분석 창"},
+    "workflow_title": {"zh": "当前工作流", "en": "Current Workflow", "es": "Flujo actual", "ja": "現在のワークフロー", "ko": "현재 워크플로"},
+    "col_operation": {"zh": "操作", "en": "Operation", "es": "Operación", "ja": "操作", "ko": "작업"},
+    "col_status": {"zh": "状态", "en": "Status", "es": "Estado", "ja": "状態", "ko": "상태"},
+    "col_elapsed": {"zh": "耗时", "en": "Elapsed", "es": "Tiempo", "ja": "経過時間", "ko": "소요 시간"},
+    "col_detail": {"zh": "说明", "en": "Details", "es": "Detalle", "ja": "詳細", "ko": "설명"},
+    "source_account": {"zh": "账号/来源", "en": "Account/Source", "es": "Cuenta/Fuente", "ja": "アカウント/ソース", "ko": "계정/출처"},
+    "source_url_optional": {"zh": "原帖链接（可选）", "en": "Source URL (optional)", "es": "URL fuente (opcional)", "ja": "元リンク（任意）", "ko": "원문 링크(선택)"},
+    "post_text": {"zh": "帖子正文", "en": "Post Text", "es": "Texto", "ja": "本文", "ko": "게시글 본문"},
+    "analyze_add": {"zh": "分析并加入预警", "en": "Analyze and Add", "es": "Analizar y añadir", "ja": "分析して追加", "ko": "분석 후 추가"},
+    "clear": {"zh": "清空", "en": "Clear", "es": "Limpiar", "ja": "クリア", "ko": "지우기"},
+    "language": {"zh": "界面语言", "en": "Language", "es": "Idioma", "ja": "言語", "ko": "언어"},
+    "ai_provider": {"zh": "AI 提供商", "en": "AI Provider", "es": "Proveedor de IA", "ja": "AIプロバイダー", "ko": "AI 제공업체"},
+    "model": {"zh": "模型", "en": "Model", "es": "Modelo", "ja": "モデル", "ko": "모델"},
+    "x_token_required": {"zh": "X Bearer Token（自动监控必填）", "en": "X Bearer Token (required for monitoring)", "es": "X Bearer Token (obligatorio para monitoreo)", "ja": "X Bearer Token（監視に必須）", "ko": "X Bearer Token(모니터링 필수)"},
+    "ai_key_required": {"zh": "AI API Key（启用 AI 必填）", "en": "AI API Key (required when AI is enabled)", "es": "AI API Key (obligatoria si IA está activa)", "ja": "AI API Key（AI有効時に必須）", "ko": "AI API Key(AI 사용 시 필수)"},
+    "ai_model_required": {"zh": "AI 模型（启用 AI 必填）", "en": "AI Model (required when AI is enabled)", "es": "Modelo IA (obligatorio si IA está activa)", "ja": "AIモデル（AI有効時に必須）", "ko": "AI 모델(AI 사용 시 필수)"},
+    "ai_base_url_required": {"zh": "AI Base URL（启用 AI 必填）", "en": "AI Base URL (required when AI is enabled)", "es": "AI Base URL (obligatoria si IA está activa)", "ja": "AI Base URL（AI有効時に必須）", "ko": "AI Base URL(AI 사용 시 필수)"},
+    "ai_timeout_seconds": {"zh": "AI 超时秒数 *", "en": "AI Timeout Seconds *", "es": "Tiempo límite IA (s) *", "ja": "AIタイムアウト秒数 *", "ko": "AI 제한 시간(초) *"},
+    "poll_seconds": {"zh": "轮询秒数 *", "en": "Poll Interval Seconds *", "es": "Intervalo de consulta (s) *", "ja": "取得間隔（秒）*", "ko": "조회 간격(초) *"},
+    "max_posts": {"zh": "每账号最多读取帖子数 *", "en": "Max Posts per Account *", "es": "Máx. publicaciones por cuenta *", "ja": "アカウント別最大投稿数 *", "ko": "계정별 최대 게시물 수 *"},
+    "trade_template": {"zh": "交易/看盘链接模板 *", "en": "Trading Link Template *", "es": "Plantilla de enlace trading *", "ja": "取引リンクテンプレート *", "ko": "거래 링크 템플릿 *"},
+    "accounts_label": {"zh": "监控账号（逗号或换行分隔）", "en": "Accounts to Monitor (comma or newline separated)", "es": "Cuentas a monitorear (coma o salto de línea)", "ja": "監視アカウント（カンマまたは改行区切り）", "ko": "모니터링 계정(쉼표 또는 줄바꿈 구분)"},
+    "enable_ai": {"zh": "启用 GPT 语义分析", "en": "Enable AI Semantic Analysis", "es": "Activar análisis semántico IA", "ja": "AI意味分析を有効化", "ko": "AI 의미 분석 사용"},
+    "exclude_replies": {"zh": "排除回复", "en": "Exclude Replies", "es": "Excluir respuestas", "ja": "返信を除外", "ko": "답글 제외"},
+    "exclude_retweets": {"zh": "排除转发", "en": "Exclude Reposts", "es": "Excluir reposts", "ja": "リポストを除外", "ko": "재게시 제외"},
+    "select_ai": {"zh": "选择 AI", "en": "Choose AI", "es": "Elegir IA", "ja": "AIを選択", "ko": "AI 선택"},
+    "apply_preset": {"zh": "套用预设", "en": "Apply Preset", "es": "Aplicar preajuste", "ja": "プリセット適用", "ko": "프리셋 적용"},
+    "save_settings": {"zh": "保存设置", "en": "Save Settings", "es": "Guardar ajustes", "ja": "設定を保存", "ko": "설정 저장"},
+    "open_config_dir": {"zh": "打开配置目录", "en": "Open Config Folder", "es": "Abrir carpeta", "ja": "設定フォルダを開く", "ko": "설정 폴더 열기"},
+    "select": {"zh": "选择", "en": "Select", "es": "Seleccionar", "ja": "選択", "ko": "선택"},
+    "close": {"zh": "关闭", "en": "Close", "es": "Cerrar", "ja": "閉じる", "ko": "닫기"},
+    "reanalyze": {"zh": "重新分析", "en": "Reanalyze", "es": "Reanalizar", "ja": "再分析", "ko": "다시 분석"},
+    "settings_saved_log": {"zh": "设置已保存。", "en": "Settings saved.", "es": "Ajustes guardados.", "ja": "設定を保存しました。", "ko": "설정이 저장되었습니다."},
+    "settings_saved_feedback": {
+        "zh": "设置已保存。语言切换会在重启软件后完整生效。",
+        "en": "Settings saved. The language change fully applies after restarting the app.",
+        "es": "Ajustes guardados. El cambio de idioma se aplica por completo tras reiniciar la app.",
+        "ja": "設定を保存しました。言語変更はアプリ再起動後に完全に反映されます。",
+        "ko": "설정이 저장되었습니다. 언어 변경은 앱을 다시 시작한 후 완전히 적용됩니다.",
+    },
+    "detail_title": {"zh": "标题", "en": "Headline", "es": "Titular", "ja": "見出し", "ko": "제목"},
+    "detail_level": {"zh": "级别", "en": "Level", "es": "Nivel", "ja": "重要度", "ko": "등급"},
+    "detail_time_horizon": {"zh": "时间跨度", "en": "Time Horizon", "es": "Horizonte", "ja": "時間軸", "ko": "시간 범위"},
+    "detail_novelty": {"zh": "新颖度", "en": "Novelty", "es": "Novedad", "ja": "新規性", "ko": "신규성"},
+    "detail_source": {"zh": "来源", "en": "Source", "es": "Fuente", "ja": "ソース", "ko": "출처"},
+    "detail_content_tag": {"zh": "内容标记", "en": "Content Flag", "es": "Marca de contenido", "ja": "コンテンツ印", "ko": "콘텐츠 표시"},
+    "detail_content_type": {"zh": "内容类型", "en": "Content Type", "es": "Tipo de contenido", "ja": "コンテンツ種別", "ko": "콘텐츠 유형"},
+    "analysis_filtered": {"zh": "【原筛选内容 - 已保留展示】", "en": "[Filtered by Rules - Kept Visible]", "es": "[Filtrado por reglas - visible]", "ja": "【ルールで抽出 - 表示保持】", "ko": "[규칙 필터링 - 표시 유지]"},
+    "analysis_ai": {"zh": "【AI 分析结果】", "en": "[AI Analysis]", "es": "[Análisis de IA]", "ja": "【AI分析】", "ko": "[AI 분석]"},
+    "analysis_manual": {"zh": "【粘贴内容分析】", "en": "[Pasted Content Analysis]", "es": "[Análisis de texto pegado]", "ja": "【貼り付け分析】", "ko": "[붙여넣기 분석]"},
+    "analysis_local": {"zh": "【本地规则分析】", "en": "[Local Rule Analysis]", "es": "[Análisis local]", "ja": "【ローカルルール分析】", "ko": "[로컬 규칙 분석]"},
+}
+
+
+def tr(lang, key, **kwargs):
+    text = I18N.get(key, {}).get(lang) or I18N.get(key, {}).get("en") or I18N.get(key, {}).get("zh") or key
+    return text.format(**kwargs) if kwargs else text
 
 
 AI_PROVIDER_PRESETS = {
@@ -897,10 +1044,11 @@ class MultiAIAnalyzer:
             return baseline
         schema = self._schema()
         prompt = self._prompt(text, account, baseline)
+        output_language = ANALYSIS_LANGUAGE_NAMES.get(self.config.get("language", "zh"), "Simplified Chinese")
         prompt = (
-            "重要输出语言要求：所有面向用户阅读的自然语言字段必须使用简体中文，包括 "
-            "headline、summary、tickers.reason、risk_note。"
-            "category、direction、asset_class、time_horizon、novelty 可以保留英文枚举值。\n\n"
+            f"Important output language requirement: all user-facing natural-language fields must use {output_language}, "
+            "including headline, summary, tickers.reason, and risk_note. "
+            "category, direction, asset_class, time_horizon, and novelty may keep English enum values.\n\n"
             + prompt
         )
         try:
@@ -1330,17 +1478,17 @@ class Tooltip:
 class TradeAlertApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Trade Event Alert - X 实时事件预警")
         self.root.geometry("1180x760")
         self.config = load_config()
+        self.root.title(self.t("app_title"))
         self.store = AlertStore(DB_PATH)
         self.outbox = queue.Queue()
         self.stop_event = threading.Event()
         self.worker = None
         self.alert_rows = {}
         self.selected_alert = None
-        self.status_var = StringVar(value="就绪")
-        self.home_feedback_var = StringVar(value="请选择操作：开始监控、立即轮询，或从粘贴分析创建预警。")
+        self.status_var = StringVar(value=self.t("ready"))
+        self.home_feedback_var = StringVar(value=self.t("initial_home"))
         self.status_after_id = None
         self.ai_drawer_visible = False
         self.reanalysis_running = False
@@ -1358,6 +1506,9 @@ class TradeAlertApp:
         self._build_ui()
         self.refresh_alerts()
         self.root.after(500, self._process_outbox)
+
+    def t(self, key, **kwargs):
+        return tr(self.config.get("language", "zh"), key, **kwargs)
 
     def _configure_style(self):
         self.root.configure(bg=COLORS["bg"])
@@ -1422,11 +1573,11 @@ class TradeAlertApp:
         )
         Tooltip(button, tooltip)
         button.bind("<Enter>", lambda _event: self.set_status(tooltip, temporary=False), add="+")
-        button.bind("<Leave>", lambda _event: self.set_status("就绪", temporary=False), add="+")
+        button.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         return button
 
     def _run_action(self, feedback, command):
-        self.set_status(f"正在执行：{feedback}", temporary=False)
+        self.set_status(f"{feedback}", temporary=False)
         self.root.update_idletasks()
         command()
 
@@ -1436,7 +1587,7 @@ class TradeAlertApp:
             self.root.after_cancel(self.status_after_id)
             self.status_after_id = None
         if temporary:
-            self.status_after_id = self.root.after(timeout_ms, lambda: self.status_var.set("就绪"))
+            self.status_after_id = self.root.after(timeout_ms, lambda: self.status_var.set(self.t("ready")))
 
     def set_home_feedback(self, message):
         self.home_feedback_var.set(message)
@@ -1454,14 +1605,14 @@ class TradeAlertApp:
         self.paste_tab = ttk.Frame(notebook, padding=10)
         self.settings_tab = ttk.Frame(notebook, padding=10)
         self.log_tab = ttk.Frame(notebook, padding=10)
-        notebook.add(self.monitor_tab, text="新发布内容")
-        notebook.add(self.past_day_tab, text="过去一天")
-        notebook.add(self.favorites_tab, text="收藏夹")
-        notebook.add(self.recycle_tab, text="回收站")
-        notebook.add(self.workflow_tab, text="工作流")
-        notebook.add(self.paste_tab, text="粘贴分析")
-        notebook.add(self.settings_tab, text="设置")
-        notebook.add(self.log_tab, text="日志")
+        notebook.add(self.monitor_tab, text=self.t("tab_new"))
+        notebook.add(self.past_day_tab, text=self.t("tab_past"))
+        notebook.add(self.favorites_tab, text=self.t("tab_favorites"))
+        notebook.add(self.recycle_tab, text=self.t("tab_recycle"))
+        notebook.add(self.workflow_tab, text=self.t("tab_workflow"))
+        notebook.add(self.paste_tab, text=self.t("tab_paste"))
+        notebook.add(self.settings_tab, text=self.t("tab_settings"))
+        notebook.add(self.log_tab, text=self.t("tab_log"))
 
         self._build_monitor_tab()
         self._build_secondary_tabs()
@@ -1480,19 +1631,19 @@ class TradeAlertApp:
     def _build_monitor_tab(self):
         header = ttk.Frame(self.monitor_tab)
         header.pack(fill=X, pady=(0, 8))
-        ttk.Label(header, text="实时事件工作台", style="Section.TLabel").pack(side=LEFT)
-        ttk.Label(header, text="自动抓取、语义分析、股票方向和交易链接集中处理", style="Muted.TLabel").pack(side=LEFT, padx=(12, 0))
+        ttk.Label(header, text=self.t("monitor_title"), style="Section.TLabel").pack(side=LEFT)
+        ttk.Label(header, text=self.t("monitor_subtitle"), style="Muted.TLabel").pack(side=LEFT, padx=(12, 0))
 
         toolbar = ttk.Frame(self.monitor_tab)
         toolbar.pack(fill=X, pady=(0, 10))
-        self._button(toolbar, "开始监控", self.start_monitor, "开始监控", "保存设置并开始按轮询间隔自动读取账号新帖子。", "Primary.TButton").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "停止", self.stop_monitor, "停止监控", "停止后台轮询；已经生成的预警不会被删除。").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "立即轮询", self.poll_now, "立即轮询", "立刻请求一次 X API，适合测试 token、credits 和账号配置。").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "演示预警", self.add_demo_alert, "添加演示预警", "添加一条模拟关税事件，用来检查界面和分析结果展示。").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "刷新列表", self.refresh_alerts_with_feedback, "刷新列表", "从本地数据库重新加载预警列表。").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "收藏选中", self.toggle_selected_favorite, "收藏选中", "把选中内容加入收藏夹，方便后续整理。").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, "删除选中", self.delete_selected_alerts, "删除选中预警", "删除当前选中的预警记录，只影响本地历史。", "Danger.TButton").pack(side=LEFT, padx=(12, 6))
-        self._button(toolbar, "自定义删除", self.open_delete_dialog, "打开自定义删除", "按账号、类别、级别或粘贴来源批量删除预警。").pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("start_monitor"), self.start_monitor, self.t("start_monitor"), self.t("monitor_subtitle"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("stop"), self.stop_monitor, self.t("stop"), self.t("stop")).pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("poll_now"), self.poll_now, self.t("poll_now"), self.t("poll_now")).pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("demo_alert"), self.add_demo_alert, self.t("demo_alert"), self.t("demo_alert")).pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("refresh_list"), self.refresh_alerts_with_feedback, self.t("refresh_list"), self.t("refresh_list")).pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("favorite_selected"), self.toggle_selected_favorite, self.t("favorite_selected"), self.t("favorite_selected")).pack(side=LEFT, padx=(0, 6))
+        self._button(toolbar, self.t("delete_selected"), self.delete_selected_alerts, self.t("delete_selected"), self.t("delete_selected"), "Danger.TButton").pack(side=LEFT, padx=(12, 6))
+        self._button(toolbar, self.t("custom_delete"), self.open_delete_dialog, self.t("custom_delete"), self.t("custom_delete")).pack(side=LEFT, padx=(0, 6))
 
         feedback = ttk.Label(self.monitor_tab, textvariable=self.home_feedback_var, style="Feedback.TLabel")
         feedback.pack(fill=X, pady=(0, 10))
@@ -1509,12 +1660,12 @@ class TradeAlertApp:
         columns = ("time", "account", "category", "severity", "confidence", "headline")
         self.alert_tree = ttk.Treeview(left, columns=columns, show="headings", height=22)
         headings = {
-            "time": "时间",
-            "account": "账号",
-            "category": "类别",
-            "severity": "级别",
-            "confidence": "置信度",
-            "headline": "标题",
+            "time": self.t("col_time"),
+            "account": self.t("col_account"),
+            "category": self.t("col_category"),
+            "severity": self.t("col_severity"),
+            "confidence": self.t("col_confidence"),
+            "headline": self.t("col_headline"),
         }
         widths = {"time": 160, "account": 120, "category": 150, "severity": 60, "confidence": 70, "headline": 360}
         for col in columns:
@@ -1526,22 +1677,22 @@ class TradeAlertApp:
         self.alert_tree.configure(yscrollcommand=alert_scroll.set)
         self.alert_tree.bind("<<TreeviewSelect>>", self.on_alert_select)
         self.alert_tree.bind("<Enter>", lambda _event: self.set_status("单击预警查看详情；颜色越偏红通常表示级别越高。", temporary=False), add="+")
-        self.alert_tree.bind("<Leave>", lambda _event: self.set_status("就绪", temporary=False), add="+")
+        self.alert_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         Tooltip(self.alert_tree, "单击一条预警会在右侧显示摘要和相关股票判断；可多选后删除。")
         self.alert_tree.tag_configure("severity_high", background=COLORS["danger_bg"])
         self.alert_tree.tag_configure("severity_medium", background=COLORS["warning_bg"])
         self.alert_tree.tag_configure("severity_low", background=COLORS["info_bg"])
         self.alert_tree.tag_configure("filtered_by_settings", background="#fff7d6")
 
-        ttk.Label(right, text="事件摘要", style="Section.TLabel").pack(anchor="w")
+        ttk.Label(right, text=self.t("event_summary"), style="Section.TLabel").pack(anchor="w")
         self.detail_text = self._text_widget(right, height=10)
         self.detail_text.pack(fill=X, pady=(4, 8))
         Tooltip(self.detail_text, "显示当前选中内容的摘要、来源、置信度和分析类型。")
 
-        ttk.Label(right, text="股票/ETF 判断", style="Section.TLabel").pack(anchor="w")
+        ttk.Label(right, text=self.t("ticker_judgment"), style="Section.TLabel").pack(anchor="w")
         ticker_columns = ("symbol", "direction", "asset_class", "reason")
         self.ticker_tree = ttk.Treeview(right, columns=ticker_columns, show="headings", height=10)
-        ticker_headings = {"symbol": "代码", "direction": "方向", "asset_class": "类别", "reason": "理由"}
+        ticker_headings = {"symbol": self.t("col_symbol"), "direction": self.t("col_direction"), "asset_class": self.t("col_asset_class"), "reason": self.t("col_reason")}
         ticker_widths = {"symbol": 80, "direction": 80, "asset_class": 120, "reason": 360}
         for col in ticker_columns:
             self.ticker_tree.heading(col, text=ticker_headings[col])
@@ -1549,7 +1700,7 @@ class TradeAlertApp:
         self.ticker_tree.pack(fill=BOTH, expand=True, pady=(4, 8))
         self.ticker_tree.bind("<Double-1>", lambda _event: self.open_selected_trade_link())
         self.ticker_tree.bind("<Enter>", lambda _event: self.set_status("双击股票/ETF 行可打开交易或看盘链接。", temporary=False), add="+")
-        self.ticker_tree.bind("<Leave>", lambda _event: self.set_status("就绪", temporary=False), add="+")
+        self.ticker_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         Tooltip(self.ticker_tree, "单击选择代码；双击打开你在设置中配置的交易/看盘链接。")
         self.ticker_tree.tag_configure("bullish", background=COLORS["success_bg"])
         self.ticker_tree.tag_configure("bearish", background=COLORS["danger_bg"])
@@ -1557,13 +1708,13 @@ class TradeAlertApp:
 
         action_bar = ttk.Frame(right)
         action_bar.pack(fill=X)
-        self._button(action_bar, "打开原帖", self.open_source, "打开原帖", "在浏览器中打开当前预警的原始帖子或来源链接。").pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, "打开交易/看盘链接", self.open_selected_trade_link, "打开交易/看盘链接", "打开当前选中股票/ETF 的交易或看盘页面；软件不会自动下单。").pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, "AI 分析窗口", self.open_ai_analysis_window, "打开 AI 分析窗口", "在独立窗口中选择 AI 和模型，重新分析当前预警。", "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("open_source"), self.open_source, self.t("open_source"), self.t("open_source")).pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("open_trade_link"), self.open_selected_trade_link, self.t("open_trade_link"), self.t("open_trade_link")).pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), self.t("ai_window"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
 
         re_panel = ttk.Frame(right)
         re_panel.pack(fill=X, pady=(10, 0))
-        ttk.Label(re_panel, text="语义分析重生成", style="Section.TLabel").grid(row=0, column=0, columnspan=3, sticky="w", pady=(0, 5))
+        ttk.Label(re_panel, text=self.t("ai_window"), style="Section.TLabel").grid(row=0, column=0, columnspan=3, sticky="w", pady=(0, 5))
         provider_key = self.config.get("ai_provider", "openai_responses")
         self.re_ai_provider_var = StringVar(value=AI_PROVIDER_LABELS.get(provider_key, AI_PROVIDER_LABELS["openai_responses"]))
         self.re_model_var = StringVar(value=self.config.get("ai_model") or AI_PROVIDER_PRESETS[provider_key]["model"])
@@ -1574,38 +1725,38 @@ class TradeAlertApp:
         self.re_model_box = ttk.Combobox(re_panel, textvariable=self.re_model_var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=24)
         self.re_model_box.grid(row=1, column=1, sticky="w", padx=(0, 6))
         Tooltip(self.re_model_box, "选择预设模型，或直接输入当前服务商支持的自定义模型名。")
-        self.reanalyze_button = self._button(re_panel, "重新分析当前预警", self.reanalyze_selected_alert, "重新分析当前预警", "用这里选择的 AI 和模型重新生成当前预警分析。", "Primary.TButton")
+        self.reanalyze_button = self._button(re_panel, self.t("reanalyze"), self.reanalyze_selected_alert, self.t("reanalyze"), self.t("reanalyze"), "Primary.TButton")
         self.reanalyze_button.grid(row=1, column=2, sticky="w")
 
     def _build_secondary_tabs(self):
         self.past_tree = self._build_alert_table_tab(
             self.past_day_tab,
-            "过去一天内容",
-            "显示抓取时属于过去 24 小时、但不是本次运行后新发的内容。",
+            self.t("past_title"),
+            self.t("past_subtitle"),
             [
-                ("刷新", lambda: self.refresh_alerts_with_feedback(), "刷新过去一天内容。"),
-                ("收藏", lambda: self.favorite_from_tree(self.past_tree, True), "把选中内容加入收藏夹。"),
-                ("移入回收站", lambda: self.trash_from_tree(self.past_tree), "把选中内容移入回收站。"),
+                (self.t("refresh_list"), lambda: self.refresh_alerts_with_feedback(), self.t("refresh_list")),
+                (self.t("favorite_selected"), lambda: self.favorite_from_tree(self.past_tree, True), self.t("favorite_selected")),
+                (self.t("delete_selected"), lambda: self.trash_from_tree(self.past_tree), self.t("delete_selected")),
             ],
         )
         self.favorite_tree = self._build_alert_table_tab(
             self.favorites_tab,
-            "收藏夹",
-            "用于整理值得后续跟踪的信息。",
+            self.t("favorites_title"),
+            self.t("favorites_subtitle"),
             [
-                ("刷新", lambda: self.refresh_alerts_with_feedback(), "刷新收藏夹。"),
-                ("取消收藏", lambda: self.favorite_from_tree(self.favorite_tree, False), "取消选中内容的收藏状态。"),
-                ("移入回收站", lambda: self.trash_from_tree(self.favorite_tree), "把选中收藏移入回收站。"),
+                (self.t("refresh_list"), lambda: self.refresh_alerts_with_feedback(), self.t("refresh_list")),
+                (self.t("favorite_selected"), lambda: self.favorite_from_tree(self.favorite_tree, False), self.t("favorite_selected")),
+                (self.t("delete_selected"), lambda: self.trash_from_tree(self.favorite_tree), self.t("delete_selected")),
             ],
         )
         self.recycle_tree = self._build_alert_table_tab(
             self.recycle_tab,
-            "风险内容回收站",
-            "删除的风险内容先进入这里，可恢复或永久删除。",
+            self.t("trash_title"),
+            self.t("trash_subtitle"),
             [
-                ("刷新", lambda: self.refresh_alerts_with_feedback(), "刷新回收站。"),
-                ("恢复", self.restore_from_recycle, "恢复选中内容到对应窗口。"),
-                ("永久删除", self.permanent_delete_from_recycle, "永久删除选中内容，无法恢复。"),
+                (self.t("refresh_list"), lambda: self.refresh_alerts_with_feedback(), self.t("refresh_list")),
+                (self.t("restore"), self.restore_from_recycle, self.t("restore")),
+                (self.t("permanent_delete"), self.permanent_delete_from_recycle, self.t("permanent_delete")),
             ],
         )
 
@@ -1617,7 +1768,7 @@ class TradeAlertApp:
         bar = ttk.Frame(tab)
         bar.pack(fill=X, pady=(0, 8))
         for label, command, tip in actions:
-            style = "Danger.TButton" if "永久" in label or "回收站" in label else None
+            style = "Danger.TButton" if label in {self.t("delete_selected"), self.t("permanent_delete")} else None
             self._button(bar, label, command, label, tip, style).pack(side=LEFT, padx=(0, 6))
         panes = ttk.PanedWindow(tab, orient="horizontal")
         panes.pack(fill=BOTH, expand=True)
@@ -1628,7 +1779,7 @@ class TradeAlertApp:
 
         columns = ("time", "account", "category", "severity", "confidence", "headline")
         tree = ttk.Treeview(left_frame, columns=columns, show="headings", height=22)
-        headings = {"time": "时间", "account": "账号", "category": "类别", "severity": "级别", "confidence": "置信度", "headline": "标题"}
+        headings = {"time": self.t("col_time"), "account": self.t("col_account"), "category": self.t("col_category"), "severity": self.t("col_severity"), "confidence": self.t("col_confidence"), "headline": self.t("col_headline")}
         widths = {"time": 135, "account": 105, "category": 110, "severity": 54, "confidence": 64, "headline": 300}
         for col in columns:
             tree.heading(col, text=headings[col])
@@ -1637,17 +1788,17 @@ class TradeAlertApp:
         scroll = ttk.Scrollbar(left_frame, orient="vertical", command=tree.yview)
         scroll.pack(side=RIGHT, fill=Y)
         tree.configure(yscrollcommand=scroll.set)
-        ttk.Label(right_frame, text="摘要 / 分析", style="Section.TLabel").pack(anchor="w")
+        ttk.Label(right_frame, text=self.t("summary_analysis"), style="Section.TLabel").pack(anchor="w")
         detail_text = self._text_widget(right_frame, height=9)
         detail_text.pack(fill=BOTH, expand=True, pady=(4, 10))
-        ttk.Label(right_frame, text="股票/ETF 判断", style="Section.TLabel").pack(anchor="w")
+        ttk.Label(right_frame, text=self.t("ticker_judgment"), style="Section.TLabel").pack(anchor="w")
         ticker_columns = ("symbol", "direction", "asset_class", "reason")
         ticker_tree = ttk.Treeview(right_frame, columns=ticker_columns, show="headings", height=8)
         for col, title, width in [
-            ("symbol", "代码", 72),
-            ("direction", "方向", 72),
-            ("asset_class", "类别", 110),
-            ("reason", "理由", 330),
+            ("symbol", self.t("col_symbol"), 72),
+            ("direction", self.t("col_direction"), 72),
+            ("asset_class", self.t("col_asset_class"), 110),
+            ("reason", self.t("col_reason"), 330),
         ]:
             ticker_tree.heading(col, text=title)
             ticker_tree.column(col, width=width, anchor="w")
@@ -1659,9 +1810,9 @@ class TradeAlertApp:
         ticker_tree.bind("<Double-1>", lambda _event, t=ticker_tree: self.open_trade_link_from_ticker_tree(t))
         action_bar = ttk.Frame(right_frame)
         action_bar.pack(fill=X, pady=(0, 2))
-        self._button(action_bar, "打开原帖", self.open_source, "打开原帖", "在浏览器中打开当前选中内容的原始链接。").pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, "打开交易/看盘链接", lambda t=ticker_tree: self.open_trade_link_from_ticker_tree(t), "打开交易/看盘链接", "打开右侧当前选中股票/ETF 的交易或看盘页面。").pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, "AI 分析窗口", self.open_ai_analysis_window, "打开 AI 分析窗口", "对当前选中内容重新进行中文 AI 语义分析。", "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("open_source"), self.open_source, self.t("open_source"), self.t("open_source")).pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("open_trade_link"), lambda t=ticker_tree: self.open_trade_link_from_ticker_tree(t), self.t("open_trade_link"), self.t("open_trade_link")).pack(side=LEFT, padx=(0, 6))
+        self._button(action_bar, self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), self.t("ai_window"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
         self.secondary_detail_texts[tree] = detail_text
         self.secondary_ticker_trees[tree] = ticker_tree
         tree.bind("<<TreeviewSelect>>", lambda _event, t=tree: self.select_alert_from_tree(t))
@@ -1669,14 +1820,14 @@ class TradeAlertApp:
         return tree
 
     def _build_workflow_tab(self):
-        ttk.Label(self.workflow_tab, text="当前工作流", style="Section.TLabel").pack(anchor="w", pady=(0, 8))
+        ttk.Label(self.workflow_tab, text=self.t("workflow_title"), style="Section.TLabel").pack(anchor="w", pady=(0, 8))
         columns = ("name", "status", "elapsed", "detail")
         self.workflow_tree = ttk.Treeview(self.workflow_tab, columns=columns, show="headings", height=18)
         for col, title, width in [
-            ("name", "操作", 240),
-            ("status", "状态", 90),
-            ("elapsed", "耗时", 90),
-            ("detail", "说明", 700),
+            ("name", self.t("col_operation"), 240),
+            ("status", self.t("col_status"), 90),
+            ("elapsed", self.t("col_elapsed"), 90),
+            ("detail", self.t("col_detail"), 700),
         ]:
             self.workflow_tree.heading(col, text=title)
             self.workflow_tree.column(col, width=width, anchor="w")
@@ -1690,20 +1841,20 @@ class TradeAlertApp:
         self.paste_account_var = StringVar(value="manual")
         self.paste_url_var = StringVar(value="")
 
-        ttk.Label(form, text="账号/来源").grid(row=0, column=0, sticky="w", pady=4)
+        ttk.Label(form, text=self.t("source_account")).grid(row=0, column=0, sticky="w", pady=4)
         ttk.Entry(form, textvariable=self.paste_account_var, width=36).grid(row=0, column=1, sticky="w", pady=4, padx=(8, 0))
 
-        ttk.Label(form, text="原帖链接（可选）").grid(row=1, column=0, sticky="w", pady=4)
+        ttk.Label(form, text=self.t("source_url_optional")).grid(row=1, column=0, sticky="w", pady=4)
         ttk.Entry(form, textvariable=self.paste_url_var, width=90).grid(row=1, column=1, sticky="we", pady=4, padx=(8, 0))
 
-        ttk.Label(form, text="帖子正文").grid(row=2, column=0, sticky="nw", pady=4)
+        ttk.Label(form, text=self.t("post_text")).grid(row=2, column=0, sticky="nw", pady=4)
         self.paste_text = self._text_widget(form, height=14, width=96)
         self.paste_text.grid(row=2, column=1, sticky="nsew", pady=4, padx=(8, 0))
 
         buttons = ttk.Frame(form)
         buttons.grid(row=3, column=1, sticky="w", pady=8, padx=(8, 0))
-        self._button(buttons, "分析并加入预警", self.analyze_pasted_post, "分析粘贴内容", "分析当前粘贴文本，并把结果加入实时预警列表。", "Primary.TButton").pack(side=LEFT, padx=(0, 6))
-        self._button(buttons, "清空", self.clear_paste_form, "清空粘贴表单", "清空来源、链接和正文，方便重新输入。").pack(side=LEFT)
+        self._button(buttons, self.t("analyze_add"), self.analyze_pasted_post, self.t("analyze_add"), self.t("analyze_add"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button(buttons, self.t("clear"), self.clear_paste_form, self.t("clear"), self.t("clear")).pack(side=LEFT)
         Tooltip(self.paste_text, "粘贴 X、Truth Social、新闻标题或其他公开文本；不会消耗 X API credits。")
 
         help_text = (
@@ -1729,32 +1880,36 @@ class TradeAlertApp:
         self.use_gpt_var = StringVar(value="1" if self.config.get("use_gpt") else "0")
         self.exclude_replies_var = StringVar(value="1" if self.config.get("exclude_replies") else "0")
         self.exclude_retweets_var = StringVar(value="1" if self.config.get("exclude_retweets") else "0")
+        self.language_var = StringVar(value=LANGUAGES.get(self.config.get("language", "zh"), LANGUAGES["zh"]))
 
-        ttk.Label(frame, text="AI 提供商").grid(row=0, column=0, sticky="w", pady=4)
+        ttk.Label(frame, text=self.t("ai_provider")).grid(row=0, column=0, sticky="w", pady=4)
         provider_header = ttk.Frame(frame)
         provider_header.grid(row=0, column=1, sticky="we", pady=4, padx=(8, 0))
         self.ai_provider_display = ttk.Label(provider_header, textvariable=self.ai_provider_var, style="Feedback.TLabel")
         self.ai_provider_display.pack(side=LEFT, fill=X, expand=True)
-        self._button(provider_header, "选择 AI", self.toggle_ai_drawer, "打开 AI 选择抽屉", "展开或收起 AI 服务商选择抽屉。").pack(side=LEFT, padx=(8, 0))
-        self._button(provider_header, "套用预设", self.apply_ai_provider_preset, "套用 AI 预设", "根据当前 AI 服务商填入默认 Base URL 和推荐模型。").pack(side=LEFT, padx=(6, 0))
+        self._button(provider_header, self.t("select_ai"), self.toggle_ai_drawer, self.t("select_ai"), self.t("select_ai")).pack(side=LEFT, padx=(8, 0))
+        self._button(provider_header, self.t("apply_preset"), self.apply_ai_provider_preset, self.t("apply_preset"), self.t("apply_preset")).pack(side=LEFT, padx=(6, 0))
+        ttk.Label(frame, text=self.t("language")).grid(row=0, column=2, sticky="w", pady=4, padx=(16, 0))
+        self.language_box = ttk.Combobox(frame, textvariable=self.language_var, values=list(LANGUAGE_LABEL_TO_CODE.keys()), width=14, state="readonly")
+        self.language_box.grid(row=0, column=3, sticky="w", pady=4, padx=(8, 0))
 
         self.ai_drawer = ttk.Frame(frame, style="Card.TFrame", padding=10)
         self._build_ai_drawer()
 
         rows = [
-            ("X Bearer Token（自动监控必填）", self.x_token_var, 90, True),
-            ("AI API Key（启用 AI 必填）", self.openai_key_var, 90, True),
-            ("AI 模型（启用 AI 必填）", self.model_var, 40, False),
-            ("AI Base URL（启用 AI 必填）", self.ai_base_url_var, 90, False),
-            ("AI 超时秒数 *", self.ai_timeout_var, 12, False),
-            ("轮询秒数 *", self.poll_var, 12, False),
-            ("每账号最多读取帖子数 *", self.max_posts_var, 12, False),
-            ("交易/看盘链接模板 *", self.trade_template_var, 90, False),
+            ("x_token_required", self.x_token_var, 90, True),
+            ("ai_key_required", self.openai_key_var, 90, True),
+            ("ai_model_required", self.model_var, 40, False),
+            ("ai_base_url_required", self.ai_base_url_var, 90, False),
+            ("ai_timeout_seconds", self.ai_timeout_var, 12, False),
+            ("poll_seconds", self.poll_var, 12, False),
+            ("max_posts", self.max_posts_var, 12, False),
+            ("trade_template", self.trade_template_var, 90, False),
         ]
-        for idx, (label, var, width, secret) in enumerate(rows):
+        for idx, (label_key, var, width, secret) in enumerate(rows):
             row_idx = idx + 2
-            ttk.Label(frame, text=label).grid(row=row_idx, column=0, sticky="w", pady=4)
-            if label.startswith("AI 模型"):
+            ttk.Label(frame, text=self.t(label_key)).grid(row=row_idx, column=0, sticky="w", pady=4)
+            if label_key == "ai_model_required":
                 provider_key = AI_LABEL_TO_PROVIDER.get(self.ai_provider_var.get(), "openai_responses")
                 self.model_box = ttk.Combobox(frame, textvariable=var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=width)
                 self.model_box.grid(row=row_idx, column=1, sticky="w", pady=4, padx=(8, 0))
@@ -1763,7 +1918,7 @@ class TradeAlertApp:
                 entry = ttk.Entry(frame, textvariable=var, width=width, show="*" if secret else "")
                 entry.grid(row=row_idx, column=1, sticky="we", pady=4, padx=(8, 0))
 
-        ttk.Label(frame, text="监控账号（逗号或换行分隔）").grid(row=len(rows) + 2, column=0, sticky="nw", pady=4)
+        ttk.Label(frame, text=self.t("accounts_label")).grid(row=len(rows) + 2, column=0, sticky="nw", pady=4)
         self.accounts_text = self._text_widget(frame, height=6, width=70)
         self.accounts_text.grid(row=len(rows) + 2, column=1, sticky="we", pady=4, padx=(8, 0))
         self.accounts_text.insert("1.0", "\n".join(parse_accounts(self.config.get("accounts", []))))
@@ -1772,21 +1927,21 @@ class TradeAlertApp:
         check_frame.grid(row=len(rows) + 3, column=1, sticky="w", pady=6, padx=(8, 0))
         ttk.Checkbutton(
             check_frame,
-            text="启用 GPT 语义分析",
+            text=self.t("enable_ai"),
             variable=self.use_gpt_var,
             onvalue="1",
             offvalue="0",
         ).pack(side=LEFT, padx=(0, 16))
         ttk.Checkbutton(
             check_frame,
-            text="排除回复",
+            text=self.t("exclude_replies"),
             variable=self.exclude_replies_var,
             onvalue="1",
             offvalue="0",
         ).pack(side=LEFT, padx=(0, 16))
         ttk.Checkbutton(
             check_frame,
-            text="排除转发",
+            text=self.t("exclude_retweets"),
             variable=self.exclude_retweets_var,
             onvalue="1",
             offvalue="0",
@@ -1794,8 +1949,8 @@ class TradeAlertApp:
 
         buttons = ttk.Frame(frame)
         buttons.grid(row=len(rows) + 4, column=1, sticky="w", pady=8, padx=(8, 0))
-        self._button(buttons, "保存设置", self.save_settings, "保存设置", "把当前 token、账号、轮询和链接模板保存到本地配置文件。").pack(side=LEFT, padx=(0, 6))
-        self._button(buttons, "打开配置目录", self.open_config_dir, "打开配置目录", "打开本地配置和数据库所在文件夹。").pack(side=LEFT)
+        self._button(buttons, self.t("save_settings"), self.save_settings, self.t("save_settings"), self.t("save_settings")).pack(side=LEFT, padx=(0, 6))
+        self._button(buttons, self.t("open_config_dir"), self.open_config_dir, self.t("open_config_dir"), self.t("open_config_dir")).pack(side=LEFT)
 
         help_text = (
             "链接模板必须包含 {symbol}，例如：\n"
@@ -1816,10 +1971,10 @@ class TradeAlertApp:
             ttk.Label(card, text=preset["base_url"], style="CardMuted.TLabel", wraplength=210).pack(anchor="w", pady=(2, 6))
             self._button(
                 card,
-                "选择",
+                self.t("select"),
                 lambda key=provider_key: self.select_ai_provider(key),
-                f"选择 {preset['label']}",
-                f"选择 {preset['label']} 作为语义分析提供商，并填入默认模型和 Base URL。",
+                f"{self.t('select')} {preset['label']}",
+                f"{self.t('select')} {preset['label']}",
                 "Primary.TButton",
             ).pack(anchor="e")
 
@@ -1883,6 +2038,7 @@ class TradeAlertApp:
             messagebox.showerror("设置错误", "每账号最多读取帖子数必须在 5 到 100 之间。")
             return False
         provider_key = AI_LABEL_TO_PROVIDER.get(self.ai_provider_var.get(), "openai_responses")
+        language_code = LANGUAGE_LABEL_TO_CODE.get(self.language_var.get(), "zh")
         if self.use_gpt_var.get() == "1":
             missing = []
             if not self.openai_key_var.get().strip():
@@ -1896,6 +2052,7 @@ class TradeAlertApp:
                 messagebox.showerror("缺少 AI 必填项", f"启用 GPT/AI 语义分析时必须填写：{', '.join(missing)}。")
                 return False
         self.config = {
+            "language": language_code,
             "x_bearer_token": self.x_token_var.get().strip(),
             "openai_api_key": self.openai_key_var.get().strip(),
             "openai_model": self.model_var.get().strip() or "gpt-4o-mini",
@@ -1913,9 +2070,10 @@ class TradeAlertApp:
             "trade_link_template": self.trade_template_var.get().strip(),
         }
         save_config(self.config)
-        self.log("设置已保存。")
-        self.set_status(f"设置已保存：{len(accounts)} 个账号，AI={AI_PROVIDER_LABELS[provider_key]}，轮询间隔 {self.config['poll_seconds']} 秒。")
-        self.set_home_feedback("设置已保存。下一步可以开始监控、立即轮询，或粘贴文本分析。")
+        self.root.title(self.t("app_title"))
+        self.log(self.t("settings_saved_log"))
+        self.set_status(self.t("settings_saved_feedback"))
+        self.set_home_feedback(self.t("settings_saved_feedback"))
         return True
 
     def apply_ai_provider_preset(self):
@@ -1952,7 +2110,7 @@ class TradeAlertApp:
             return
         dialog = Toplevel(self.root)
         self.ai_window = dialog
-        dialog.title("AI 语义分析")
+        dialog.title(self.t("ai_window"))
         dialog.geometry("560x330")
         dialog.configure(bg=COLORS["bg"])
         dialog.transient(self.root)
@@ -1968,14 +2126,14 @@ class TradeAlertApp:
         dialog.protocol("WM_DELETE_WINDOW", close_dialog)
         body = ttk.Frame(dialog, padding=16)
         body.pack(fill=BOTH, expand=True)
-        ttk.Label(body, text="AI 语义分析", style="Section.TLabel").grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+        ttk.Label(body, text=self.t("ai_window"), style="Section.TLabel").grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
         ttk.Label(body, text=f"当前预警：{self.selected_alert.get('headline', '')}", style="Muted.TLabel", wraplength=470).grid(row=1, column=0, columnspan=2, sticky="we", pady=(0, 10))
         provider_var = StringVar(value=self.re_ai_provider_var.get())
         model_var = StringVar(value=self.re_model_var.get())
-        ttk.Label(body, text="AI 服务商").grid(row=2, column=0, sticky="w", pady=6)
+        ttk.Label(body, text=self.t("ai_provider")).grid(row=2, column=0, sticky="w", pady=6)
         provider_box = ttk.Combobox(body, textvariable=provider_var, values=list(AI_LABEL_TO_PROVIDER.keys()), width=28, state="readonly")
         provider_box.grid(row=2, column=1, sticky="w", pady=6)
-        ttk.Label(body, text="模型").grid(row=3, column=0, sticky="w", pady=6)
+        ttk.Label(body, text=self.t("model")).grid(row=3, column=0, sticky="w", pady=6)
         model_box = ttk.Combobox(body, textvariable=model_var, width=32)
         model_box.grid(row=3, column=1, sticky="w", pady=6)
 
@@ -1995,14 +2153,14 @@ class TradeAlertApp:
 
         buttons = ttk.Frame(body)
         buttons.grid(row=6, column=0, columnspan=2, sticky="e", pady=(18, 0))
-        self._button(buttons, "关闭", close_dialog, "关闭 AI 分析窗口", "关闭窗口，不执行重新分析。").pack(side=RIGHT, padx=(6, 0))
+        self._button(buttons, self.t("close"), close_dialog, self.t("close"), self.t("close")).pack(side=RIGHT, padx=(6, 0))
 
         def run_from_window():
             self.re_ai_provider_var.set(provider_var.get())
             self.re_model_var.set(model_var.get())
             self.reanalyze_selected_alert()
 
-        self._button(buttons, "重新分析", run_from_window, "重新分析", "后台重新生成当前预警的 AI 语义分析。", "Primary.TButton").pack(side=RIGHT)
+        self._button(buttons, self.t("reanalyze"), run_from_window, self.t("reanalyze"), self.t("reanalyze"), "Primary.TButton").pack(side=RIGHT)
 
     def _start_ai_window_timer(self, provider_label, model, timeout_seconds):
         self.ai_window_started_at = time.time()
@@ -2466,16 +2624,16 @@ class TradeAlertApp:
         detail_text.delete("1.0", END)
         filter_line = ""
         if analysis.get("filtered_by_settings"):
-            filter_line = f"内容标记: 原设置会筛选掉的{analysis.get('filter_note', '')}，已保留展示。\n"
+            filter_line = f"{self.t('detail_content_tag')}: {analysis.get('filter_note', '')}\n"
         elif analysis.get("x_content_type"):
-            filter_line = f"内容类型: {analysis.get('x_content_type', '')}\n"
+            filter_line = f"{self.t('detail_content_type')}: {analysis.get('x_content_type', '')}\n"
         detail = (
             f"{self.analysis_section_title(analysis)}\n"
-            f"标题: {analysis.get('headline', '')}\n"
-            f"类别: {analysis.get('category', '')}  级别: {analysis.get('severity', '')}  "
-            f"置信度: {float(analysis.get('confidence') or 0):.2f}\n"
-            f"时间跨度: {analysis.get('time_horizon', '')}  新颖度: {analysis.get('novelty', '')}\n"
-            f"来源: {analysis.get('source', '')}\n\n"
+            f"{self.t('detail_title')}: {analysis.get('headline', '')}\n"
+            f"{self.t('col_category')}: {analysis.get('category', '')}  {self.t('detail_level')}: {analysis.get('severity', '')}  "
+            f"{self.t('col_confidence')}: {float(analysis.get('confidence') or 0):.2f}\n"
+            f"{self.t('detail_time_horizon')}: {analysis.get('time_horizon', '')}  {self.t('detail_novelty')}: {analysis.get('novelty', '')}\n"
+            f"{self.t('detail_source')}: {analysis.get('source', '')}\n\n"
             f"{filter_line}"
             f"{analysis.get('summary', '')}"
         )
@@ -2522,16 +2680,15 @@ class TradeAlertApp:
                 tags=(direction if direction in {"bullish", "bearish", "mixed"} else "",),
             )
 
-    @staticmethod
-    def analysis_section_title(analysis):
+    def analysis_section_title(self, analysis):
         source = str(analysis.get("source", ""))
         if analysis.get("filtered_by_settings"):
-            return "【原筛选内容 - 已保留展示】"
+            return self.t("analysis_filtered")
         if source.startswith("ai_") or source.startswith("reanalyzed_ai_") or "_ai_" in source:
-            return "【AI 分析结果】"
+            return self.t("analysis_ai")
         if source.startswith("manual_"):
-            return "【粘贴内容分析】"
-        return "【本地规则分析】"
+            return self.t("analysis_manual")
+        return self.t("analysis_local")
 
     def open_source(self):
         if not self.selected_alert:
@@ -2673,16 +2830,16 @@ class TradeAlertApp:
     def on_tab_changed(self, _event=None):
         current = self.notebook.tab(self.notebook.select(), "text")
         messages = {
-            "新发布内容": "新发布内容：只收录本次运行抓取之后发布的新帖子。",
-            "过去一天": "过去一天：展示过去 24 小时内的历史内容。",
-            "收藏夹": "收藏夹：整理你标记收藏的重要内容。",
-            "回收站": "回收站：恢复误删内容或永久删除。",
-            "工作流": "工作流：查看当前操作状态和耗时。",
-            "粘贴分析": "粘贴分析：手动粘贴帖子或新闻文本，不消耗 X API credits。",
-            "设置": "设置：配置 X token、账号、OpenAI、轮询间隔和交易链接模板。",
-            "日志": "日志：查看 API 请求、错误和操作记录。",
+            self.t("tab_new"): self.t("tab_new"),
+            self.t("tab_past"): self.t("tab_past"),
+            self.t("tab_favorites"): self.t("tab_favorites"),
+            self.t("tab_recycle"): self.t("tab_recycle"),
+            self.t("tab_workflow"): self.t("tab_workflow"),
+            self.t("tab_paste"): self.t("tab_paste"),
+            self.t("tab_settings"): self.t("tab_settings"),
+            self.t("tab_log"): self.t("tab_log"),
         }
-        self.set_status(messages.get(current, "就绪"), temporary=False)
+        self.set_status(messages.get(current, self.t("ready")), temporary=False)
 
     @staticmethod
     def _display_time(value):
