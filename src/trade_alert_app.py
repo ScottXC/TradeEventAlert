@@ -169,7 +169,7 @@ I18N = {
     "max_posts": {"zh": "每账号最多读取帖子数 *", "en": "Max Posts per Account *", "es": "Máx. publicaciones por cuenta *", "ja": "アカウント別最大投稿数 *", "ko": "계정별 최대 게시물 수 *"},
     "trade_template": {"zh": "交易/看盘链接模板 *", "en": "Trading Link Template *", "es": "Plantilla de enlace trading *", "ja": "取引リンクテンプレート *", "ko": "거래 링크 템플릿 *"},
     "accounts_label": {"zh": "监控账号（逗号或换行分隔）", "en": "Accounts to Monitor (comma or newline separated)", "es": "Cuentas a monitorear (coma o salto de línea)", "ja": "監視アカウント（カンマまたは改行区切り）", "ko": "모니터링 계정(쉼표 또는 줄바꿈 구분)"},
-    "enable_ai": {"zh": "启用 GPT 语义分析", "en": "Enable AI Semantic Analysis", "es": "Activar análisis semántico IA", "ja": "AI意味分析を有効化", "ko": "AI 의미 분석 사용"},
+    "enable_ai": {"zh": "启用 AI 语义分析", "en": "Enable AI Semantic Analysis", "es": "Activar análisis semántico IA", "ja": "AI意味分析を有効化", "ko": "AI 의미 분석 사용"},
     "exclude_replies": {"zh": "排除回复", "en": "Exclude Replies", "es": "Excluir respuestas", "ja": "返信を除外", "ko": "답글 제외"},
     "exclude_retweets": {"zh": "排除转发", "en": "Exclude Reposts", "es": "Excluir reposts", "ja": "リポストを除外", "ko": "재게시 제외"},
     "select_ai": {"zh": "选择 AI", "en": "Choose AI", "es": "Elegir IA", "ja": "AIを選択", "ko": "AI 선택"},
@@ -181,12 +181,74 @@ I18N = {
     "reanalyze": {"zh": "重新分析", "en": "Reanalyze", "es": "Reanalizar", "ja": "再分析", "ko": "다시 분석"},
     "settings_saved_log": {"zh": "设置已保存。", "en": "Settings saved.", "es": "Ajustes guardados.", "ja": "設定を保存しました。", "ko": "설정이 저장되었습니다."},
     "settings_saved_feedback": {
-        "zh": "设置已保存。语言切换会在重启软件后完整生效。",
-        "en": "Settings saved. The language change fully applies after restarting the app.",
-        "es": "Ajustes guardados. El cambio de idioma se aplica por completo tras reiniciar la app.",
-        "ja": "設定を保存しました。言語変更はアプリ再起動後に完全に反映されます。",
-        "ko": "설정이 저장되었습니다. 언어 변경은 앱을 다시 시작한 후 완전히 적용됩니다.",
+        "zh": "设置已保存。界面语言已立即切换。",
+        "en": "Settings saved. The interface language has switched immediately.",
+        "es": "Ajustes guardados. El idioma de la interfaz cambió de inmediato.",
+        "ja": "設定を保存しました。表示言語はすぐに切り替わりました。",
+        "ko": "설정이 저장되었습니다. 인터페이스 언어가 즉시 전환되었습니다.",
     },
+    "ai_semantic_analysis": {"zh": "AI 语义分析", "en": "AI Semantic Analysis", "es": "Análisis semántico IA", "ja": "AI意味分析", "ko": "AI 의미 분석"},
+    "market_overview": {"zh": "市场事件概览", "en": "Market Event Overview", "es": "Resumen de eventos", "ja": "市場イベント概要", "ko": "시장 이벤트 개요"},
+    "metric_active": {"zh": "活动内容", "en": "Active Items", "es": "Elementos activos", "ja": "有効項目", "ko": "활성 항목"},
+    "metric_high": {"zh": "高优先级", "en": "High Priority", "es": "Alta prioridad", "ja": "高優先度", "ko": "높은 우선순위"},
+    "metric_bullish": {"zh": "利好判断", "en": "Bullish Views", "es": "Señales alcistas", "ja": "強気判断", "ko": "강세 판단"},
+    "metric_bearish": {"zh": "利空判断", "en": "Bearish Views", "es": "Señales bajistas", "ja": "弱気判断", "ko": "약세 판단"},
+    "metric_mixed": {"zh": "分歧判断", "en": "Mixed Views", "es": "Señales mixtas", "ja": "混合判断", "ko": "혼합 판단"},
+    "metric_top_category": {"zh": "主要类别", "en": "Top Category", "es": "Categoría principal", "ja": "主要カテゴリ", "ko": "주요 분류"},
+    "market_gap_note": {
+        "zh": "参考主流行情软件的做法，当前工作台强化了概览、筛选后保留、收藏整理、回收站和工作流耗时展示。",
+        "en": "Inspired by market platforms, this desk emphasizes overview metrics, kept filtered items, favorites, trash recovery, and workflow timing.",
+        "es": "Inspirado en plataformas de mercado, el panel resalta métricas, elementos filtrados conservados, favoritos, papelera y tiempos de flujo.",
+        "ja": "主要な市場プラットフォームを参考に、概要指標、抽出済み項目、お気に入り、ごみ箱、作業時間を重視しています。",
+        "ko": "주요 시장 플랫폼을 참고해 개요 지표, 필터링 보존 항목, 즐겨찾기, 휴지통, 작업 시간 표시를 강화했습니다.",
+    },
+    "status_bar_tip": {
+        "zh": "这里显示刚刚执行的操作、当前状态和下一步提示。",
+        "en": "Shows the latest action, current status, and next-step hints.",
+        "es": "Muestra la última acción, el estado actual y sugerencias siguientes.",
+        "ja": "直近の操作、現在の状態、次のヒントを表示します。",
+        "ko": "최근 작업, 현재 상태, 다음 단계 안내를 표시합니다.",
+    },
+    "table_tip": {
+        "zh": "单击预警查看详情；颜色越偏红通常表示级别越高。",
+        "en": "Click an alert to view details. Redder rows usually mean higher priority.",
+        "es": "Haz clic en una alerta para ver detalles. Las filas más rojas suelen indicar mayor prioridad.",
+        "ja": "警報をクリックすると詳細を表示します。赤い行ほど優先度が高い傾向があります。",
+        "ko": "알림을 클릭하면 세부 정보를 봅니다. 붉은 행일수록 우선순위가 높은 편입니다.",
+    },
+    "ticker_tip": {
+        "zh": "双击股票/ETF 行可打开交易或看盘链接。",
+        "en": "Double-click a stock or ETF row to open the trading or watch link.",
+        "es": "Haz doble clic en una fila de acción o ETF para abrir el enlace.",
+        "ja": "株式またはETF行をダブルクリックして取引または監視リンクを開きます。",
+        "ko": "주식 또는 ETF 행을 두 번 클릭해 거래 또는 관심 링크를 엽니다.",
+    },
+    "paste_help": {
+        "zh": "可粘贴 X、Truth Social、新闻标题或其他公开文本。此功能不调用 X API，不消耗 X credits；启用 AI 语义分析后会使用所选 AI 提供商，否则使用本地规则。",
+        "en": "Paste X, Truth Social, news headlines, or other public text. This does not call the X API or consume X credits. If AI semantic analysis is enabled, the selected AI provider is used; otherwise local rules are used.",
+        "es": "Pega texto público de X, Truth Social, titulares u otras fuentes. No llama a la API de X ni consume créditos. Si el análisis semántico IA está activo, usa el proveedor seleccionado; si no, usa reglas locales.",
+        "ja": "X、Truth Social、ニュース見出しなどの公開テキストを貼り付けます。X API と credits は使いません。AI意味分析が有効な場合は選択したAIを使い、それ以外はローカルルールを使います。",
+        "ko": "X, Truth Social, 뉴스 제목 또는 기타 공개 텍스트를 붙여넣습니다. X API와 credits를 사용하지 않습니다. AI 의미 분석이 켜져 있으면 선택한 AI 제공업체를 사용하고, 아니면 로컬 규칙을 사용합니다.",
+    },
+    "settings_help": {
+        "zh": "链接模板必须包含 {symbol}。AI 提供商支持 OpenAI Responses、OpenAI 兼容接口、xAI、DeepSeek、Kimi、OpenRouter 和 Gemini。X 数据使用官方 API Bearer Token，读取权限和费用取决于你的 X 开发者账号。",
+        "en": "The link template must include {symbol}. AI providers include OpenAI Responses, OpenAI-compatible APIs, xAI, DeepSeek, Kimi, OpenRouter, and Gemini. X data uses the official API Bearer Token; access and cost depend on your X developer account.",
+        "es": "La plantilla de enlace debe incluir {symbol}. Los proveedores IA incluyen OpenAI Responses, APIs compatibles con OpenAI, xAI, DeepSeek, Kimi, OpenRouter y Gemini. Los datos de X usan el Bearer Token oficial; acceso y coste dependen de tu cuenta de desarrollador.",
+        "ja": "リンクテンプレートには {symbol} が必要です。AI は OpenAI Responses、OpenAI互換API、xAI、DeepSeek、Kimi、OpenRouter、Gemini に対応します。X データは公式 API Bearer Token を使い、権限と費用は開発者アカウントに依存します。",
+        "ko": "링크 템플릿에는 {symbol}이 필요합니다. AI 제공업체는 OpenAI Responses, OpenAI 호환 API, xAI, DeepSeek, Kimi, OpenRouter, Gemini를 지원합니다. X 데이터는 공식 API Bearer Token을 사용하며 권한과 비용은 개발자 계정에 따라 달라집니다.",
+    },
+    "drawer_open": {"zh": "AI 选择抽屉已打开：请选择服务商。", "en": "AI drawer opened. Choose a provider.", "es": "Cajón de IA abierto. Elige un proveedor.", "ja": "AI選択ドロワーを開きました。プロバイダーを選択してください。", "ko": "AI 선택 서랍이 열렸습니다. 제공업체를 선택하세요."},
+    "drawer_closed": {"zh": "AI 选择抽屉已收起。", "en": "AI drawer closed.", "es": "Cajón de IA cerrado.", "ja": "AI選択ドロワーを閉じました。", "ko": "AI 선택 서랍이 닫혔습니다."},
+    "selected_ai": {"zh": "已选择 AI：{provider}。保存设置后生效。", "en": "Selected AI: {provider}. Save settings to apply.", "es": "IA seleccionada: {provider}. Guarda ajustes para aplicar.", "ja": "選択したAI: {provider}。設定保存後に有効になります。", "ko": "선택한 AI: {provider}. 설정 저장 후 적용됩니다."},
+    "no_accounts": {"zh": "至少需要配置一个 X 账号。", "en": "Configure at least one X account.", "es": "Configura al menos una cuenta de X.", "ja": "少なくとも1つのXアカウントを設定してください。", "ko": "X 계정을 하나 이상 설정하세요."},
+    "settings_error": {"zh": "设置错误", "en": "Settings Error", "es": "Error de ajustes", "ja": "設定エラー", "ko": "설정 오류"},
+    "missing_x_token": {"zh": "开始监控或立即轮询前，请先填写 X Bearer Token。", "en": "Enter the X Bearer Token before monitoring or polling.", "es": "Introduce el X Bearer Token antes de monitorear o consultar.", "ja": "監視または取得の前に X Bearer Token を入力してください。", "ko": "모니터링 또는 조회 전에 X Bearer Token을 입력하세요."},
+    "missing_required": {"zh": "缺少必填项", "en": "Missing Required Fields", "es": "Faltan campos obligatorios", "ja": "必須項目が不足しています", "ko": "필수 항목 누락"},
+    "current_alert": {"zh": "当前预警：{headline}", "en": "Current alert: {headline}", "es": "Alerta actual: {headline}", "ja": "現在の警報: {headline}", "ko": "현재 알림: {headline}"},
+    "ai_window_ready": {"zh": "就绪：选择模型后点击重新分析。", "en": "Ready: choose a model and click Reanalyze.", "es": "Listo: elige un modelo y pulsa Reanalizar.", "ja": "準備完了: モデルを選択して再分析をクリック。", "ko": "준비됨: 모델을 선택하고 다시 분석을 클릭하세요."},
+    "elapsed": {"zh": "耗时：{seconds:.1f}s", "en": "Elapsed: {seconds:.1f}s", "es": "Tiempo: {seconds:.1f}s", "ja": "経過: {seconds:.1f}s", "ko": "소요: {seconds:.1f}s"},
+    "elapsed_max": {"zh": "耗时：{seconds:.1f}s / 最长 {limit}s", "en": "Elapsed: {seconds:.1f}s / Max {limit}s", "es": "Tiempo: {seconds:.1f}s / Máx. {limit}s", "ja": "経過: {seconds:.1f}s / 最大 {limit}s", "ko": "소요: {seconds:.1f}s / 최대 {limit}s"},
+    "ai_running": {"zh": "AI 正在运行：{provider} / {model}。最长等待 {limit} 秒，完成后自动更新。", "en": "AI running: {provider} / {model}. Max wait {limit} seconds; results update automatically.", "es": "IA en ejecución: {provider} / {model}. Espera máxima {limit} s; se actualizará al terminar.", "ja": "AI実行中: {provider} / {model}。最大 {limit} 秒待機し、完了後に自動更新します。", "ko": "AI 실행 중: {provider} / {model}. 최대 {limit}초 대기 후 자동 업데이트됩니다."},
     "detail_title": {"zh": "标题", "en": "Headline", "es": "Titular", "ja": "見出し", "ko": "제목"},
     "detail_level": {"zh": "级别", "en": "Level", "es": "Nivel", "ja": "重要度", "ko": "등급"},
     "detail_time_horizon": {"zh": "时间跨度", "en": "Time Horizon", "es": "Horizonte", "ja": "時間軸", "ko": "시간 범위"},
@@ -1531,6 +1593,9 @@ class TradeAlertApp:
         style.configure("Card.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
         style.configure("CardTitle.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 10, "bold"))
         style.configure("CardMuted.TLabel", background=COLORS["panel"], foreground=COLORS["muted"])
+        style.configure("Metric.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
+        style.configure("MetricLabel.TLabel", background=COLORS["panel"], foreground=COLORS["muted"], font=("Segoe UI", 9, "bold"))
+        style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 17, "bold"))
         style.configure("TNotebook", background=COLORS["bg"], borderwidth=0)
         style.configure("TNotebook.Tab", padding=(16, 8), background="#e9edf5", foreground=COLORS["muted"])
         style.map("TNotebook.Tab", background=[("selected", COLORS["panel"])], foreground=[("selected", COLORS["text"])])
@@ -1592,6 +1657,30 @@ class TradeAlertApp:
     def set_home_feedback(self, message):
         self.home_feedback_var.set(message)
 
+    def rebuild_interface(self):
+        self._stop_ai_window_timer()
+        if self.ai_window is not None:
+            try:
+                self.ai_window.destroy()
+            except Exception:
+                pass
+        for child in self.root.winfo_children():
+            child.destroy()
+        self.root.title(self.t("app_title"))
+        self.alert_rows = {}
+        self.selected_alert = None
+        self.status_var = StringVar(value=self.t("ready"))
+        self.home_feedback_var = StringVar(value=self.t("settings_saved_feedback"))
+        self.ai_drawer_visible = False
+        self.secondary_detail_texts = {}
+        self.secondary_ticker_trees = {}
+        self.ai_window = None
+        self.ai_window_status_var = None
+        self.ai_window_elapsed_var = None
+        self._configure_style()
+        self._build_ui()
+        self.refresh_alerts()
+
     def _build_ui(self):
         notebook = ttk.Notebook(self.root)
         notebook.pack(fill=BOTH, expand=True, padx=8, pady=(8, 0))
@@ -1625,7 +1714,7 @@ class TradeAlertApp:
         status_bar.pack(fill=X, padx=8, pady=(0, 8))
         self.status_label = ttk.Label(status_bar, textvariable=self.status_var, style="Status.TLabel")
         self.status_label.pack(fill=X)
-        Tooltip(self.status_label, "这里显示你刚刚执行的操作、当前状态和下一步提示。")
+        Tooltip(self.status_label, self.t("status_bar_tip"))
         notebook.bind("<<NotebookTabChanged>>", self.on_tab_changed)
 
     def _build_monitor_tab(self):
@@ -1633,6 +1722,8 @@ class TradeAlertApp:
         header.pack(fill=X, pady=(0, 8))
         ttk.Label(header, text=self.t("monitor_title"), style="Section.TLabel").pack(side=LEFT)
         ttk.Label(header, text=self.t("monitor_subtitle"), style="Muted.TLabel").pack(side=LEFT, padx=(12, 0))
+
+        self._build_market_dashboard()
 
         toolbar = ttk.Frame(self.monitor_tab)
         toolbar.pack(fill=X, pady=(0, 10))
@@ -1676,7 +1767,7 @@ class TradeAlertApp:
         alert_scroll.pack(side=RIGHT, fill=Y)
         self.alert_tree.configure(yscrollcommand=alert_scroll.set)
         self.alert_tree.bind("<<TreeviewSelect>>", self.on_alert_select)
-        self.alert_tree.bind("<Enter>", lambda _event: self.set_status("单击预警查看详情；颜色越偏红通常表示级别越高。", temporary=False), add="+")
+        self.alert_tree.bind("<Enter>", lambda _event: self.set_status(self.t("table_tip"), temporary=False), add="+")
         self.alert_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         Tooltip(self.alert_tree, "单击一条预警会在右侧显示摘要和相关股票判断；可多选后删除。")
         self.alert_tree.tag_configure("severity_high", background=COLORS["danger_bg"])
@@ -1699,7 +1790,7 @@ class TradeAlertApp:
             self.ticker_tree.column(col, width=ticker_widths[col], anchor="w")
         self.ticker_tree.pack(fill=BOTH, expand=True, pady=(4, 8))
         self.ticker_tree.bind("<Double-1>", lambda _event: self.open_selected_trade_link())
-        self.ticker_tree.bind("<Enter>", lambda _event: self.set_status("双击股票/ETF 行可打开交易或看盘链接。", temporary=False), add="+")
+        self.ticker_tree.bind("<Enter>", lambda _event: self.set_status(self.t("ticker_tip"), temporary=False), add="+")
         self.ticker_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         Tooltip(self.ticker_tree, "单击选择代码；双击打开你在设置中配置的交易/看盘链接。")
         self.ticker_tree.tag_configure("bullish", background=COLORS["success_bg"])
@@ -1727,6 +1818,30 @@ class TradeAlertApp:
         Tooltip(self.re_model_box, "选择预设模型，或直接输入当前服务商支持的自定义模型名。")
         self.reanalyze_button = self._button(re_panel, self.t("reanalyze"), self.reanalyze_selected_alert, self.t("reanalyze"), self.t("reanalyze"), "Primary.TButton")
         self.reanalyze_button.grid(row=1, column=2, sticky="w")
+
+    def _build_market_dashboard(self):
+        dashboard = ttk.Frame(self.monitor_tab)
+        dashboard.pack(fill=X, pady=(0, 10))
+        ttk.Label(dashboard, text=self.t("market_overview"), style="Section.TLabel").pack(anchor="w", pady=(0, 6))
+        card_row = ttk.Frame(dashboard)
+        card_row.pack(fill=X)
+        self.metric_vars = {}
+        metrics = [
+            ("active", "metric_active"),
+            ("high", "metric_high"),
+            ("bullish", "metric_bullish"),
+            ("bearish", "metric_bearish"),
+            ("mixed", "metric_mixed"),
+            ("top_category", "metric_top_category"),
+        ]
+        for idx, (metric_key, label_key) in enumerate(metrics):
+            card = ttk.Frame(card_row, style="Metric.TFrame", padding=(12, 9))
+            card.grid(row=0, column=idx, sticky="nsew", padx=(0 if idx == 0 else 6, 0))
+            card_row.columnconfigure(idx, weight=1)
+            self.metric_vars[metric_key] = StringVar(value="0")
+            ttk.Label(card, text=self.t(label_key), style="MetricLabel.TLabel").pack(anchor="w")
+            ttk.Label(card, textvariable=self.metric_vars[metric_key], style="MetricValue.TLabel").pack(anchor="w", pady=(2, 0))
+        ttk.Label(dashboard, text=self.t("market_gap_note"), style="Muted.TLabel", wraplength=1100).pack(anchor="w", pady=(6, 0))
 
     def _build_secondary_tabs(self):
         self.past_tree = self._build_alert_table_tab(
@@ -1857,10 +1972,7 @@ class TradeAlertApp:
         self._button(buttons, self.t("clear"), self.clear_paste_form, self.t("clear"), self.t("clear")).pack(side=LEFT)
         Tooltip(self.paste_text, "粘贴 X、Truth Social、新闻标题或其他公开文本；不会消耗 X API credits。")
 
-        help_text = (
-            "可粘贴 X、Truth Social、新闻标题或其他公开文本。"
-            "此功能不调用 X API，不消耗 X credits；如果设置里启用 GPT 且填了 OpenAI API Key，会使用 GPT 分析，否则使用本地规则。"
-        )
+        help_text = self.t("paste_help")
         ttk.Label(self.paste_tab, text=help_text, justify=LEFT, style="Muted.TLabel").pack(anchor="w", pady=(12, 0))
 
     def _build_settings_tab(self):
@@ -1952,14 +2064,7 @@ class TradeAlertApp:
         self._button(buttons, self.t("save_settings"), self.save_settings, self.t("save_settings"), self.t("save_settings")).pack(side=LEFT, padx=(0, 6))
         self._button(buttons, self.t("open_config_dir"), self.open_config_dir, self.t("open_config_dir"), self.t("open_config_dir")).pack(side=LEFT)
 
-        help_text = (
-            "链接模板必须包含 {symbol}，例如：\n"
-            "https://www.tradingview.com/symbols/{symbol}/\n"
-            "https://robinhood.com/stocks/{symbol}\n"
-            "https://www.interactivebrokers.com/en/trading/products-stocks.php?symbol={symbol}\n\n"
-            "AI 提供商支持 OpenAI Responses、OpenAI 兼容接口、xAI、DeepSeek、OpenRouter 和 Gemini。\n"
-            "X 数据使用官方 API Bearer Token。当前 X API 是按用量计费，读取/流式接口是否可用取决于你的开发者账号权限。"
-        )
+        help_text = self.t("settings_help")
         ttk.Label(self.settings_tab, text=help_text, justify=LEFT).pack(anchor="w", pady=(18, 0))
 
     def _build_ai_drawer(self):
@@ -1982,11 +2087,11 @@ class TradeAlertApp:
         if self.ai_drawer_visible:
             self.ai_drawer.grid_forget()
             self.ai_drawer_visible = False
-            self.set_status("AI 选择抽屉已收起。")
+            self.set_status(self.t("drawer_closed"))
             return
         self.ai_drawer.grid(row=1, column=1, sticky="we", padx=(8, 0), pady=(2, 8))
         self.ai_drawer_visible = True
-        self.set_status("AI 选择抽屉已打开：请选择服务商。")
+        self.set_status(self.t("drawer_open"))
 
     def select_ai_provider(self, provider_key):
         preset = AI_PROVIDER_PRESETS[provider_key]
@@ -1994,7 +2099,7 @@ class TradeAlertApp:
         self.apply_ai_provider_preset()
         self.ai_drawer.grid_forget()
         self.ai_drawer_visible = False
-        self.set_home_feedback(f"已选择 AI：{preset['label']}。保存设置后生效。")
+        self.set_home_feedback(self.t("selected_ai", provider=preset["label"]))
 
     def _build_log_tab(self):
         self.log_text = self._text_widget(self.log_tab, height=24)
@@ -2004,18 +2109,18 @@ class TradeAlertApp:
         self.log(f"数据库: {DB_PATH}")
 
     def save_settings(self, require_x=False):
+        old_language = self.config.get("language", "zh")
         accounts = parse_accounts(self.accounts_text.get("1.0", END))
         if not accounts:
-            self.set_status("保存失败：至少需要配置一个 X 账号。")
-            messagebox.showerror("设置错误", "至少需要配置一个 X 账号。")
+            self.set_status(self.t("no_accounts"))
+            messagebox.showerror(self.t("settings_error"), self.t("no_accounts"))
             return False
         if require_x and not self.x_token_var.get().strip():
-            self.set_status("操作失败：自动监控需要填写 X Bearer Token。")
-            messagebox.showerror("缺少 X Bearer Token", "开始监控或立即轮询前，请先填写 X Bearer Token。")
+            self.set_status(self.t("missing_x_token"))
+            messagebox.showerror("X Bearer Token", self.t("missing_x_token"))
             return False
         if "{symbol}" not in self.trade_template_var.get():
-            self.set_status("保存失败：交易/看盘链接模板缺少 {symbol}。")
-            messagebox.showerror("设置错误", "交易/看盘链接模板必须包含 {symbol}。")
+            messagebox.showerror(self.t("settings_error"), self.t("settings_help"))
             return False
         try:
             poll_seconds = int(self.poll_var.get())
@@ -2044,12 +2149,12 @@ class TradeAlertApp:
             if not self.openai_key_var.get().strip():
                 missing.append("AI API Key")
             if not self.model_var.get().strip():
-                missing.append("AI 模型")
+                missing.append(self.t("model"))
             if not self.ai_base_url_var.get().strip():
                 missing.append("AI Base URL")
             if missing:
-                self.set_status(f"保存失败：启用 AI 时必须填写 {', '.join(missing)}。")
-                messagebox.showerror("缺少 AI 必填项", f"启用 GPT/AI 语义分析时必须填写：{', '.join(missing)}。")
+                self.set_status(f"{self.t('missing_required')}: {', '.join(missing)}")
+                messagebox.showerror(self.t("missing_required"), f"{self.t('ai_semantic_analysis')}: {', '.join(missing)}")
                 return False
         self.config = {
             "language": language_code,
@@ -2074,6 +2179,8 @@ class TradeAlertApp:
         self.log(self.t("settings_saved_log"))
         self.set_status(self.t("settings_saved_feedback"))
         self.set_home_feedback(self.t("settings_saved_feedback"))
+        if old_language != language_code:
+            self.root.after(0, self.rebuild_interface)
         return True
 
     def apply_ai_provider_preset(self):
@@ -2127,7 +2234,7 @@ class TradeAlertApp:
         body = ttk.Frame(dialog, padding=16)
         body.pack(fill=BOTH, expand=True)
         ttk.Label(body, text=self.t("ai_window"), style="Section.TLabel").grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
-        ttk.Label(body, text=f"当前预警：{self.selected_alert.get('headline', '')}", style="Muted.TLabel", wraplength=470).grid(row=1, column=0, columnspan=2, sticky="we", pady=(0, 10))
+        ttk.Label(body, text=self.t("current_alert", headline=self.selected_alert.get("headline", "")), style="Muted.TLabel", wraplength=470).grid(row=1, column=0, columnspan=2, sticky="we", pady=(0, 10))
         provider_var = StringVar(value=self.re_ai_provider_var.get())
         model_var = StringVar(value=self.re_model_var.get())
         ttk.Label(body, text=self.t("ai_provider")).grid(row=2, column=0, sticky="w", pady=6)
@@ -2146,8 +2253,8 @@ class TradeAlertApp:
         provider_box.bind("<<ComboboxSelected>>", apply_provider)
         apply_provider()
 
-        self.ai_window_status_var = StringVar(value="就绪：选择模型后点击重新分析。")
-        self.ai_window_elapsed_var = StringVar(value="耗时：0.0s")
+        self.ai_window_status_var = StringVar(value=self.t("ai_window_ready"))
+        self.ai_window_elapsed_var = StringVar(value=self.t("elapsed", seconds=0.0))
         ttk.Label(body, textvariable=self.ai_window_status_var, style="Feedback.TLabel").grid(row=4, column=0, columnspan=2, sticky="we", pady=(12, 4))
         ttk.Label(body, textvariable=self.ai_window_elapsed_var, style="Muted.TLabel").grid(row=5, column=0, columnspan=2, sticky="w", pady=(0, 4))
 
@@ -2166,7 +2273,7 @@ class TradeAlertApp:
         self.ai_window_started_at = time.time()
         self.ai_window_timeout_seconds = timeout_seconds
         if self.ai_window_status_var is not None:
-            self.ai_window_status_var.set(f"AI 正在运行：{provider_label} / {model}。最长等待 {timeout_seconds} 秒，完成后自动更新。")
+            self.ai_window_status_var.set(self.t("ai_running", provider=provider_label, model=model, limit=timeout_seconds))
         self._tick_ai_window_timer()
 
     def _tick_ai_window_timer(self):
@@ -2174,9 +2281,9 @@ class TradeAlertApp:
             return
         elapsed = time.time() - self.ai_window_started_at
         if self.ai_window_timeout_seconds:
-            self.ai_window_elapsed_var.set(f"耗时：{elapsed:.1f}s / 最长 {self.ai_window_timeout_seconds}s")
+            self.ai_window_elapsed_var.set(self.t("elapsed_max", seconds=elapsed, limit=self.ai_window_timeout_seconds))
         else:
-            self.ai_window_elapsed_var.set(f"耗时：{elapsed:.1f}s")
+            self.ai_window_elapsed_var.set(self.t("elapsed", seconds=elapsed))
         self.ai_window_timer_after = self.root.after(500, self._tick_ai_window_timer)
 
     def _stop_ai_window_timer(self):
@@ -2344,12 +2451,43 @@ class TradeAlertApp:
         new_alerts = self.store.latest_alerts(200, bucket="new")
         self._fill_alert_tree(self.alert_tree, new_alerts)
         self.active_display_count = len(new_alerts)
+        stat_alerts = list(new_alerts)
         if hasattr(self, "past_tree"):
             past_alerts = self.store.latest_alerts(300, bucket="past_day")
             self._fill_alert_tree(self.past_tree, past_alerts)
             self.active_display_count += len(past_alerts)
+            stat_alerts.extend(past_alerts)
             self._fill_alert_tree(self.favorite_tree, self.store.latest_alerts(300, favorite=True))
             self._fill_alert_tree(self.recycle_tree, self.store.latest_alerts(300, status="deleted"))
+        self.update_market_dashboard(stat_alerts)
+
+    def update_market_dashboard(self, alerts):
+        if not hasattr(self, "metric_vars"):
+            return
+        high = 0
+        directions = {"bullish": 0, "bearish": 0, "mixed": 0}
+        categories = {}
+        for alert in alerts:
+            try:
+                if int(alert.get("severity") or 0) >= 4:
+                    high += 1
+            except ValueError:
+                pass
+            category = alert.get("category") or "-"
+            categories[category] = categories.get(category, 0) + 1
+            for ticker in alert.get("analysis", {}).get("tickers", []):
+                direction = ticker.get("direction")
+                if direction in directions:
+                    directions[direction] += 1
+        top_category = "-"
+        if categories:
+            top_category = max(categories.items(), key=lambda item: item[1])[0]
+        self.metric_vars["active"].set(str(len(alerts)))
+        self.metric_vars["high"].set(str(high))
+        self.metric_vars["bullish"].set(str(directions["bullish"]))
+        self.metric_vars["bearish"].set(str(directions["bearish"]))
+        self.metric_vars["mixed"].set(str(directions["mixed"]))
+        self.metric_vars["top_category"].set(top_category)
 
     def _fill_alert_tree(self, tree, alerts):
         tree.delete(*tree.get_children())
