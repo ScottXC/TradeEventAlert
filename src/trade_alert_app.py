@@ -26,20 +26,27 @@ APP_ICON_PATH = PROJECT_DIR / "assets" / "app.ico"
 
 
 COLORS = {
-    "bg": "#f5f7fb",
+    "bg": "#eef2f6",
     "panel": "#ffffff",
-    "panel_alt": "#f9fafc",
-    "border": "#d9dfeb",
-    "text": "#172033",
-    "muted": "#5f6b7a",
-    "accent": "#2563eb",
-    "accent_dark": "#1d4ed8",
-    "danger": "#dc2626",
+    "panel_alt": "#f7f9fc",
+    "border": "#c7cfda",
+    "text": "#182235",
+    "muted": "#637083",
+    "accent": "#d71920",
+    "accent_dark": "#b51219",
+    "danger": "#159947",
     "warning_bg": "#fff7ed",
     "warning_text": "#8a4b0b",
-    "success_bg": "#ecfdf5",
+    "success_bg": "#fff1f1",
     "danger_bg": "#fef2f2",
-    "info_bg": "#eff6ff",
+    "bearish_bg": "#ecfdf3",
+    "info_bg": "#edf5ff",
+    "topbar": "#111827",
+    "nav_bg": "#1f2937",
+    "nav_active": "#d71920",
+    "nav_text": "#d7dde7",
+    "nav_muted": "#9aa6b5",
+    "grid": "#e2e8f0",
 }
 
 
@@ -1756,18 +1763,29 @@ class TradeAlertApp:
         style.configure(".", font=("Segoe UI", 10), background=COLORS["bg"], foreground=COLORS["text"])
         style.configure("TFrame", background=COLORS["bg"])
         style.configure("Panel.TFrame", background=COLORS["panel"])
+        style.configure("TerminalTop.TFrame", background=COLORS["topbar"])
+        style.configure("TerminalTitle.TLabel", background=COLORS["topbar"], foreground="#ffffff", font=("Segoe UI", 12, "bold"))
+        style.configure("TerminalMuted.TLabel", background=COLORS["topbar"], foreground="#cbd5e1", font=("Segoe UI", 9))
+        style.configure("TerminalChip.TLabel", background="#263241", foreground="#dbe4f0", padding=(10, 4), font=("Segoe UI", 9, "bold"))
+        style.configure("Nav.TFrame", background=COLORS["nav_bg"])
+        style.configure("NavTitle.TLabel", background=COLORS["nav_bg"], foreground="#ffffff", font=("Segoe UI", 10, "bold"))
+        style.configure("NavHint.TLabel", background=COLORS["nav_bg"], foreground=COLORS["nav_muted"], font=("Segoe UI", 8))
+        style.configure("Nav.TButton", background=COLORS["nav_bg"], foreground=COLORS["nav_text"], padding=(12, 9), borderwidth=0, anchor="w")
+        style.map("Nav.TButton", background=[("active", "#374151")], foreground=[("active", "#ffffff")])
+        style.configure("NavActive.TButton", background=COLORS["nav_active"], foreground="#ffffff", padding=(12, 9), borderwidth=0, anchor="w")
+        style.map("NavActive.TButton", background=[("active", COLORS["accent_dark"])], foreground=[("active", "#ffffff")])
         style.configure("TLabel", background=COLORS["bg"], foreground=COLORS["text"])
         style.configure("Muted.TLabel", background=COLORS["bg"], foreground=COLORS["muted"])
         style.configure("Warning.TLabel", background=COLORS["warning_bg"], foreground=COLORS["warning_text"], padding=8)
         style.configure("Status.TLabel", background="#e9edf5", foreground=COLORS["muted"], padding=(10, 7))
-        style.configure("Feedback.TLabel", background=COLORS["info_bg"], foreground=COLORS["accent_dark"], padding=(12, 9), font=("Segoe UI", 10, "bold"))
+        style.configure("Feedback.TLabel", background=COLORS["info_bg"], foreground=COLORS["accent_dark"], padding=(8, 6), font=("Segoe UI", 9, "bold"))
         style.configure("Section.TLabel", background=COLORS["bg"], foreground=COLORS["text"], font=("Segoe UI", 11, "bold"))
         style.configure("Card.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
         style.configure("CardTitle.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 10, "bold"))
         style.configure("CardMuted.TLabel", background=COLORS["panel"], foreground=COLORS["muted"])
         style.configure("Metric.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
         style.configure("MetricLabel.TLabel", background=COLORS["panel"], foreground=COLORS["muted"], font=("Segoe UI", 9, "bold"))
-        style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 17, "bold"))
+        style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 14, "bold"))
         style.configure("TNotebook", background=COLORS["bg"], borderwidth=0)
         style.configure("TNotebook.Tab", padding=(10, 7), background="#e9edf5", foreground=COLORS["muted"], font=("Segoe UI", 9))
         style.map("TNotebook.Tab", background=[("selected", COLORS["panel"])], foreground=[("selected", COLORS["text"])])
@@ -1777,8 +1795,13 @@ class TradeAlertApp:
         style.map("Primary.TButton", background=[("active", COLORS["accent_dark"])], foreground=[("active", "#ffffff")])
         style.configure("Danger.TButton", background=COLORS["danger"], foreground="#ffffff")
         style.map("Danger.TButton", background=[("active", "#b91c1c")], foreground=[("active", "#ffffff")])
-        style.configure("Treeview", background=COLORS["panel"], fieldbackground=COLORS["panel"], foreground=COLORS["text"], rowheight=30, borderwidth=0)
-        style.configure("Treeview.Heading", background="#eef2f8", foreground=COLORS["muted"], padding=(8, 7), font=("Segoe UI", 10, "bold"))
+        style.configure("Workspace.TNotebook", background=COLORS["bg"], borderwidth=0, tabmargins=0)
+        try:
+            style.layout("Workspace.TNotebook.Tab", [])
+        except Exception:
+            pass
+        style.configure("Treeview", background=COLORS["panel"], fieldbackground=COLORS["panel"], foreground=COLORS["text"], rowheight=24, borderwidth=0)
+        style.configure("Treeview.Heading", background="#dde5f0", foreground=COLORS["text"], padding=(8, 5), font=("Segoe UI", 9, "bold"))
         style.map("Treeview", background=[("selected", COLORS["accent"])], foreground=[("selected", "#ffffff")])
         style.configure("TEntry", fieldbackground=COLORS["panel"], bordercolor=COLORS["border"], lightcolor=COLORS["border"], darkcolor=COLORS["border"], padding=5)
         style.configure("TCheckbutton", background=COLORS["bg"], foreground=COLORS["text"], padding=4)
@@ -1835,6 +1858,22 @@ class TradeAlertApp:
             style = spec[3] if len(spec) > 3 else None
             button = self._button(parent, label, command, label, tip, style)
             button.grid(row=idx // max_columns, column=idx % max_columns, sticky="w", padx=(0, 6), pady=3)
+
+    def _tree_box(self, parent):
+        box = ttk.Frame(parent)
+        box.rowconfigure(0, weight=1)
+        box.columnconfigure(0, weight=1)
+        return box
+
+    def _grid_tree_with_scrollbars(self, tree, box):
+        box.rowconfigure(0, weight=1)
+        box.columnconfigure(0, weight=1)
+        y_scroll = ttk.Scrollbar(box, orient="vertical", command=tree.yview)
+        x_scroll = ttk.Scrollbar(box, orient="horizontal", command=tree.xview)
+        tree.configure(yscrollcommand=y_scroll.set, xscrollcommand=x_scroll.set)
+        tree.grid(row=0, column=0, sticky="nsew")
+        y_scroll.grid(row=0, column=1, sticky="ns")
+        x_scroll.grid(row=1, column=0, sticky="ew")
 
     def _button(self, parent, text, command, feedback, tooltip, style=None):
         button = ttk.Button(
@@ -1893,9 +1932,62 @@ class TradeAlertApp:
         self._build_ui()
         self.refresh_alerts()
 
+    def _build_terminal_header(self):
+        header = ttk.Frame(self.root, style="TerminalTop.TFrame", padding=(8, 5))
+        header.pack(fill=X)
+        left = ttk.Frame(header, style="TerminalTop.TFrame")
+        left.pack(side=LEFT, fill=X, expand=True)
+        ttk.Label(left, text="Trade Event Alert", style="TerminalTitle.TLabel").pack(side=LEFT)
+        ttk.Label(left, text=f"  {self.t('monitor_title')}", style="TerminalMuted.TLabel").pack(side=LEFT, padx=(8, 0))
+        right = ttk.Frame(header, style="TerminalTop.TFrame")
+        right.pack(side=RIGHT)
+        for text in (self.t("tab_new"), self.t("ai_semantic_analysis"), self.t("tab_favorites"), self.t("tab_trade")):
+            ttk.Label(right, text=text, style="TerminalChip.TLabel").pack(side=LEFT, padx=(6, 0))
+
+    def _build_nav_rail(self, parent):
+        nav = ttk.Frame(parent, style="Nav.TFrame", width=138)
+        nav.pack(side=LEFT, fill=Y)
+        nav.pack_propagate(False)
+        ttk.Label(nav, text="Trade Desk", style="NavTitle.TLabel").pack(anchor="w", padx=10, pady=(10, 2))
+        ttk.Label(nav, text=self.t("tab_workflow"), style="NavHint.TLabel").pack(anchor="w", padx=10, pady=(0, 8))
+        self.nav_buttons = []
+        self.nav_tabs = [
+            (self.monitor_tab, self.t("tab_new")),
+            (self.past_day_tab, self.t("tab_past")),
+            (self.favorites_tab, self.t("tab_favorites")),
+            (self.recycle_tab, self.t("tab_recycle")),
+            (self.workflow_tab, self.t("tab_workflow")),
+            (self.paste_tab, self.t("tab_paste")),
+            (self.trade_tab, self.t("tab_trade")),
+            (self.settings_tab, self.t("tab_settings")),
+            (self.log_tab, self.t("tab_log")),
+        ]
+        for tab, label in self.nav_tabs:
+            button = ttk.Button(nav, text=label, style="Nav.TButton", command=lambda target=tab: self.select_nav_tab(target))
+            button.pack(fill=X, padx=6, pady=1)
+            self.nav_buttons.append((tab, button))
+        ttk.Label(nav, text="v0.1.3", style="NavHint.TLabel").pack(side="bottom", anchor="w", padx=12, pady=12)
+        self.update_nav_selection()
+
+    def select_nav_tab(self, tab):
+        self.notebook.select(tab)
+        self.update_nav_selection()
+        self.on_tab_changed()
+
+    def update_nav_selection(self):
+        if not hasattr(self, "nav_buttons") or not self.nav_buttons:
+            return
+        current = self.notebook.select() if hasattr(self, "notebook") else ""
+        for tab, button in self.nav_buttons:
+            button.configure(style="NavActive.TButton" if str(tab) == current else "Nav.TButton")
+
     def _build_ui(self):
-        notebook = ttk.Notebook(self.root)
-        notebook.pack(fill=BOTH, expand=True, padx=8, pady=(8, 0))
+        self._build_terminal_header()
+        workspace = ttk.Frame(self.root)
+        workspace.pack(fill=BOTH, expand=True, padx=8, pady=(8, 0))
+
+        notebook = ttk.Notebook(workspace, style="Workspace.TNotebook")
+        notebook.pack(side=RIGHT, fill=BOTH, expand=True)
         self.notebook = notebook
 
         self.monitor_tab = ttk.Frame(notebook, padding=10)
@@ -1916,6 +2008,7 @@ class TradeAlertApp:
         notebook.add(self.trade_tab, text=self.t("tab_trade"))
         notebook.add(self.settings_tab, text=self.t("tab_settings"))
         notebook.add(self.log_tab, text=self.t("tab_log"))
+        self._build_nav_rail(workspace)
 
         self._build_monitor_tab()
         self._build_secondary_tabs()
@@ -1934,7 +2027,7 @@ class TradeAlertApp:
 
     def _build_monitor_tab(self):
         header = ttk.Frame(self.monitor_tab)
-        header.pack(fill=X, pady=(0, 8))
+        header.pack(fill=X, pady=(0, 4))
         ttk.Label(header, text=self.t("monitor_title"), style="Section.TLabel").pack(side=LEFT)
         subtitle = ttk.Label(header, text=self.t("monitor_subtitle"), style="Muted.TLabel")
         subtitle.pack(side=LEFT, fill=X, expand=True, padx=(12, 0))
@@ -1943,7 +2036,7 @@ class TradeAlertApp:
         self._build_market_dashboard()
 
         toolbar = ttk.Frame(self.monitor_tab)
-        toolbar.pack(fill=X, pady=(0, 10))
+        toolbar.pack(fill=X, pady=(0, 6))
         self._button_grid(
             toolbar,
             [
@@ -1960,7 +2053,8 @@ class TradeAlertApp:
         )
 
         feedback = ttk.Label(self.monitor_tab, textvariable=self.home_feedback_var, style="Feedback.TLabel")
-        feedback.pack(fill=X, pady=(0, 10))
+        feedback.pack(fill=X, pady=(0, 6))
+        self._responsive_wrap(self.monitor_tab, feedback, max_width=1100)
         Tooltip(feedback, "这里显示首页按钮点击后的结果，例如监控已启动、轮询已发起、预警已删除。")
 
         panes = ttk.PanedWindow(self.monitor_tab, orient="horizontal")
@@ -1972,7 +2066,9 @@ class TradeAlertApp:
         panes.add(right, weight=2)
 
         columns = ("time", "account", "category", "severity", "confidence", "headline")
-        self.alert_tree = ttk.Treeview(left, columns=columns, show="headings", height=22)
+        left.rowconfigure(0, weight=1)
+        left.columnconfigure(0, weight=1)
+        self.alert_tree = ttk.Treeview(left, columns=columns, show="headings", height=18)
         headings = {
             "time": self.t("col_time"),
             "account": self.t("col_account"),
@@ -1985,10 +2081,7 @@ class TradeAlertApp:
         for col in columns:
             self.alert_tree.heading(col, text=headings[col])
             self.alert_tree.column(col, width=widths[col], anchor="w")
-        self.alert_tree.pack(fill=BOTH, expand=True, side=LEFT)
-        alert_scroll = ttk.Scrollbar(left, orient="vertical", command=self.alert_tree.yview)
-        alert_scroll.pack(side=RIGHT, fill=Y)
-        self.alert_tree.configure(yscrollcommand=alert_scroll.set)
+        self._grid_tree_with_scrollbars(self.alert_tree, left)
         self.alert_tree.bind("<<TreeviewSelect>>", self.on_alert_select)
         self.alert_tree.bind("<Enter>", lambda _event: self.set_status(self.t("table_tip"), temporary=False), add="+")
         self.alert_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
@@ -1999,25 +2092,27 @@ class TradeAlertApp:
         self.alert_tree.tag_configure("filtered_by_settings", background="#fff7d6")
 
         ttk.Label(right, text=self.t("event_summary"), style="Section.TLabel").pack(anchor="w")
-        self.detail_text = self._text_widget(right, height=10)
+        self.detail_text = self._text_widget(right, height=7)
         self.detail_text.pack(fill=X, pady=(4, 8))
         Tooltip(self.detail_text, "显示当前选中内容的摘要、来源、置信度和分析类型。")
 
         ttk.Label(right, text=self.t("ticker_judgment"), style="Section.TLabel").pack(anchor="w")
         ticker_columns = ("symbol", "direction", "asset_class", "reason")
-        self.ticker_tree = ttk.Treeview(right, columns=ticker_columns, show="headings", height=10)
+        ticker_box = self._tree_box(right)
+        ticker_box.pack(fill=BOTH, expand=True, pady=(4, 8))
+        self.ticker_tree = ttk.Treeview(ticker_box, columns=ticker_columns, show="headings", height=8)
         ticker_headings = {"symbol": self.t("col_symbol"), "direction": self.t("col_direction"), "asset_class": self.t("col_asset_class"), "reason": self.t("col_reason")}
         ticker_widths = {"symbol": 80, "direction": 80, "asset_class": 120, "reason": 360}
         for col in ticker_columns:
             self.ticker_tree.heading(col, text=ticker_headings[col])
             self.ticker_tree.column(col, width=ticker_widths[col], anchor="w")
-        self.ticker_tree.pack(fill=BOTH, expand=True, pady=(4, 8))
+        self._grid_tree_with_scrollbars(self.ticker_tree, ticker_box)
         self.ticker_tree.bind("<Double-1>", lambda _event: self.open_selected_trade_link())
         self.ticker_tree.bind("<Enter>", lambda _event: self.set_status(self.t("ticker_tip"), temporary=False), add="+")
         self.ticker_tree.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
         Tooltip(self.ticker_tree, "单击选择代码；双击打开你在设置中配置的交易/看盘链接。")
         self.ticker_tree.tag_configure("bullish", background=COLORS["success_bg"])
-        self.ticker_tree.tag_configure("bearish", background=COLORS["danger_bg"])
+        self.ticker_tree.tag_configure("bearish", background=COLORS["bearish_bg"])
         self.ticker_tree.tag_configure("mixed", background=COLORS["warning_bg"])
 
         action_bar = ttk.Frame(right)
@@ -2033,7 +2128,7 @@ class TradeAlertApp:
         )
 
         re_panel = ttk.Frame(right)
-        re_panel.pack(fill=X, pady=(10, 0))
+        re_panel.pack(fill=X, pady=(6, 0))
         ttk.Label(re_panel, text=self.t("ai_window"), style="Section.TLabel").grid(row=0, column=0, columnspan=3, sticky="w", pady=(0, 5))
         provider_key = self.config.get("ai_provider", "openai_responses")
         self.re_ai_provider_var = StringVar(value=AI_PROVIDER_LABELS.get(provider_key, AI_PROVIDER_LABELS["openai_responses"]))
@@ -2051,8 +2146,8 @@ class TradeAlertApp:
 
     def _build_market_dashboard(self):
         dashboard = ttk.Frame(self.monitor_tab)
-        dashboard.pack(fill=X, pady=(0, 10))
-        ttk.Label(dashboard, text=self.t("market_overview"), style="Section.TLabel").pack(anchor="w", pady=(0, 6))
+        dashboard.pack(fill=X, pady=(0, 6))
+        ttk.Label(dashboard, text=self.t("market_overview"), style="Section.TLabel").pack(anchor="w", pady=(0, 3))
         card_row = ttk.Frame(dashboard)
         card_row.pack(fill=X)
         self.metric_vars = {}
@@ -2065,10 +2160,10 @@ class TradeAlertApp:
             ("top_category", "metric_top_category"),
         ]
         for idx, (metric_key, label_key) in enumerate(metrics):
-            card = ttk.Frame(card_row, style="Metric.TFrame", padding=(12, 9))
-            row = idx // 3
-            col = idx % 3
-            card.grid(row=row, column=col, sticky="nsew", padx=(0 if col == 0 else 6, 0), pady=(0 if row == 0 else 6, 0))
+            card = ttk.Frame(card_row, style="Metric.TFrame", padding=(10, 6))
+            row = 0
+            col = idx
+            card.grid(row=row, column=col, sticky="nsew", padx=(0 if col == 0 else 4, 0), pady=0)
             card_row.columnconfigure(col, weight=1, uniform="metric")
             self.metric_vars[metric_key] = StringVar(value="0")
             label = ttk.Label(card, text=self.t(label_key), style="MetricLabel.TLabel")
@@ -2080,9 +2175,6 @@ class TradeAlertApp:
                 widget.bind("<Enter>", lambda _event: self.set_status(self.t("metric_click_tip"), temporary=False), add="+")
                 widget.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
                 Tooltip(widget, self.t("metric_click_tip"))
-        note = ttk.Label(dashboard, text=self.t("market_gap_note"), style="Muted.TLabel", wraplength=1100)
-        note.pack(anchor="w", fill=X, pady=(6, 0))
-        self._responsive_wrap(dashboard, note, max_width=1100)
 
     def _build_secondary_tabs(self):
         self.past_tree = self._build_alert_table_tab(
@@ -2118,13 +2210,13 @@ class TradeAlertApp:
 
     def _build_alert_table_tab(self, tab, title, subtitle, actions):
         header = ttk.Frame(tab)
-        header.pack(fill=X, pady=(0, 8))
+        header.pack(fill=X, pady=(0, 5))
         ttk.Label(header, text=title, style="Section.TLabel").pack(anchor="w")
         subtitle_label = ttk.Label(header, text=subtitle, style="Muted.TLabel", wraplength=980, justify=LEFT)
         subtitle_label.pack(anchor="w", fill=X, pady=(2, 0))
         self._responsive_wrap(header, subtitle_label, max_width=980)
         bar = ttk.Frame(tab)
-        bar.pack(fill=X, pady=(0, 8))
+        bar.pack(fill=X, pady=(0, 5))
         button_specs = []
         for label, command, tip in actions:
             style = "Danger.TButton" if label in {self.t("delete_selected"), self.t("permanent_delete")} else None
@@ -2138,22 +2230,23 @@ class TradeAlertApp:
         panes.add(right_frame, weight=3)
 
         columns = ("time", "account", "category", "severity", "confidence", "headline")
-        tree = ttk.Treeview(left_frame, columns=columns, show="headings", height=22)
+        left_frame.rowconfigure(0, weight=1)
+        left_frame.columnconfigure(0, weight=1)
+        tree = ttk.Treeview(left_frame, columns=columns, show="headings", height=18)
         headings = {"time": self.t("col_time"), "account": self.t("col_account"), "category": self.t("col_category"), "severity": self.t("col_severity"), "confidence": self.t("col_confidence"), "headline": self.t("col_headline")}
         widths = {"time": 135, "account": 105, "category": 110, "severity": 54, "confidence": 64, "headline": 300}
         for col in columns:
             tree.heading(col, text=headings[col])
             tree.column(col, width=widths[col], anchor="w")
-        tree.pack(fill=BOTH, expand=True, side=LEFT)
-        scroll = ttk.Scrollbar(left_frame, orient="vertical", command=tree.yview)
-        scroll.pack(side=RIGHT, fill=Y)
-        tree.configure(yscrollcommand=scroll.set)
+        self._grid_tree_with_scrollbars(tree, left_frame)
         ttk.Label(right_frame, text=self.t("summary_analysis"), style="Section.TLabel").pack(anchor="w")
-        detail_text = self._text_widget(right_frame, height=9)
-        detail_text.pack(fill=BOTH, expand=True, pady=(4, 10))
+        detail_text = self._text_widget(right_frame, height=7)
+        detail_text.pack(fill=BOTH, expand=True, pady=(4, 6))
         ttk.Label(right_frame, text=self.t("ticker_judgment"), style="Section.TLabel").pack(anchor="w")
         ticker_columns = ("symbol", "direction", "asset_class", "reason")
-        ticker_tree = ttk.Treeview(right_frame, columns=ticker_columns, show="headings", height=8)
+        ticker_box = self._tree_box(right_frame)
+        ticker_box.pack(fill=BOTH, expand=True, pady=(4, 6))
+        ticker_tree = ttk.Treeview(ticker_box, columns=ticker_columns, show="headings", height=7)
         for col, title, width in [
             ("symbol", self.t("col_symbol"), 72),
             ("direction", self.t("col_direction"), 72),
@@ -2162,9 +2255,9 @@ class TradeAlertApp:
         ]:
             ticker_tree.heading(col, text=title)
             ticker_tree.column(col, width=width, anchor="w")
-        ticker_tree.pack(fill=BOTH, expand=True, pady=(4, 8))
+        self._grid_tree_with_scrollbars(ticker_tree, ticker_box)
         ticker_tree.tag_configure("bullish", background=COLORS["success_bg"])
-        ticker_tree.tag_configure("bearish", background=COLORS["danger_bg"])
+        ticker_tree.tag_configure("bearish", background=COLORS["bearish_bg"])
         ticker_tree.tag_configure("mixed", background=COLORS["warning_bg"])
         tree.tag_configure("filtered_by_settings", background="#fff7d6")
         ticker_tree.bind("<Double-1>", lambda _event, t=ticker_tree: self.open_trade_link_from_ticker_tree(t))
@@ -2188,7 +2281,9 @@ class TradeAlertApp:
     def _build_workflow_tab(self):
         ttk.Label(self.workflow_tab, text=self.t("workflow_title"), style="Section.TLabel").pack(anchor="w", pady=(0, 8))
         columns = ("name", "status", "elapsed", "detail")
-        self.workflow_tree = ttk.Treeview(self.workflow_tab, columns=columns, show="headings", height=18)
+        workflow_box = self._tree_box(self.workflow_tab)
+        workflow_box.pack(fill=BOTH, expand=True)
+        self.workflow_tree = ttk.Treeview(workflow_box, columns=columns, show="headings", height=18)
         for col, title, width in [
             ("name", self.t("col_operation"), 240),
             ("status", self.t("col_status"), 90),
@@ -2197,7 +2292,7 @@ class TradeAlertApp:
         ]:
             self.workflow_tree.heading(col, text=title)
             self.workflow_tree.column(col, width=width, anchor="w")
-        self.workflow_tree.pack(fill=BOTH, expand=True)
+        self._grid_tree_with_scrollbars(self.workflow_tree, workflow_box)
         self.root.after(1000, self.refresh_workflow_tree)
 
     def _build_paste_tab(self):
@@ -2232,7 +2327,7 @@ class TradeAlertApp:
 
     def _build_trade_tab(self):
         header = ttk.Frame(self.trade_tab)
-        header.pack(fill=X, pady=(0, 8))
+        header.pack(fill=X, pady=(0, 5))
         ttk.Label(header, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
         subtitle = ttk.Label(header, text=self.t("trade_subtitle"), style="Muted.TLabel", wraplength=1100)
         subtitle.pack(anchor="w", fill=X, pady=(2, 0))
@@ -2280,7 +2375,7 @@ class TradeAlertApp:
             widget.grid(row=idx, column=1, sticky="we" if kind in {"broker", "entry"} else "w", pady=5, padx=(8, 0))
 
         buttons = ttk.Frame(left)
-        buttons.pack(fill=X, pady=(10, 0))
+        buttons.pack(fill=X, pady=(6, 0))
         self._button_grid(
             buttons,
             [
@@ -2293,18 +2388,20 @@ class TradeAlertApp:
         )
 
         paper_label = ttk.Label(left, text=self.t("paper_only"), style="Warning.TLabel", wraplength=500)
-        paper_label.pack(fill=X, pady=(12, 0))
+        paper_label.pack(fill=X, pady=(8, 0))
         self._responsive_wrap(left, paper_label, max_width=520)
         risk_label = ttk.Label(left, text=self.t("order_risk"), style="Muted.TLabel", wraplength=500, justify=LEFT)
-        risk_label.pack(fill=X, pady=(8, 0))
+        risk_label.pack(fill=X, pady=(5, 0))
         self._responsive_wrap(left, risk_label, max_width=520)
 
         ttk.Label(right, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
-        self.order_preview_text = self._text_widget(right, height=11)
-        self.order_preview_text.pack(fill=X, pady=(4, 10))
+        self.order_preview_text = self._text_widget(right, height=8)
+        self.order_preview_text.pack(fill=X, pady=(4, 6))
         ttk.Label(right, text=self.t("order_log"), style="Section.TLabel").pack(anchor="w")
         columns = ("time", "broker", "symbol", "side", "type", "qty", "status", "order_id")
-        self.order_log_tree = ttk.Treeview(right, columns=columns, show="headings", height=10)
+        order_box = self._tree_box(right)
+        order_box.pack(fill=BOTH, expand=True)
+        self.order_log_tree = ttk.Treeview(order_box, columns=columns, show="headings", height=10)
         order_headings = {
             "time": self.t("col_time"),
             "broker": self.t("broker"),
@@ -2319,7 +2416,7 @@ class TradeAlertApp:
         for col in columns:
             self.order_log_tree.heading(col, text=order_headings[col])
             self.order_log_tree.column(col, width=widths[col], anchor="w")
-        self.order_log_tree.pack(fill=BOTH, expand=True)
+        self._grid_tree_with_scrollbars(self.order_log_tree, order_box)
         self.refresh_order_logs()
 
     def current_order_ticket(self):
@@ -3611,6 +3708,7 @@ class TradeAlertApp:
         self.log_text.see(END)
 
     def on_tab_changed(self, _event=None):
+        self.update_nav_selection()
         current = self.notebook.tab(self.notebook.select(), "text")
         messages = {
             self.t("tab_new"): self.t("tab_new"),
