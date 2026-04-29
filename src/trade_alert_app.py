@@ -13,7 +13,7 @@ import webbrowser
 from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from tkinter import BOTH, END, LEFT, RIGHT, X, Y, BooleanVar, StringVar, Text, Tk, Toplevel, messagebox
+from tkinter import BOTH, END, LEFT, RIGHT, X, Y, BooleanVar, Canvas, StringVar, Text, Tk, Toplevel, messagebox
 from tkinter import ttk
 
 
@@ -1698,7 +1698,7 @@ class Tooltip:
 class TradeAlertApp:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("1180x760")
+        self._fit_window_to_screen()
         self.config = load_config()
         self.root.title(self.t("app_title"))
         if APP_ICON_PATH.exists():
@@ -1733,6 +1733,14 @@ class TradeAlertApp:
         self.refresh_alerts()
         self.root.after(500, self._process_outbox)
 
+    def _fit_window_to_screen(self):
+        screen_w = self.root.winfo_screenwidth()
+        screen_h = self.root.winfo_screenheight()
+        width = max(980, min(1280, screen_w - 80))
+        height = max(640, min(820, screen_h - 100))
+        self.root.geometry(f"{width}x{height}")
+        self.root.minsize(940, 620)
+
     def t(self, key, **kwargs):
         return tr(self.config.get("language", "zh"), key, **kwargs)
 
@@ -1761,9 +1769,9 @@ class TradeAlertApp:
         style.configure("MetricLabel.TLabel", background=COLORS["panel"], foreground=COLORS["muted"], font=("Segoe UI", 9, "bold"))
         style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 17, "bold"))
         style.configure("TNotebook", background=COLORS["bg"], borderwidth=0)
-        style.configure("TNotebook.Tab", padding=(16, 8), background="#e9edf5", foreground=COLORS["muted"])
+        style.configure("TNotebook.Tab", padding=(10, 7), background="#e9edf5", foreground=COLORS["muted"], font=("Segoe UI", 9))
         style.map("TNotebook.Tab", background=[("selected", COLORS["panel"])], foreground=[("selected", COLORS["text"])])
-        style.configure("TButton", padding=(12, 7), background="#e8edf7", foreground=COLORS["text"], borderwidth=1)
+        style.configure("TButton", padding=(9, 6), background="#e8edf7", foreground=COLORS["text"], borderwidth=1)
         style.map("TButton", background=[("active", "#dfe6f3")])
         style.configure("Primary.TButton", background=COLORS["accent"], foreground="#ffffff")
         style.map("Primary.TButton", background=[("active", COLORS["accent_dark"])], foreground=[("active", "#ffffff")])
@@ -1792,6 +1800,41 @@ class TradeAlertApp:
         if width is not None:
             options["width"] = width
         return Text(parent, **options)
+
+    def _responsive_wrap(self, parent, label, max_width=1100, padding=36):
+        def update_wrap(event=None):
+            current_width = event.width if event else parent.winfo_width()
+            label.configure(wraplength=max(260, min(max_width, current_width - padding)))
+        parent.bind("<Configure>", update_wrap, add="+")
+        self.root.after_idle(update_wrap)
+
+    def _scrollable_content(self, parent):
+        outer = ttk.Frame(parent)
+        outer.pack(fill=BOTH, expand=True)
+        canvas = Canvas(outer, background=COLORS["bg"], highlightthickness=0, borderwidth=0)
+        scrollbar = ttk.Scrollbar(outer, orient="vertical", command=canvas.yview)
+        content = ttk.Frame(canvas)
+        window_id = canvas.create_window((0, 0), window=content, anchor="nw")
+
+        def update_scrollregion(_event=None):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        def update_width(event):
+            canvas.itemconfigure(window_id, width=event.width)
+
+        content.bind("<Configure>", update_scrollregion, add="+")
+        canvas.bind("<Configure>", update_width, add="+")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.pack(side=LEFT, fill=BOTH, expand=True)
+        scrollbar.pack(side=RIGHT, fill=Y)
+        return content
+
+    def _button_grid(self, parent, button_specs, max_columns=4):
+        for idx, spec in enumerate(button_specs):
+            label, command, tip = spec[:3]
+            style = spec[3] if len(spec) > 3 else None
+            button = self._button(parent, label, command, label, tip, style)
+            button.grid(row=idx // max_columns, column=idx % max_columns, sticky="w", padx=(0, 6), pady=3)
 
     def _button(self, parent, text, command, feedback, tooltip, style=None):
         button = ttk.Button(
@@ -1893,20 +1936,28 @@ class TradeAlertApp:
         header = ttk.Frame(self.monitor_tab)
         header.pack(fill=X, pady=(0, 8))
         ttk.Label(header, text=self.t("monitor_title"), style="Section.TLabel").pack(side=LEFT)
-        ttk.Label(header, text=self.t("monitor_subtitle"), style="Muted.TLabel").pack(side=LEFT, padx=(12, 0))
+        subtitle = ttk.Label(header, text=self.t("monitor_subtitle"), style="Muted.TLabel")
+        subtitle.pack(side=LEFT, fill=X, expand=True, padx=(12, 0))
+        self._responsive_wrap(header, subtitle, max_width=920)
 
         self._build_market_dashboard()
 
         toolbar = ttk.Frame(self.monitor_tab)
         toolbar.pack(fill=X, pady=(0, 10))
-        self._button(toolbar, self.t("start_monitor"), self.start_monitor, self.t("start_monitor"), self.t("monitor_subtitle"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("stop"), self.stop_monitor, self.t("stop"), self.t("stop")).pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("poll_now"), self.poll_now, self.t("poll_now"), self.t("poll_now")).pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("demo_alert"), self.add_demo_alert, self.t("demo_alert"), self.t("demo_alert")).pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("refresh_list"), self.refresh_alerts_with_feedback, self.t("refresh_list"), self.t("refresh_list")).pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("favorite_selected"), self.toggle_selected_favorite, self.t("favorite_selected"), self.t("favorite_selected")).pack(side=LEFT, padx=(0, 6))
-        self._button(toolbar, self.t("delete_selected"), self.delete_selected_alerts, self.t("delete_selected"), self.t("delete_selected"), "Danger.TButton").pack(side=LEFT, padx=(12, 6))
-        self._button(toolbar, self.t("custom_delete"), self.open_delete_dialog, self.t("custom_delete"), self.t("custom_delete")).pack(side=LEFT, padx=(0, 6))
+        self._button_grid(
+            toolbar,
+            [
+                (self.t("start_monitor"), self.start_monitor, self.t("monitor_subtitle"), "Primary.TButton"),
+                (self.t("stop"), self.stop_monitor, self.t("stop")),
+                (self.t("poll_now"), self.poll_now, self.t("poll_now")),
+                (self.t("demo_alert"), self.add_demo_alert, self.t("demo_alert")),
+                (self.t("refresh_list"), self.refresh_alerts_with_feedback, self.t("refresh_list")),
+                (self.t("favorite_selected"), self.toggle_selected_favorite, self.t("favorite_selected")),
+                (self.t("delete_selected"), self.delete_selected_alerts, self.t("delete_selected"), "Danger.TButton"),
+                (self.t("custom_delete"), self.open_delete_dialog, self.t("custom_delete")),
+            ],
+            max_columns=4,
+        )
 
         feedback = ttk.Label(self.monitor_tab, textvariable=self.home_feedback_var, style="Feedback.TLabel")
         feedback.pack(fill=X, pady=(0, 10))
@@ -1971,9 +2022,15 @@ class TradeAlertApp:
 
         action_bar = ttk.Frame(right)
         action_bar.pack(fill=X)
-        self._button(action_bar, self.t("open_source"), self.open_source, self.t("open_source"), self.t("open_source")).pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, self.t("open_trade_link"), self.open_selected_trade_link, self.t("open_trade_link"), self.t("open_trade_link")).pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), self.t("ai_window"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button_grid(
+            action_bar,
+            [
+                (self.t("open_source"), self.open_source, self.t("open_source")),
+                (self.t("open_trade_link"), self.open_selected_trade_link, self.t("open_trade_link")),
+                (self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), "Primary.TButton"),
+            ],
+            max_columns=2,
+        )
 
         re_panel = ttk.Frame(right)
         re_panel.pack(fill=X, pady=(10, 0))
@@ -1981,12 +2038,13 @@ class TradeAlertApp:
         provider_key = self.config.get("ai_provider", "openai_responses")
         self.re_ai_provider_var = StringVar(value=AI_PROVIDER_LABELS.get(provider_key, AI_PROVIDER_LABELS["openai_responses"]))
         self.re_model_var = StringVar(value=self.config.get("ai_model") or AI_PROVIDER_PRESETS[provider_key]["model"])
-        re_provider = ttk.Combobox(re_panel, textvariable=self.re_ai_provider_var, values=list(AI_LABEL_TO_PROVIDER.keys()), width=18, state="readonly")
+        re_panel.columnconfigure(1, weight=1)
+        re_provider = ttk.Combobox(re_panel, textvariable=self.re_ai_provider_var, values=list(AI_LABEL_TO_PROVIDER.keys()), width=16, state="readonly")
         re_provider.grid(row=1, column=0, sticky="w", padx=(0, 6))
         re_provider.bind("<<ComboboxSelected>>", lambda _event: self.apply_reanalysis_provider_preset())
         Tooltip(re_provider, "选择用于重新分析当前预警的 AI 服务商。")
-        self.re_model_box = ttk.Combobox(re_panel, textvariable=self.re_model_var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=24)
-        self.re_model_box.grid(row=1, column=1, sticky="w", padx=(0, 6))
+        self.re_model_box = ttk.Combobox(re_panel, textvariable=self.re_model_var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=18)
+        self.re_model_box.grid(row=1, column=1, sticky="we", padx=(0, 6))
         Tooltip(self.re_model_box, "选择预设模型，或直接输入当前服务商支持的自定义模型名。")
         self.reanalyze_button = self._button(re_panel, self.t("reanalyze"), self.reanalyze_selected_alert, self.t("reanalyze"), self.t("reanalyze"), "Primary.TButton")
         self.reanalyze_button.grid(row=1, column=2, sticky="w")
@@ -2008,8 +2066,10 @@ class TradeAlertApp:
         ]
         for idx, (metric_key, label_key) in enumerate(metrics):
             card = ttk.Frame(card_row, style="Metric.TFrame", padding=(12, 9))
-            card.grid(row=0, column=idx, sticky="nsew", padx=(0 if idx == 0 else 6, 0))
-            card_row.columnconfigure(idx, weight=1)
+            row = idx // 3
+            col = idx % 3
+            card.grid(row=row, column=col, sticky="nsew", padx=(0 if col == 0 else 6, 0), pady=(0 if row == 0 else 6, 0))
+            card_row.columnconfigure(col, weight=1, uniform="metric")
             self.metric_vars[metric_key] = StringVar(value="0")
             label = ttk.Label(card, text=self.t(label_key), style="MetricLabel.TLabel")
             value = ttk.Label(card, textvariable=self.metric_vars[metric_key], style="MetricValue.TLabel")
@@ -2020,7 +2080,9 @@ class TradeAlertApp:
                 widget.bind("<Enter>", lambda _event: self.set_status(self.t("metric_click_tip"), temporary=False), add="+")
                 widget.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
                 Tooltip(widget, self.t("metric_click_tip"))
-        ttk.Label(dashboard, text=self.t("market_gap_note"), style="Muted.TLabel", wraplength=1100).pack(anchor="w", pady=(6, 0))
+        note = ttk.Label(dashboard, text=self.t("market_gap_note"), style="Muted.TLabel", wraplength=1100)
+        note.pack(anchor="w", fill=X, pady=(6, 0))
+        self._responsive_wrap(dashboard, note, max_width=1100)
 
     def _build_secondary_tabs(self):
         self.past_tree = self._build_alert_table_tab(
@@ -2058,12 +2120,16 @@ class TradeAlertApp:
         header = ttk.Frame(tab)
         header.pack(fill=X, pady=(0, 8))
         ttk.Label(header, text=title, style="Section.TLabel").pack(anchor="w")
-        ttk.Label(header, text=subtitle, style="Muted.TLabel", wraplength=980, justify=LEFT).pack(anchor="w", fill=X, pady=(2, 0))
+        subtitle_label = ttk.Label(header, text=subtitle, style="Muted.TLabel", wraplength=980, justify=LEFT)
+        subtitle_label.pack(anchor="w", fill=X, pady=(2, 0))
+        self._responsive_wrap(header, subtitle_label, max_width=980)
         bar = ttk.Frame(tab)
         bar.pack(fill=X, pady=(0, 8))
+        button_specs = []
         for label, command, tip in actions:
             style = "Danger.TButton" if label in {self.t("delete_selected"), self.t("permanent_delete")} else None
-            self._button(bar, label, command, label, tip, style).pack(side=LEFT, padx=(0, 6))
+            button_specs.append((label, command, tip, style) if style else (label, command, tip))
+        self._button_grid(bar, button_specs, max_columns=3)
         panes = ttk.PanedWindow(tab, orient="horizontal")
         panes.pack(fill=BOTH, expand=True)
         left_frame = ttk.Frame(panes)
@@ -2104,9 +2170,15 @@ class TradeAlertApp:
         ticker_tree.bind("<Double-1>", lambda _event, t=ticker_tree: self.open_trade_link_from_ticker_tree(t))
         action_bar = ttk.Frame(right_frame)
         action_bar.pack(fill=X, pady=(0, 2))
-        self._button(action_bar, self.t("open_source"), self.open_source, self.t("open_source"), self.t("open_source")).pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, self.t("open_trade_link"), lambda t=ticker_tree: self.open_trade_link_from_ticker_tree(t), self.t("open_trade_link"), self.t("open_trade_link")).pack(side=LEFT, padx=(0, 6))
-        self._button(action_bar, self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), self.t("ai_window"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button_grid(
+            action_bar,
+            [
+                (self.t("open_source"), self.open_source, self.t("open_source")),
+                (self.t("open_trade_link"), lambda t=ticker_tree: self.open_trade_link_from_ticker_tree(t), self.t("open_trade_link")),
+                (self.t("ai_window"), self.open_ai_analysis_window, self.t("ai_window"), "Primary.TButton"),
+            ],
+            max_columns=2,
+        )
         self.secondary_detail_texts[tree] = detail_text
         self.secondary_ticker_trees[tree] = ticker_tree
         tree.bind("<<TreeviewSelect>>", lambda _event, t=tree: self.select_alert_from_tree(t))
@@ -2129,8 +2201,10 @@ class TradeAlertApp:
         self.root.after(1000, self.refresh_workflow_tree)
 
     def _build_paste_tab(self):
-        form = ttk.Frame(self.paste_tab)
-        form.pack(fill=X, anchor="n")
+        content = self._scrollable_content(self.paste_tab)
+        form = ttk.Frame(content)
+        form.pack(fill=X, expand=True, anchor="n")
+        form.columnconfigure(1, weight=1)
 
         self.paste_account_var = StringVar(value="manual")
         self.paste_url_var = StringVar(value="")
@@ -2139,10 +2213,10 @@ class TradeAlertApp:
         ttk.Entry(form, textvariable=self.paste_account_var, width=36).grid(row=0, column=1, sticky="w", pady=4, padx=(8, 0))
 
         ttk.Label(form, text=self.t("source_url_optional")).grid(row=1, column=0, sticky="w", pady=4)
-        ttk.Entry(form, textvariable=self.paste_url_var, width=90).grid(row=1, column=1, sticky="we", pady=4, padx=(8, 0))
+        ttk.Entry(form, textvariable=self.paste_url_var, width=60).grid(row=1, column=1, sticky="we", pady=4, padx=(8, 0))
 
         ttk.Label(form, text=self.t("post_text")).grid(row=2, column=0, sticky="nw", pady=4)
-        self.paste_text = self._text_widget(form, height=14, width=96)
+        self.paste_text = self._text_widget(form, height=12, width=72)
         self.paste_text.grid(row=2, column=1, sticky="nsew", pady=4, padx=(8, 0))
 
         buttons = ttk.Frame(form)
@@ -2152,13 +2226,17 @@ class TradeAlertApp:
         Tooltip(self.paste_text, "粘贴 X、Truth Social、新闻标题或其他公开文本；不会消耗 X API credits。")
 
         help_text = self.t("paste_help")
-        ttk.Label(self.paste_tab, text=help_text, justify=LEFT, style="Muted.TLabel").pack(anchor="w", pady=(12, 0))
+        help_label = ttk.Label(content, text=help_text, justify=LEFT, style="Muted.TLabel")
+        help_label.pack(anchor="w", fill=X, pady=(12, 0))
+        self._responsive_wrap(content, help_label, max_width=1000)
 
     def _build_trade_tab(self):
         header = ttk.Frame(self.trade_tab)
         header.pack(fill=X, pady=(0, 8))
         ttk.Label(header, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
-        ttk.Label(header, text=self.t("trade_subtitle"), style="Muted.TLabel", wraplength=1100).pack(anchor="w", pady=(2, 0))
+        subtitle = ttk.Label(header, text=self.t("trade_subtitle"), style="Muted.TLabel", wraplength=1100)
+        subtitle.pack(anchor="w", fill=X, pady=(2, 0))
+        self._responsive_wrap(header, subtitle, max_width=1100)
 
         panes = ttk.PanedWindow(self.trade_tab, orient="horizontal")
         panes.pack(fill=BOTH, expand=True)
@@ -2177,6 +2255,7 @@ class TradeAlertApp:
 
         form = ttk.Frame(left)
         form.pack(fill=X, anchor="n")
+        form.columnconfigure(1, weight=1)
         rows = [
             (self.t("broker"), self.trade_broker_var, "broker"),
             (self.t("order_symbol"), self.trade_symbol_var, "entry"),
@@ -2197,18 +2276,28 @@ class TradeAlertApp:
             elif kind == "tif":
                 widget = ttk.Combobox(form, textvariable=var, values=["day", "gtc", "opg", "cls", "ioc", "fok"], width=18)
             else:
-                widget = ttk.Entry(form, textvariable=var, width=34)
-            widget.grid(row=idx, column=1, sticky="w", pady=5, padx=(8, 0))
+                widget = ttk.Entry(form, textvariable=var, width=28)
+            widget.grid(row=idx, column=1, sticky="we" if kind in {"broker", "entry"} else "w", pady=5, padx=(8, 0))
 
         buttons = ttk.Frame(left)
         buttons.pack(fill=X, pady=(10, 0))
-        self._button(buttons, self.t("use_selected_ticker"), self.use_selected_ticker_for_order, self.t("use_selected_ticker"), self.t("use_selected_ticker")).pack(side=LEFT, padx=(0, 6))
-        self._button(buttons, self.t("preview_order"), self.preview_order_ticket, self.t("preview_order"), self.t("preview_order")).pack(side=LEFT, padx=(0, 6))
-        self._button(buttons, self.t("submit_paper_order"), self.submit_paper_order, self.t("submit_paper_order"), self.t("order_risk"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
-        self._button(buttons, self.t("open_broker"), self.open_selected_broker_page, self.t("open_broker"), self.t("open_broker")).pack(side=LEFT, padx=(0, 6))
+        self._button_grid(
+            buttons,
+            [
+                (self.t("use_selected_ticker"), self.use_selected_ticker_for_order, self.t("use_selected_ticker")),
+                (self.t("preview_order"), self.preview_order_ticket, self.t("preview_order")),
+                (self.t("submit_paper_order"), self.submit_paper_order, self.t("order_risk"), "Primary.TButton"),
+                (self.t("open_broker"), self.open_selected_broker_page, self.t("open_broker")),
+            ],
+            max_columns=2,
+        )
 
-        ttk.Label(left, text=self.t("paper_only"), style="Warning.TLabel", wraplength=500).pack(fill=X, pady=(12, 0))
-        ttk.Label(left, text=self.t("order_risk"), style="Muted.TLabel", wraplength=500, justify=LEFT).pack(fill=X, pady=(8, 0))
+        paper_label = ttk.Label(left, text=self.t("paper_only"), style="Warning.TLabel", wraplength=500)
+        paper_label.pack(fill=X, pady=(12, 0))
+        self._responsive_wrap(left, paper_label, max_width=520)
+        risk_label = ttk.Label(left, text=self.t("order_risk"), style="Muted.TLabel", wraplength=500, justify=LEFT)
+        risk_label.pack(fill=X, pady=(8, 0))
+        self._responsive_wrap(left, risk_label, max_width=520)
 
         ttk.Label(right, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
         self.order_preview_text = self._text_widget(right, height=11)
@@ -2376,8 +2465,10 @@ class TradeAlertApp:
             )
 
     def _build_settings_tab(self):
-        frame = ttk.Frame(self.settings_tab)
-        frame.pack(fill=X, anchor="n")
+        content = self._scrollable_content(self.settings_tab)
+        frame = ttk.Frame(content)
+        frame.pack(fill=X, expand=True, anchor="n")
+        frame.columnconfigure(1, weight=1)
 
         self.x_token_var = StringVar(value=self.config.get("x_bearer_token", ""))
         provider_key = self.config.get("ai_provider", "openai_responses")
@@ -2405,49 +2496,49 @@ class TradeAlertApp:
         self.ai_provider_display.pack(side=LEFT, fill=X, expand=True)
         self._button(provider_header, self.t("select_ai"), self.toggle_ai_drawer, self.t("select_ai"), self.t("select_ai")).pack(side=LEFT, padx=(8, 0))
         self._button(provider_header, self.t("apply_preset"), self.apply_ai_provider_preset, self.t("apply_preset"), self.t("apply_preset")).pack(side=LEFT, padx=(6, 0))
-        ttk.Label(frame, text=self.t("language")).grid(row=0, column=2, sticky="w", pady=4, padx=(16, 0))
+        ttk.Label(frame, text=self.t("language")).grid(row=1, column=0, sticky="w", pady=4)
         self.language_box = ttk.Combobox(frame, textvariable=self.language_var, values=list(LANGUAGE_LABEL_TO_CODE.keys()), width=14, state="readonly")
-        self.language_box.grid(row=0, column=3, sticky="w", pady=4, padx=(8, 0))
+        self.language_box.grid(row=1, column=1, sticky="w", pady=4, padx=(8, 0))
 
         self.ai_drawer = ttk.Frame(frame, style="Card.TFrame", padding=10)
         self._build_ai_drawer()
 
         rows = [
-            ("x_token_required", self.x_token_var, 90, True),
-            ("ai_key_required", self.openai_key_var, 90, True),
-            ("ai_model_required", self.model_var, 40, False),
-            ("ai_base_url_required", self.ai_base_url_var, 90, False),
+            ("x_token_required", self.x_token_var, 58, True),
+            ("ai_key_required", self.openai_key_var, 58, True),
+            ("ai_model_required", self.model_var, 36, False),
+            ("ai_base_url_required", self.ai_base_url_var, 58, False),
             ("ai_timeout_seconds", self.ai_timeout_var, 12, False),
             ("poll_seconds", self.poll_var, 12, False),
             ("max_posts", self.max_posts_var, 12, False),
-            ("trade_template", self.trade_template_var, 90, False),
+            ("trade_template", self.trade_template_var, 58, False),
             ("broker", self.broker_provider_var, 34, False),
-            ("alpaca_key", self.alpaca_key_var, 60, True),
-            ("alpaca_secret", self.alpaca_secret_var, 60, True),
-            ("alpaca_base_url", self.alpaca_base_url_var, 60, False),
+            ("alpaca_key", self.alpaca_key_var, 46, True),
+            ("alpaca_secret", self.alpaca_secret_var, 46, True),
+            ("alpaca_base_url", self.alpaca_base_url_var, 46, False),
         ]
         for idx, (label_key, var, width, secret) in enumerate(rows):
-            row_idx = idx + 2
+            row_idx = idx + 3
             ttk.Label(frame, text=self.t(label_key)).grid(row=row_idx, column=0, sticky="w", pady=4)
             if label_key == "ai_model_required":
                 provider_key = AI_LABEL_TO_PROVIDER.get(self.ai_provider_var.get(), "openai_responses")
                 self.model_box = ttk.Combobox(frame, textvariable=var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=width)
-                self.model_box.grid(row=row_idx, column=1, sticky="w", pady=4, padx=(8, 0))
+                self.model_box.grid(row=row_idx, column=1, sticky="we", pady=4, padx=(8, 0))
                 Tooltip(self.model_box, "选择预设模型，或直接输入当前 AI 服务商支持的模型名。")
             elif label_key == "broker":
                 broker_box = ttk.Combobox(frame, textvariable=var, values=list(BROKER_LABEL_TO_KEY.keys()), width=width, state="readonly")
-                broker_box.grid(row=row_idx, column=1, sticky="w", pady=4, padx=(8, 0))
+                broker_box.grid(row=row_idx, column=1, sticky="we", pady=4, padx=(8, 0))
             else:
                 entry = ttk.Entry(frame, textvariable=var, width=width, show="*" if secret else "")
                 entry.grid(row=row_idx, column=1, sticky="we", pady=4, padx=(8, 0))
 
-        ttk.Label(frame, text=self.t("accounts_label")).grid(row=len(rows) + 2, column=0, sticky="nw", pady=4)
-        self.accounts_text = self._text_widget(frame, height=6, width=70)
-        self.accounts_text.grid(row=len(rows) + 2, column=1, sticky="we", pady=4, padx=(8, 0))
+        ttk.Label(frame, text=self.t("accounts_label")).grid(row=len(rows) + 3, column=0, sticky="nw", pady=4)
+        self.accounts_text = self._text_widget(frame, height=5, width=58)
+        self.accounts_text.grid(row=len(rows) + 3, column=1, sticky="we", pady=4, padx=(8, 0))
         self.accounts_text.insert("1.0", "\n".join(parse_accounts(self.config.get("accounts", []))))
 
         check_frame = ttk.Frame(frame)
-        check_frame.grid(row=len(rows) + 3, column=1, sticky="w", pady=6, padx=(8, 0))
+        check_frame.grid(row=len(rows) + 4, column=1, sticky="w", pady=6, padx=(8, 0))
         ttk.Checkbutton(
             check_frame,
             text=self.t("enable_ai"),
@@ -2471,20 +2562,23 @@ class TradeAlertApp:
         ).pack(side=LEFT)
 
         buttons = ttk.Frame(frame)
-        buttons.grid(row=len(rows) + 4, column=1, sticky="w", pady=8, padx=(8, 0))
+        buttons.grid(row=len(rows) + 5, column=1, sticky="w", pady=8, padx=(8, 0))
         self._button(buttons, self.t("save_settings"), self.save_settings, self.t("save_settings"), self.t("save_settings")).pack(side=LEFT, padx=(0, 6))
         self._button(buttons, self.t("open_config_dir"), self.open_config_dir, self.t("open_config_dir"), self.t("open_config_dir")).pack(side=LEFT)
 
         help_text = self.t("settings_help")
-        ttk.Label(self.settings_tab, text=help_text, justify=LEFT).pack(anchor="w", pady=(18, 0))
+        help_label = ttk.Label(content, text=help_text, justify=LEFT)
+        help_label.pack(anchor="w", fill=X, pady=(18, 0))
+        self._responsive_wrap(content, help_label, max_width=1000)
 
     def _build_ai_drawer(self):
         for idx, (provider_key, preset) in enumerate(AI_PROVIDER_PRESETS.items()):
             card = ttk.Frame(self.ai_drawer, style="Card.TFrame", padding=8)
-            card.grid(row=idx // 3, column=idx % 3, sticky="nsew", padx=5, pady=5)
+            card.grid(row=idx // 2, column=idx % 2, sticky="nsew", padx=5, pady=5)
+            self.ai_drawer.columnconfigure(idx % 2, weight=1, uniform="ai")
             ttk.Label(card, text=preset["label"], style="CardTitle.TLabel").pack(anchor="w")
             ttk.Label(card, text=preset["model"], style="CardMuted.TLabel").pack(anchor="w", pady=(2, 0))
-            ttk.Label(card, text=preset["base_url"], style="CardMuted.TLabel", wraplength=210).pack(anchor="w", pady=(2, 6))
+            ttk.Label(card, text=preset["base_url"], style="CardMuted.TLabel", wraplength=260).pack(anchor="w", pady=(2, 6))
             self._button(
                 card,
                 self.t("select"),
@@ -2500,7 +2594,7 @@ class TradeAlertApp:
             self.ai_drawer_visible = False
             self.set_status(self.t("drawer_closed"))
             return
-        self.ai_drawer.grid(row=1, column=1, sticky="we", padx=(8, 0), pady=(2, 8))
+        self.ai_drawer.grid(row=2, column=1, sticky="we", padx=(8, 0), pady=(2, 8))
         self.ai_drawer_visible = True
         self.set_status(self.t("drawer_open"))
 
