@@ -57,6 +57,11 @@ DEFAULT_CONFIG = {
     "exclude_replies": True,
     "exclude_retweets": True,
     "trade_link_template": "https://www.tradingview.com/symbols/{symbol}/",
+    "broker_provider": "alpaca_paper",
+    "alpaca_api_key_id": "",
+    "alpaca_secret_key": "",
+    "alpaca_base_url": "https://paper-api.alpaca.markets",
+    "order_confirm_required": True,
 }
 
 
@@ -101,6 +106,7 @@ I18N = {
     "tab_paste": {"zh": "粘贴分析", "en": "Paste Analysis", "es": "Analizar texto", "ja": "貼り付け分析", "ko": "붙여넣기 분석"},
     "tab_settings": {"zh": "设置", "en": "Settings", "es": "Ajustes", "ja": "設定", "ko": "설정"},
     "tab_log": {"zh": "日志", "en": "Log", "es": "Registro", "ja": "ログ", "ko": "로그"},
+    "tab_trade": {"zh": "交易", "en": "Trading", "es": "Trading", "ja": "取引", "ko": "거래"},
     "monitor_title": {"zh": "实时事件工作台", "en": "Real-time Event Desk", "es": "Mesa de eventos en tiempo real", "ja": "リアルタイムイベント作業台", "ko": "실시간 이벤트 작업대"},
     "monitor_subtitle": {
         "zh": "自动抓取、语义分析、股票方向和交易链接集中处理",
@@ -249,6 +255,45 @@ I18N = {
     "elapsed": {"zh": "耗时：{seconds:.1f}s", "en": "Elapsed: {seconds:.1f}s", "es": "Tiempo: {seconds:.1f}s", "ja": "経過: {seconds:.1f}s", "ko": "소요: {seconds:.1f}s"},
     "elapsed_max": {"zh": "耗时：{seconds:.1f}s / 最长 {limit}s", "en": "Elapsed: {seconds:.1f}s / Max {limit}s", "es": "Tiempo: {seconds:.1f}s / Máx. {limit}s", "ja": "経過: {seconds:.1f}s / 最大 {limit}s", "ko": "소요: {seconds:.1f}s / 최대 {limit}s"},
     "ai_running": {"zh": "AI 正在运行：{provider} / {model}。最长等待 {limit} 秒，完成后自动更新。", "en": "AI running: {provider} / {model}. Max wait {limit} seconds; results update automatically.", "es": "IA en ejecución: {provider} / {model}. Espera máxima {limit} s; se actualizará al terminar.", "ja": "AI実行中: {provider} / {model}。最大 {limit} 秒待機し、完了後に自動更新します。", "ko": "AI 실행 중: {provider} / {model}. 최대 {limit}초 대기 후 자동 업데이트됩니다."},
+    "trade_title": {"zh": "交易票据", "en": "Trade Ticket", "es": "Boleta de orden", "ja": "注文チケット", "ko": "주문 티켓"},
+    "trade_subtitle": {
+        "zh": "安全模式：默认使用模拟交易或打开券商确认页，不允许 AI 分析结果无确认直接实盘下单。",
+        "en": "Safe mode: paper trading or broker confirmation pages by default. AI analysis cannot place live orders without confirmation.",
+        "es": "Modo seguro: trading simulado o página de confirmación del bróker por defecto. La IA no puede enviar órdenes reales sin confirmación.",
+        "ja": "安全モード: 既定ではペーパー取引またはブローカー確認ページを使用します。AI分析だけで無確認の実注文はできません。",
+        "ko": "안전 모드: 기본값은 모의 거래 또는 브로커 확인 페이지입니다. AI 분석만으로 실거래 주문을 무확인 제출할 수 없습니다.",
+    },
+    "broker": {"zh": "交易平台", "en": "Broker", "es": "Bróker", "ja": "ブローカー", "ko": "브로커"},
+    "order_symbol": {"zh": "代码", "en": "Symbol", "es": "Símbolo", "ja": "コード", "ko": "코드"},
+    "order_side": {"zh": "方向", "en": "Side", "es": "Lado", "ja": "売買", "ko": "방향"},
+    "order_buy": {"zh": "买入", "en": "Buy", "es": "Comprar", "ja": "買い", "ko": "매수"},
+    "order_sell": {"zh": "卖出", "en": "Sell", "es": "Vender", "ja": "売り", "ko": "매도"},
+    "order_type": {"zh": "订单类型", "en": "Order Type", "es": "Tipo de orden", "ja": "注文種別", "ko": "주문 유형"},
+    "order_market": {"zh": "市价", "en": "Market", "es": "Mercado", "ja": "成行", "ko": "시장가"},
+    "order_limit": {"zh": "限价", "en": "Limit", "es": "Límite", "ja": "指値", "ko": "지정가"},
+    "order_qty": {"zh": "数量", "en": "Quantity", "es": "Cantidad", "ja": "数量", "ko": "수량"},
+    "order_limit_price": {"zh": "限价价格", "en": "Limit Price", "es": "Precio límite", "ja": "指値価格", "ko": "지정가"},
+    "order_tif": {"zh": "有效期", "en": "Time in Force", "es": "Vigencia", "ja": "有効期限", "ko": "유효 기간"},
+    "use_selected_ticker": {"zh": "使用选中代码", "en": "Use Selected Ticker", "es": "Usar símbolo elegido", "ja": "選択コードを使用", "ko": "선택 코드 사용"},
+    "preview_order": {"zh": "预览订单", "en": "Preview Order", "es": "Vista previa", "ja": "注文プレビュー", "ko": "주문 미리보기"},
+    "submit_paper_order": {"zh": "提交模拟订单", "en": "Submit Paper Order", "es": "Enviar orden simulada", "ja": "ペーパー注文送信", "ko": "모의 주문 제출"},
+    "open_broker": {"zh": "打开券商确认页", "en": "Open Broker Page", "es": "Abrir bróker", "ja": "ブローカー画面を開く", "ko": "브로커 페이지 열기"},
+    "order_log": {"zh": "订单日志", "en": "Order Log", "es": "Registro de órdenes", "ja": "注文ログ", "ko": "주문 로그"},
+    "broker_settings": {"zh": "交易平台设置", "en": "Broker Settings", "es": "Ajustes del bróker", "ja": "ブローカー設定", "ko": "브로커 설정"},
+    "alpaca_key": {"zh": "Alpaca API Key ID", "en": "Alpaca API Key ID", "es": "Alpaca API Key ID", "ja": "Alpaca API Key ID", "ko": "Alpaca API Key ID"},
+    "alpaca_secret": {"zh": "Alpaca Secret Key", "en": "Alpaca Secret Key", "es": "Alpaca Secret Key", "ja": "Alpaca Secret Key", "ko": "Alpaca Secret Key"},
+    "alpaca_base_url": {"zh": "Alpaca Base URL", "en": "Alpaca Base URL", "es": "Alpaca Base URL", "ja": "Alpaca Base URL", "ko": "Alpaca Base URL"},
+    "order_risk": {
+        "zh": "风险确认：订单由你手动确认，软件不提供投资建议。请确认代码、方向、数量、订单类型和账户环境。",
+        "en": "Risk confirmation: you manually confirm the order. The app does not provide investment advice. Verify symbol, side, quantity, type, and account environment.",
+        "es": "Confirmación de riesgo: confirmas la orden manualmente. La app no ofrece asesoramiento financiero. Verifica símbolo, lado, cantidad, tipo y cuenta.",
+        "ja": "リスク確認: 注文は手動で確認します。このアプリは投資助言を提供しません。コード、売買、数量、種別、口座環境を確認してください。",
+        "ko": "위험 확인: 주문은 사용자가 직접 확인합니다. 이 앱은 투자 조언을 제공하지 않습니다. 코드, 방향, 수량, 유형, 계정 환경을 확인하세요.",
+    },
+    "paper_only": {"zh": "当前版本只允许 Alpaca Paper Trading 通过 API 提交；其他平台生成票据并打开确认页。", "en": "This version only submits through Alpaca Paper Trading API. Other brokers generate tickets and open confirmation pages.", "es": "Esta versión solo envía por Alpaca Paper Trading API. Otros brókers generan boletas y abren páginas de confirmación.", "ja": "この版でAPI送信できるのは Alpaca Paper Trading のみです。他のブローカーはチケット作成と確認ページ表示のみです。", "ko": "이 버전은 Alpaca Paper Trading API 제출만 지원합니다. 다른 브로커는 티켓 생성 및 확인 페이지 열기만 지원합니다."},
+    "order_missing": {"zh": "请填写有效代码、方向、数量和订单类型。限价单还需要限价价格。", "en": "Enter a valid symbol, side, quantity, and order type. Limit orders also need a limit price.", "es": "Introduce símbolo, lado, cantidad y tipo válidos. Las órdenes límite necesitan precio límite.", "ja": "有効なコード、売買、数量、注文種別を入力してください。指値注文には価格も必要です。", "ko": "유효한 코드, 방향, 수량, 주문 유형을 입력하세요. 지정가 주문에는 가격도 필요합니다."},
+    "paper_order_done": {"zh": "模拟订单已提交：{order_id}", "en": "Paper order submitted: {order_id}", "es": "Orden simulada enviada: {order_id}", "ja": "ペーパー注文を送信しました: {order_id}", "ko": "모의 주문 제출됨: {order_id}"},
+    "order_preview_ready": {"zh": "订单票据已生成，请核对后再提交。", "en": "Order ticket generated. Review it before submitting.", "es": "Boleta generada. Revísala antes de enviar.", "ja": "注文チケットを生成しました。送信前に確認してください。", "ko": "주문 티켓이 생성되었습니다. 제출 전에 확인하세요."},
     "detail_title": {"zh": "标题", "en": "Headline", "es": "Titular", "ja": "見出し", "ko": "제목"},
     "detail_level": {"zh": "级别", "en": "Level", "es": "Nivel", "ja": "重要度", "ko": "등급"},
     "detail_time_horizon": {"zh": "时间跨度", "en": "Time Horizon", "es": "Horizonte", "ja": "時間軸", "ko": "시간 범위"},
@@ -330,6 +375,32 @@ AI_PROVIDER_PRESETS = {
 
 AI_PROVIDER_LABELS = {key: value["label"] for key, value in AI_PROVIDER_PRESETS.items()}
 AI_LABEL_TO_PROVIDER = {value: key for key, value in AI_PROVIDER_LABELS.items()}
+
+
+BROKER_PRESETS = {
+    "alpaca_paper": {
+        "label": "Alpaca Paper Trading",
+        "mode": "paper_api",
+        "url": "https://app.alpaca.markets/paper/dashboard/overview",
+    },
+    "ibkr": {
+        "label": "Interactive Brokers / IBKR",
+        "mode": "external_confirm",
+        "url": "https://www.interactivebrokers.com/sso/Login",
+    },
+    "schwab": {
+        "label": "Schwab / thinkorswim",
+        "mode": "external_confirm",
+        "url": "https://www.schwab.com/client-home",
+    },
+    "tradier": {
+        "label": "Tradier",
+        "mode": "external_confirm",
+        "url": "https://dash.tradier.com/",
+    },
+}
+BROKER_LABELS = {key: value["label"] for key, value in BROKER_PRESETS.items()}
+BROKER_LABEL_TO_KEY = {value: key for key, value in BROKER_LABELS.items()}
 
 
 EVENT_RULES = [
@@ -683,6 +754,27 @@ class AlertStore:
                     self.conn.execute(f"ALTER TABLE alerts ADD COLUMN {column} {definition}")
                 except sqlite3.OperationalError:
                     pass
+            self.conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS order_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    created_at TEXT NOT NULL,
+                    broker TEXT,
+                    environment TEXT,
+                    symbol TEXT,
+                    side TEXT,
+                    order_type TEXT,
+                    quantity REAL,
+                    limit_price REAL,
+                    tif TEXT,
+                    status TEXT,
+                    order_id TEXT,
+                    request_json TEXT,
+                    response_json TEXT,
+                    error TEXT
+                )
+                """
+            )
             self.conn.commit()
 
     def seen_post(self, post_id):
@@ -832,6 +924,65 @@ class AlertStore:
             )
             self.conn.commit()
             return cur.rowcount
+
+    def add_order_log(self, broker, environment, ticket, status, order_id="", response=None, error=""):
+        response = response or {}
+        with self.lock:
+            self.conn.execute(
+                """
+                INSERT INTO order_logs
+                    (created_at, broker, environment, symbol, side, order_type, quantity,
+                     limit_price, tif, status, order_id, request_json, response_json, error)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    now_iso(),
+                    broker,
+                    environment,
+                    ticket.get("symbol", ""),
+                    ticket.get("side", ""),
+                    ticket.get("type", ""),
+                    float(ticket.get("qty") or 0),
+                    float(ticket.get("limit_price") or 0) if ticket.get("limit_price") else None,
+                    ticket.get("time_in_force", ""),
+                    status,
+                    order_id,
+                    json.dumps(ticket, ensure_ascii=False),
+                    json.dumps(response, ensure_ascii=False),
+                    error,
+                ),
+            )
+            self.conn.commit()
+
+    def latest_order_logs(self, limit=100):
+        with self.lock:
+            rows = self.conn.execute(
+                """
+                SELECT created_at, broker, environment, symbol, side, order_type, quantity,
+                       limit_price, tif, status, order_id, error
+                FROM order_logs
+                ORDER BY id DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [
+            {
+                "created_at": r[0],
+                "broker": r[1],
+                "environment": r[2],
+                "symbol": r[3],
+                "side": r[4],
+                "order_type": r[5],
+                "quantity": r[6],
+                "limit_price": r[7],
+                "tif": r[8],
+                "status": r[9],
+                "order_id": r[10],
+                "error": r[11],
+            }
+            for r in rows
+        ]
 
     def move_alert_ids_to_trash(self, alert_ids):
         clean_ids = [int(alert_id) for alert_id in alert_ids]
@@ -1692,6 +1843,7 @@ class TradeAlertApp:
         self.recycle_tab = ttk.Frame(notebook, padding=10)
         self.workflow_tab = ttk.Frame(notebook, padding=10)
         self.paste_tab = ttk.Frame(notebook, padding=10)
+        self.trade_tab = ttk.Frame(notebook, padding=10)
         self.settings_tab = ttk.Frame(notebook, padding=10)
         self.log_tab = ttk.Frame(notebook, padding=10)
         notebook.add(self.monitor_tab, text=self.t("tab_new"))
@@ -1700,6 +1852,7 @@ class TradeAlertApp:
         notebook.add(self.recycle_tab, text=self.t("tab_recycle"))
         notebook.add(self.workflow_tab, text=self.t("tab_workflow"))
         notebook.add(self.paste_tab, text=self.t("tab_paste"))
+        notebook.add(self.trade_tab, text=self.t("tab_trade"))
         notebook.add(self.settings_tab, text=self.t("tab_settings"))
         notebook.add(self.log_tab, text=self.t("tab_log"))
 
@@ -1707,6 +1860,7 @@ class TradeAlertApp:
         self._build_secondary_tabs()
         self._build_workflow_tab()
         self._build_paste_tab()
+        self._build_trade_tab()
         self._build_settings_tab()
         self._build_log_tab()
 
@@ -1975,6 +2129,227 @@ class TradeAlertApp:
         help_text = self.t("paste_help")
         ttk.Label(self.paste_tab, text=help_text, justify=LEFT, style="Muted.TLabel").pack(anchor="w", pady=(12, 0))
 
+    def _build_trade_tab(self):
+        header = ttk.Frame(self.trade_tab)
+        header.pack(fill=X, pady=(0, 8))
+        ttk.Label(header, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
+        ttk.Label(header, text=self.t("trade_subtitle"), style="Muted.TLabel", wraplength=1100).pack(anchor="w", pady=(2, 0))
+
+        panes = ttk.PanedWindow(self.trade_tab, orient="horizontal")
+        panes.pack(fill=BOTH, expand=True)
+        left = ttk.Frame(panes)
+        right = ttk.Frame(panes)
+        panes.add(left, weight=2)
+        panes.add(right, weight=3)
+
+        self.trade_broker_var = StringVar(value=BROKER_LABELS.get(self.config.get("broker_provider", "alpaca_paper"), BROKER_LABELS["alpaca_paper"]))
+        self.trade_symbol_var = StringVar(value="")
+        self.trade_side_var = StringVar(value=self.t("order_buy"))
+        self.trade_type_var = StringVar(value=self.t("order_market"))
+        self.trade_qty_var = StringVar(value="1")
+        self.trade_limit_price_var = StringVar(value="")
+        self.trade_tif_var = StringVar(value="day")
+
+        form = ttk.Frame(left)
+        form.pack(fill=X, anchor="n")
+        rows = [
+            (self.t("broker"), self.trade_broker_var, "broker"),
+            (self.t("order_symbol"), self.trade_symbol_var, "entry"),
+            (self.t("order_side"), self.trade_side_var, "side"),
+            (self.t("order_type"), self.trade_type_var, "type"),
+            (self.t("order_qty"), self.trade_qty_var, "entry"),
+            (self.t("order_limit_price"), self.trade_limit_price_var, "entry"),
+            (self.t("order_tif"), self.trade_tif_var, "tif"),
+        ]
+        for idx, (label, var, kind) in enumerate(rows):
+            ttk.Label(form, text=label).grid(row=idx, column=0, sticky="w", pady=5)
+            if kind == "broker":
+                widget = ttk.Combobox(form, textvariable=var, values=list(BROKER_LABEL_TO_KEY.keys()), width=32, state="readonly")
+            elif kind == "side":
+                widget = ttk.Combobox(form, textvariable=var, values=[self.t("order_buy"), self.t("order_sell")], width=18, state="readonly")
+            elif kind == "type":
+                widget = ttk.Combobox(form, textvariable=var, values=[self.t("order_market"), self.t("order_limit")], width=18, state="readonly")
+            elif kind == "tif":
+                widget = ttk.Combobox(form, textvariable=var, values=["day", "gtc", "opg", "cls", "ioc", "fok"], width=18)
+            else:
+                widget = ttk.Entry(form, textvariable=var, width=34)
+            widget.grid(row=idx, column=1, sticky="w", pady=5, padx=(8, 0))
+
+        buttons = ttk.Frame(left)
+        buttons.pack(fill=X, pady=(10, 0))
+        self._button(buttons, self.t("use_selected_ticker"), self.use_selected_ticker_for_order, self.t("use_selected_ticker"), self.t("use_selected_ticker")).pack(side=LEFT, padx=(0, 6))
+        self._button(buttons, self.t("preview_order"), self.preview_order_ticket, self.t("preview_order"), self.t("preview_order")).pack(side=LEFT, padx=(0, 6))
+        self._button(buttons, self.t("submit_paper_order"), self.submit_paper_order, self.t("submit_paper_order"), self.t("order_risk"), "Primary.TButton").pack(side=LEFT, padx=(0, 6))
+        self._button(buttons, self.t("open_broker"), self.open_selected_broker_page, self.t("open_broker"), self.t("open_broker")).pack(side=LEFT, padx=(0, 6))
+
+        ttk.Label(left, text=self.t("paper_only"), style="Warning.TLabel", wraplength=500).pack(fill=X, pady=(12, 0))
+        ttk.Label(left, text=self.t("order_risk"), style="Muted.TLabel", wraplength=500, justify=LEFT).pack(fill=X, pady=(8, 0))
+
+        ttk.Label(right, text=self.t("trade_title"), style="Section.TLabel").pack(anchor="w")
+        self.order_preview_text = self._text_widget(right, height=11)
+        self.order_preview_text.pack(fill=X, pady=(4, 10))
+        ttk.Label(right, text=self.t("order_log"), style="Section.TLabel").pack(anchor="w")
+        columns = ("time", "broker", "symbol", "side", "type", "qty", "status", "order_id")
+        self.order_log_tree = ttk.Treeview(right, columns=columns, show="headings", height=10)
+        order_headings = {
+            "time": self.t("col_time"),
+            "broker": self.t("broker"),
+            "symbol": self.t("order_symbol"),
+            "side": self.t("order_side"),
+            "type": self.t("order_type"),
+            "qty": self.t("order_qty"),
+            "status": self.t("col_status"),
+            "order_id": "Order ID",
+        }
+        widths = {"time": 145, "broker": 140, "symbol": 70, "side": 70, "type": 75, "qty": 60, "status": 90, "order_id": 180}
+        for col in columns:
+            self.order_log_tree.heading(col, text=order_headings[col])
+            self.order_log_tree.column(col, width=widths[col], anchor="w")
+        self.order_log_tree.pack(fill=BOTH, expand=True)
+        self.refresh_order_logs()
+
+    def current_order_ticket(self):
+        symbol = self.trade_symbol_var.get().strip().upper()
+        side_label = self.trade_side_var.get()
+        type_label = self.trade_type_var.get()
+        try:
+            qty = float(self.trade_qty_var.get())
+        except ValueError:
+            qty = 0
+        limit_price = self.trade_limit_price_var.get().strip()
+        order_type = "limit" if type_label == self.t("order_limit") else "market"
+        side = "sell" if side_label == self.t("order_sell") else "buy"
+        ticket = {
+            "symbol": symbol,
+            "qty": str(qty).rstrip("0").rstrip(".") if qty else "",
+            "side": side,
+            "type": order_type,
+            "time_in_force": self.trade_tif_var.get().strip().lower() or "day",
+        }
+        if order_type == "limit":
+            ticket["limit_price"] = limit_price
+        return ticket
+
+    def validate_order_ticket(self, ticket):
+        try:
+            qty = float(ticket.get("qty") or 0)
+        except ValueError:
+            qty = 0
+        if not ticket.get("symbol") or ticket.get("side") not in {"buy", "sell"} or ticket.get("type") not in {"market", "limit"} or qty <= 0:
+            return False
+        if ticket.get("type") == "limit":
+            try:
+                return float(ticket.get("limit_price") or 0) > 0
+            except ValueError:
+                return False
+        return True
+
+    def use_selected_ticker_for_order(self):
+        symbol = ""
+        for tree in [getattr(self, "ticker_tree", None), *getattr(self, "secondary_ticker_trees", {}).values()]:
+            if not tree:
+                continue
+            selected = tree.selection()
+            if selected:
+                symbol = tree.item(selected[0], "values")[0]
+                break
+        if not symbol and self.selected_alert:
+            tickers = self.selected_alert.get("analysis", {}).get("tickers", [])
+            if tickers:
+                symbol = tickers[0].get("symbol", "")
+        if symbol:
+            self.trade_symbol_var.set(symbol)
+            self.notebook.select(self.trade_tab)
+            self.preview_order_ticket()
+        else:
+            self.set_status(self.t("order_missing"))
+
+    def preview_order_ticket(self):
+        ticket = self.current_order_ticket()
+        broker_label = self.trade_broker_var.get()
+        broker_key = BROKER_LABEL_TO_KEY.get(broker_label, "alpaca_paper")
+        preview = {
+            "broker": broker_label,
+            "mode": BROKER_PRESETS[broker_key]["mode"],
+            "ticket": ticket,
+            "risk": self.t("order_risk"),
+        }
+        self.order_preview_text.delete("1.0", END)
+        self.order_preview_text.insert("1.0", json.dumps(preview, indent=2, ensure_ascii=False))
+        self.set_status(self.t("order_preview_ready"))
+        return ticket, broker_key
+
+    def submit_paper_order(self):
+        ticket, broker_key = self.preview_order_ticket()
+        if not self.validate_order_ticket(ticket):
+            messagebox.showerror(self.t("settings_error"), self.t("order_missing"))
+            return
+        if broker_key != "alpaca_paper":
+            self.open_selected_broker_page()
+            self.store.add_order_log(BROKER_LABELS[broker_key], BROKER_PRESETS[broker_key]["mode"], ticket, "ticket_only")
+            self.refresh_order_logs()
+            return
+        if not self.config.get("alpaca_api_key_id") or not self.config.get("alpaca_secret_key"):
+            messagebox.showerror(self.t("missing_required"), "Alpaca API Key ID / Secret Key")
+            return
+        confirm_text = (
+            f"{self.t('order_risk')}\n\n"
+            f"{ticket['side'].upper()} {ticket['qty']} {ticket['symbol']} "
+            f"{ticket['type'].upper()} {ticket.get('limit_price', '')} {ticket['time_in_force'].upper()}"
+        )
+        if not messagebox.askyesno(self.t("submit_paper_order"), confirm_text):
+            return
+        self.set_status(self.t("submit_paper_order"), temporary=False)
+        threading.Thread(target=self._submit_alpaca_paper_worker, args=(ticket,), daemon=True).start()
+
+    def _submit_alpaca_paper_worker(self, ticket):
+        broker = BROKER_LABELS["alpaca_paper"]
+        try:
+            base_url = (self.config.get("alpaca_base_url") or DEFAULT_CONFIG["alpaca_base_url"]).rstrip("/")
+            if "paper-api.alpaca.markets" not in base_url:
+                raise RuntimeError("Only Alpaca paper-api.alpaca.markets is enabled for API submission in this build.")
+            headers = {
+                "APCA-API-KEY-ID": self.config.get("alpaca_api_key_id", ""),
+                "APCA-API-SECRET-KEY": self.config.get("alpaca_secret_key", ""),
+            }
+            response = post_json(f"{base_url}/v2/orders", ticket, headers=headers, timeout=30)
+            order_id = str(response.get("id", ""))
+            self.store.add_order_log(broker, "paper", ticket, response.get("status", "submitted"), order_id=order_id, response=response)
+            self.outbox.put(("order_done", {"order_id": order_id}))
+        except urllib.error.HTTPError as exc:
+            error = http_error_detail(exc)
+            self.store.add_order_log(broker, "paper", ticket, "error", error=error)
+            self.outbox.put(("order_error", error))
+        except Exception as exc:
+            self.store.add_order_log(broker, "paper", ticket, "error", error=str(exc))
+            self.outbox.put(("order_error", str(exc)))
+
+    def open_selected_broker_page(self):
+        broker_key = BROKER_LABEL_TO_KEY.get(self.trade_broker_var.get(), "alpaca_paper")
+        webbrowser.open(BROKER_PRESETS[broker_key]["url"])
+        self.set_status(self.t("open_broker"))
+
+    def refresh_order_logs(self):
+        if not hasattr(self, "order_log_tree"):
+            return
+        self.order_log_tree.delete(*self.order_log_tree.get_children())
+        for idx, row in enumerate(self.store.latest_order_logs(100)):
+            self.order_log_tree.insert(
+                "",
+                END,
+                iid=str(idx),
+                values=(
+                    self._display_time(row.get("created_at")),
+                    row.get("broker", ""),
+                    row.get("symbol", ""),
+                    row.get("side", ""),
+                    row.get("order_type", ""),
+                    row.get("quantity", ""),
+                    row.get("status", ""),
+                    row.get("order_id", "") or row.get("error", "")[:80],
+                ),
+            )
+
     def _build_settings_tab(self):
         frame = ttk.Frame(self.settings_tab)
         frame.pack(fill=X, anchor="n")
@@ -1989,6 +2364,10 @@ class TradeAlertApp:
         self.poll_var = StringVar(value=str(self.config.get("poll_seconds", 90)))
         self.max_posts_var = StringVar(value=str(self.config.get("max_posts_per_account", 5)))
         self.trade_template_var = StringVar(value=self.config.get("trade_link_template", DEFAULT_CONFIG["trade_link_template"]))
+        self.broker_provider_var = StringVar(value=BROKER_LABELS.get(self.config.get("broker_provider", "alpaca_paper"), BROKER_LABELS["alpaca_paper"]))
+        self.alpaca_key_var = StringVar(value=self.config.get("alpaca_api_key_id", ""))
+        self.alpaca_secret_var = StringVar(value=self.config.get("alpaca_secret_key", ""))
+        self.alpaca_base_url_var = StringVar(value=self.config.get("alpaca_base_url", DEFAULT_CONFIG["alpaca_base_url"]))
         self.use_gpt_var = StringVar(value="1" if self.config.get("use_gpt") else "0")
         self.exclude_replies_var = StringVar(value="1" if self.config.get("exclude_replies") else "0")
         self.exclude_retweets_var = StringVar(value="1" if self.config.get("exclude_retweets") else "0")
@@ -2017,6 +2396,10 @@ class TradeAlertApp:
             ("poll_seconds", self.poll_var, 12, False),
             ("max_posts", self.max_posts_var, 12, False),
             ("trade_template", self.trade_template_var, 90, False),
+            ("broker", self.broker_provider_var, 34, False),
+            ("alpaca_key", self.alpaca_key_var, 60, True),
+            ("alpaca_secret", self.alpaca_secret_var, 60, True),
+            ("alpaca_base_url", self.alpaca_base_url_var, 60, False),
         ]
         for idx, (label_key, var, width, secret) in enumerate(rows):
             row_idx = idx + 2
@@ -2026,6 +2409,9 @@ class TradeAlertApp:
                 self.model_box = ttk.Combobox(frame, textvariable=var, values=AI_PROVIDER_PRESETS[provider_key]["models"], width=width)
                 self.model_box.grid(row=row_idx, column=1, sticky="w", pady=4, padx=(8, 0))
                 Tooltip(self.model_box, "选择预设模型，或直接输入当前 AI 服务商支持的模型名。")
+            elif label_key == "broker":
+                broker_box = ttk.Combobox(frame, textvariable=var, values=list(BROKER_LABEL_TO_KEY.keys()), width=width, state="readonly")
+                broker_box.grid(row=row_idx, column=1, sticky="w", pady=4, padx=(8, 0))
             else:
                 entry = ttk.Entry(frame, textvariable=var, width=width, show="*" if secret else "")
                 entry.grid(row=row_idx, column=1, sticky="we", pady=4, padx=(8, 0))
@@ -2144,6 +2530,7 @@ class TradeAlertApp:
             return False
         provider_key = AI_LABEL_TO_PROVIDER.get(self.ai_provider_var.get(), "openai_responses")
         language_code = LANGUAGE_LABEL_TO_CODE.get(self.language_var.get(), "zh")
+        broker_key = BROKER_LABEL_TO_KEY.get(self.broker_provider_var.get(), "alpaca_paper")
         if self.use_gpt_var.get() == "1":
             missing = []
             if not self.openai_key_var.get().strip():
@@ -2173,6 +2560,11 @@ class TradeAlertApp:
             "exclude_replies": self.exclude_replies_var.get() == "1",
             "exclude_retweets": self.exclude_retweets_var.get() == "1",
             "trade_link_template": self.trade_template_var.get().strip(),
+            "broker_provider": broker_key,
+            "alpaca_api_key_id": self.alpaca_key_var.get().strip(),
+            "alpaca_secret_key": self.alpaca_secret_var.get().strip(),
+            "alpaca_base_url": self.alpaca_base_url_var.get().strip() or DEFAULT_CONFIG["alpaca_base_url"],
+            "order_confirm_required": True,
         }
         save_config(self.config)
         self.root.title(self.t("app_title"))
@@ -2925,6 +3317,18 @@ class TradeAlertApp:
                     self.log(message)
                     self.set_status(message)
                     self.set_home_feedback(message)
+                elif kind == "order_done":
+                    self.refresh_order_logs()
+                    message = self.t("paper_order_done", order_id=payload.get("order_id", ""))
+                    self.log(message)
+                    self.set_status(message)
+                    self.set_home_feedback(message)
+                elif kind == "order_error":
+                    self.refresh_order_logs()
+                    message = f"{self.t('submit_paper_order')}: {payload}"
+                    self.log(message)
+                    self.set_status(message)
+                    self.set_home_feedback(message)
                 elif kind == "workflow_start":
                     self.workflow_items[payload["id"]] = {
                         "name": payload.get("name", ""),
@@ -2974,6 +3378,7 @@ class TradeAlertApp:
             self.t("tab_recycle"): self.t("tab_recycle"),
             self.t("tab_workflow"): self.t("tab_workflow"),
             self.t("tab_paste"): self.t("tab_paste"),
+            self.t("tab_trade"): self.t("trade_subtitle"),
             self.t("tab_settings"): self.t("tab_settings"),
             self.t("tab_log"): self.t("tab_log"),
         }
