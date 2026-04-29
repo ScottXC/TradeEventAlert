@@ -1735,9 +1735,12 @@ class TradeAlertApp:
         self.ai_window_timeout_seconds = None
         self.ai_window_timer_after = None
         self.market_alerts = []
+        self.compact_mode = False
+        self.text_widgets = []
         self._configure_style()
         self._build_ui()
         self.refresh_alerts()
+        self.root.bind("<Configure>", self._on_root_resize, add="+")
         self.root.after(500, self._process_outbox)
 
     def _fit_window_to_screen(self):
@@ -1752,44 +1755,51 @@ class TradeAlertApp:
         return tr(self.config.get("language", "zh"), key, **kwargs)
 
     def _configure_style(self):
+        compact = getattr(self, "compact_mode", False)
+        base_size = 9 if compact else 10
+        section_size = 10 if compact else 11
+        metric_size = 12 if compact else 14
+        row_height = 21 if compact else 24
+        button_padding = (7, 4) if compact else (9, 6)
+        nav_padding = (9, 7) if compact else (12, 9)
         self.root.configure(bg=COLORS["bg"])
-        self.root.option_add("*Font", "{Segoe UI} 10")
-        self.root.option_add("*TCombobox*Listbox.font", "{Segoe UI} 10")
+        self.root.option_add("*Font", f"{{Segoe UI}} {base_size}")
+        self.root.option_add("*TCombobox*Listbox.font", f"{{Segoe UI}} {base_size}")
         style = ttk.Style(self.root)
         try:
             style.theme_use("clam")
         except Exception:
             pass
-        style.configure(".", font=("Segoe UI", 10), background=COLORS["bg"], foreground=COLORS["text"])
+        style.configure(".", font=("Segoe UI", base_size), background=COLORS["bg"], foreground=COLORS["text"])
         style.configure("TFrame", background=COLORS["bg"])
         style.configure("Panel.TFrame", background=COLORS["panel"])
         style.configure("TerminalTop.TFrame", background=COLORS["topbar"])
-        style.configure("TerminalTitle.TLabel", background=COLORS["topbar"], foreground="#ffffff", font=("Segoe UI", 12, "bold"))
-        style.configure("TerminalMuted.TLabel", background=COLORS["topbar"], foreground="#cbd5e1", font=("Segoe UI", 9))
-        style.configure("TerminalChip.TLabel", background="#263241", foreground="#dbe4f0", padding=(10, 4), font=("Segoe UI", 9, "bold"))
+        style.configure("TerminalTitle.TLabel", background=COLORS["topbar"], foreground="#ffffff", font=("Segoe UI", 11 if compact else 12, "bold"))
+        style.configure("TerminalMuted.TLabel", background=COLORS["topbar"], foreground="#cbd5e1", font=("Segoe UI", 8 if compact else 9))
+        style.configure("TerminalChip.TLabel", background="#263241", foreground="#dbe4f0", padding=(7, 3) if compact else (10, 4), font=("Segoe UI", 8 if compact else 9, "bold"))
         style.configure("Nav.TFrame", background=COLORS["nav_bg"])
-        style.configure("NavTitle.TLabel", background=COLORS["nav_bg"], foreground="#ffffff", font=("Segoe UI", 10, "bold"))
+        style.configure("NavTitle.TLabel", background=COLORS["nav_bg"], foreground="#ffffff", font=("Segoe UI", 9 if compact else 10, "bold"))
         style.configure("NavHint.TLabel", background=COLORS["nav_bg"], foreground=COLORS["nav_muted"], font=("Segoe UI", 8))
-        style.configure("Nav.TButton", background=COLORS["nav_bg"], foreground=COLORS["nav_text"], padding=(12, 9), borderwidth=0, anchor="w")
+        style.configure("Nav.TButton", background=COLORS["nav_bg"], foreground=COLORS["nav_text"], padding=nav_padding, borderwidth=0, anchor="w")
         style.map("Nav.TButton", background=[("active", "#374151")], foreground=[("active", "#ffffff")])
-        style.configure("NavActive.TButton", background=COLORS["nav_active"], foreground="#ffffff", padding=(12, 9), borderwidth=0, anchor="w")
+        style.configure("NavActive.TButton", background=COLORS["nav_active"], foreground="#ffffff", padding=nav_padding, borderwidth=0, anchor="w")
         style.map("NavActive.TButton", background=[("active", COLORS["accent_dark"])], foreground=[("active", "#ffffff")])
         style.configure("TLabel", background=COLORS["bg"], foreground=COLORS["text"])
         style.configure("Muted.TLabel", background=COLORS["bg"], foreground=COLORS["muted"])
         style.configure("Warning.TLabel", background=COLORS["warning_bg"], foreground=COLORS["warning_text"], padding=8)
         style.configure("Status.TLabel", background="#e9edf5", foreground=COLORS["muted"], padding=(10, 7))
-        style.configure("Feedback.TLabel", background=COLORS["info_bg"], foreground=COLORS["accent_dark"], padding=(8, 6), font=("Segoe UI", 9, "bold"))
-        style.configure("Section.TLabel", background=COLORS["bg"], foreground=COLORS["text"], font=("Segoe UI", 11, "bold"))
+        style.configure("Feedback.TLabel", background=COLORS["info_bg"], foreground=COLORS["accent_dark"], padding=(6, 4) if compact else (8, 6), font=("Segoe UI", 8 if compact else 9, "bold"))
+        style.configure("Section.TLabel", background=COLORS["bg"], foreground=COLORS["text"], font=("Segoe UI", section_size, "bold"))
         style.configure("Card.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
         style.configure("CardTitle.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 10, "bold"))
         style.configure("CardMuted.TLabel", background=COLORS["panel"], foreground=COLORS["muted"])
         style.configure("Metric.TFrame", background=COLORS["panel"], relief="solid", borderwidth=1)
         style.configure("MetricLabel.TLabel", background=COLORS["panel"], foreground=COLORS["muted"], font=("Segoe UI", 9, "bold"))
-        style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", 14, "bold"))
+        style.configure("MetricValue.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=("Segoe UI", metric_size, "bold"))
         style.configure("TNotebook", background=COLORS["bg"], borderwidth=0)
         style.configure("TNotebook.Tab", padding=(10, 7), background="#e9edf5", foreground=COLORS["muted"], font=("Segoe UI", 9))
         style.map("TNotebook.Tab", background=[("selected", COLORS["panel"])], foreground=[("selected", COLORS["text"])])
-        style.configure("TButton", padding=(9, 6), background="#e8edf7", foreground=COLORS["text"], borderwidth=1)
+        style.configure("TButton", padding=button_padding, background="#e8edf7", foreground=COLORS["text"], borderwidth=1)
         style.map("TButton", background=[("active", "#dfe6f3")])
         style.configure("Primary.TButton", background=COLORS["accent"], foreground="#ffffff")
         style.map("Primary.TButton", background=[("active", COLORS["accent_dark"])], foreground=[("active", "#ffffff")])
@@ -1800,13 +1810,14 @@ class TradeAlertApp:
             style.layout("Workspace.TNotebook.Tab", [])
         except Exception:
             pass
-        style.configure("Treeview", background=COLORS["panel"], fieldbackground=COLORS["panel"], foreground=COLORS["text"], rowheight=24, borderwidth=0)
-        style.configure("Treeview.Heading", background="#dde5f0", foreground=COLORS["text"], padding=(8, 5), font=("Segoe UI", 9, "bold"))
+        style.configure("Treeview", background=COLORS["panel"], fieldbackground=COLORS["panel"], foreground=COLORS["text"], rowheight=row_height, borderwidth=0)
+        style.configure("Treeview.Heading", background="#dde5f0", foreground=COLORS["text"], padding=(6, 4) if compact else (8, 5), font=("Segoe UI", 8 if compact else 9, "bold"))
         style.map("Treeview", background=[("selected", COLORS["accent"])], foreground=[("selected", "#ffffff")])
         style.configure("TEntry", fieldbackground=COLORS["panel"], bordercolor=COLORS["border"], lightcolor=COLORS["border"], darkcolor=COLORS["border"], padding=5)
         style.configure("TCheckbutton", background=COLORS["bg"], foreground=COLORS["text"], padding=4)
 
     def _text_widget(self, parent, height, width=None):
+        compact = getattr(self, "compact_mode", False)
         options = {
             "height": height,
             "wrap": "word",
@@ -1814,15 +1825,18 @@ class TradeAlertApp:
             "fg": COLORS["text"],
             "insertbackground": COLORS["accent"],
             "relief": "flat",
-            "borderwidth": 8,
+            "borderwidth": 5 if compact else 8,
             "highlightthickness": 1,
             "highlightbackground": COLORS["border"],
             "highlightcolor": COLORS["accent"],
-            "font": ("Segoe UI", 10),
+            "font": ("Segoe UI", 9 if compact else 10),
         }
         if width is not None:
             options["width"] = width
-        return Text(parent, **options)
+        widget = Text(parent, **options)
+        if hasattr(self, "text_widgets"):
+            self.text_widgets.append(widget)
+        return widget
 
     def _responsive_wrap(self, parent, label, max_width=1100, padding=36):
         def update_wrap(event=None):
@@ -1852,12 +1866,29 @@ class TradeAlertApp:
         scrollbar.pack(side=RIGHT, fill=Y)
         return content
 
-    def _button_grid(self, parent, button_specs, max_columns=4):
+    def _button_grid(self, parent, button_specs, max_columns=4, min_button_width=96):
+        buttons = []
         for idx, spec in enumerate(button_specs):
             label, command, tip = spec[:3]
             style = spec[3] if len(spec) > 3 else None
             button = self._button(parent, label, command, label, tip, style)
-            button.grid(row=idx // max_columns, column=idx % max_columns, sticky="w", padx=(0, 6), pady=3)
+            buttons.append(button)
+
+        def layout(event=None):
+            if not buttons:
+                return
+            width = (event.width if event else parent.winfo_width()) or 1
+            if width >= len(buttons) * min_button_width:
+                columns = len(buttons)
+            else:
+                columns = max(1, min(max_columns, width // min_button_width))
+            for child in buttons:
+                child.grid_forget()
+            for idx, child in enumerate(buttons):
+                child.grid(row=idx // columns, column=idx % columns, sticky="w", padx=(0, 6), pady=2)
+
+        parent.bind("<Configure>", layout, add="+")
+        self.root.after_idle(layout)
 
     def _tree_box(self, parent):
         box = ttk.Frame(parent)
@@ -1874,6 +1905,26 @@ class TradeAlertApp:
         tree.grid(row=0, column=0, sticky="nsew")
         y_scroll.grid(row=0, column=1, sticky="ns")
         x_scroll.grid(row=1, column=0, sticky="ew")
+
+    def _on_root_resize(self, event):
+        if event.widget is not self.root:
+            return
+        compact = event.width < 1180 or event.height < 760
+        if compact == getattr(self, "compact_mode", False):
+            return
+        self.compact_mode = compact
+        self._configure_style()
+        self._apply_ui_scale()
+
+    def _apply_ui_scale(self):
+        compact = getattr(self, "compact_mode", False)
+        if hasattr(self, "nav_frame"):
+            self.nav_frame.configure(width=118 if compact else 138)
+        for widget in getattr(self, "text_widgets", []):
+            try:
+                widget.configure(font=("Segoe UI", 9 if compact else 10), borderwidth=5 if compact else 8)
+            except Exception:
+                pass
 
     def _button(self, parent, text, command, feedback, tooltip, style=None):
         button = ttk.Button(
@@ -1928,6 +1979,8 @@ class TradeAlertApp:
         self.ai_window = None
         self.ai_window_status_var = None
         self.ai_window_elapsed_var = None
+        self.compact_mode = False
+        self.text_widgets = []
         self._configure_style()
         self._build_ui()
         self.refresh_alerts()
@@ -1946,6 +1999,7 @@ class TradeAlertApp:
 
     def _build_nav_rail(self, parent):
         nav = ttk.Frame(parent, style="Nav.TFrame", width=138)
+        self.nav_frame = nav
         nav.pack(side=LEFT, fill=Y)
         nav.pack_propagate(False)
         ttk.Label(nav, text="Trade Desk", style="NavTitle.TLabel").pack(anchor="w", padx=10, pady=(10, 2))
@@ -1987,7 +2041,6 @@ class TradeAlertApp:
         workspace.pack(fill=BOTH, expand=True, padx=8, pady=(8, 0))
 
         notebook = ttk.Notebook(workspace, style="Workspace.TNotebook")
-        notebook.pack(side=RIGHT, fill=BOTH, expand=True)
         self.notebook = notebook
 
         self.monitor_tab = ttk.Frame(notebook, padding=10)
@@ -2009,6 +2062,7 @@ class TradeAlertApp:
         notebook.add(self.settings_tab, text=self.t("tab_settings"))
         notebook.add(self.log_tab, text=self.t("tab_log"))
         self._build_nav_rail(workspace)
+        notebook.pack(side=RIGHT, fill=BOTH, expand=True)
 
         self._build_monitor_tab()
         self._build_secondary_tabs()
