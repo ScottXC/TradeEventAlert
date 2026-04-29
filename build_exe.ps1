@@ -30,7 +30,13 @@ if ($OldPythonPath) {
     $env:PYTHONPATH = $DepsDir
 }
 
-& $Python -m PyInstaller --clean --noconfirm --onefile --windowed --name TradeEventAlert --distpath .\dist --workpath .\build --specpath .\build .\src\trade_alert_app.py
+$IconPath = Join-Path $PSScriptRoot "assets\app.ico"
+$IconArgs = @()
+if (Test-Path $IconPath) {
+    $IconArgs = @("--icon", $IconPath, "--add-data", "$IconPath;assets")
+}
+
+& $Python -m PyInstaller --clean --noconfirm --onefile --windowed --name TradeEventAlert @IconArgs --distpath .\dist --workpath .\build --specpath .\build .\src\trade_alert_app.py
 if ($LASTEXITCODE -ne 0) {
     throw "PyInstaller failed with exit code $LASTEXITCODE"
 }

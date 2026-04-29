@@ -2,6 +2,7 @@ import json
 import os
 import queue
 import sqlite3
+import sys
 import threading
 import time
 import traceback
@@ -20,6 +21,8 @@ APP_NAME = "TradeEventAlert"
 APP_DIR = Path(os.environ.get("APPDATA", Path.home())) / APP_NAME
 CONFIG_PATH = APP_DIR / "config.json"
 DB_PATH = APP_DIR / "alerts.sqlite3"
+PROJECT_DIR = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[1]))
+APP_ICON_PATH = PROJECT_DIR / "assets" / "app.ico"
 
 
 COLORS = {
@@ -201,6 +204,10 @@ I18N = {
     "metric_bearish": {"zh": "利空判断", "en": "Bearish Views", "es": "Señales bajistas", "ja": "弱気判断", "ko": "약세 판단"},
     "metric_mixed": {"zh": "分歧判断", "en": "Mixed Views", "es": "Señales mixtas", "ja": "混合判断", "ko": "혼합 판단"},
     "metric_top_category": {"zh": "主要类别", "en": "Top Category", "es": "Categoría principal", "ja": "主要カテゴリ", "ko": "주요 분류"},
+    "metric_detail": {"zh": "概览明细", "en": "Overview Detail", "es": "Detalle del resumen", "ja": "概要詳細", "ko": "개요 세부 정보"},
+    "metric_click_tip": {"zh": "点击查看该指标包含的推文和股票。", "en": "Click to view posts and tickers included in this metric.", "es": "Haz clic para ver publicaciones y símbolos incluidos.", "ja": "クリックしてこの指標に含まれる投稿と銘柄を表示します。", "ko": "이 지표에 포함된 게시물과 종목을 보려면 클릭하세요."},
+    "metric_empty": {"zh": "当前没有匹配内容。", "en": "No matching items right now.", "es": "No hay elementos coincidentes.", "ja": "一致する項目はありません。", "ko": "일치하는 항목이 없습니다."},
+    "included_tickers": {"zh": "包含股票", "en": "Included Tickers", "es": "Símbolos incluidos", "ja": "含まれる銘柄", "ko": "포함 종목"},
     "market_gap_note": {
         "zh": "参考主流行情软件的做法，当前工作台强化了概览、筛选后保留、收藏整理、回收站和工作流耗时展示。",
         "en": "Inspired by market platforms, this desk emphasizes overview metrics, kept filtered items, favorites, trash recovery, and workflow timing.",
@@ -1694,6 +1701,11 @@ class TradeAlertApp:
         self.root.geometry("1180x760")
         self.config = load_config()
         self.root.title(self.t("app_title"))
+        if APP_ICON_PATH.exists():
+            try:
+                self.root.iconbitmap(str(APP_ICON_PATH))
+            except Exception:
+                pass
         self.store = AlertStore(DB_PATH)
         self.outbox = queue.Queue()
         self.stop_event = threading.Event()
@@ -1715,6 +1727,7 @@ class TradeAlertApp:
         self.ai_window_started_at = None
         self.ai_window_timeout_seconds = None
         self.ai_window_timer_after = None
+        self.market_alerts = []
         self._configure_style()
         self._build_ui()
         self.refresh_alerts()
@@ -1818,6 +1831,11 @@ class TradeAlertApp:
         for child in self.root.winfo_children():
             child.destroy()
         self.root.title(self.t("app_title"))
+        if APP_ICON_PATH.exists():
+            try:
+                self.root.iconbitmap(str(APP_ICON_PATH))
+            except Exception:
+                pass
         self.alert_rows = {}
         self.selected_alert = None
         self.status_var = StringVar(value=self.t("ready"))
@@ -1993,8 +2011,15 @@ class TradeAlertApp:
             card.grid(row=0, column=idx, sticky="nsew", padx=(0 if idx == 0 else 6, 0))
             card_row.columnconfigure(idx, weight=1)
             self.metric_vars[metric_key] = StringVar(value="0")
-            ttk.Label(card, text=self.t(label_key), style="MetricLabel.TLabel").pack(anchor="w")
-            ttk.Label(card, textvariable=self.metric_vars[metric_key], style="MetricValue.TLabel").pack(anchor="w", pady=(2, 0))
+            label = ttk.Label(card, text=self.t(label_key), style="MetricLabel.TLabel")
+            value = ttk.Label(card, textvariable=self.metric_vars[metric_key], style="MetricValue.TLabel")
+            label.pack(anchor="w")
+            value.pack(anchor="w", pady=(2, 0))
+            for widget in (card, label, value):
+                widget.bind("<Button-1>", lambda _event, key=metric_key: self.show_market_metric_detail(key), add="+")
+                widget.bind("<Enter>", lambda _event: self.set_status(self.t("metric_click_tip"), temporary=False), add="+")
+                widget.bind("<Leave>", lambda _event: self.set_status(self.t("ready"), temporary=False), add="+")
+                Tooltip(widget, self.t("metric_click_tip"))
         ttk.Label(dashboard, text=self.t("market_gap_note"), style="Muted.TLabel", wraplength=1100).pack(anchor="w", pady=(6, 0))
 
     def _build_secondary_tabs(self):
@@ -2856,6 +2881,7 @@ class TradeAlertApp:
     def update_market_dashboard(self, alerts):
         if not hasattr(self, "metric_vars"):
             return
+        self.market_alerts = list(alerts)
         high = 0
         directions = {"bullish": 0, "bearish": 0, "mixed": 0}
         categories = {}
@@ -2880,6 +2906,127 @@ class TradeAlertApp:
         self.metric_vars["bearish"].set(str(directions["bearish"]))
         self.metric_vars["mixed"].set(str(directions["mixed"]))
         self.metric_vars["top_category"].set(top_category)
+
+    def filtered_market_alerts(self, metric_key):
+        alerts = list(getattr(self, "market_alerts", []))
+        if metric_key == "active":
+            return alerts
+        if metric_key == "high":
+            return [alert for alert in alerts if int(alert.get("severity") or 0) >= 4]
+        if metric_key in {"bullish", "bearish", "mixed"}:
+            return [
+                alert
+                for alert in alerts
+                if any(ticker.get("direction") == metric_key for ticker in alert.get("analysis", {}).get("tickers", []))
+            ]
+        if metric_key == "top_category":
+            categories = {}
+            for alert in alerts:
+                category = alert.get("category") or "-"
+                categories[category] = categories.get(category, 0) + 1
+            if not categories:
+                return []
+            top_category = max(categories.items(), key=lambda item: item[1])[0]
+            return [alert for alert in alerts if (alert.get("category") or "-") == top_category]
+        return alerts
+
+    def tickers_for_metric(self, alert, metric_key):
+        tickers = alert.get("analysis", {}).get("tickers", [])
+        if metric_key in {"bullish", "bearish", "mixed"}:
+            tickers = [ticker for ticker in tickers if ticker.get("direction") == metric_key]
+        return ", ".join(
+            f"{ticker.get('symbol', '')} {ticker.get('direction', '')}".strip()
+            for ticker in tickers
+            if ticker.get("symbol")
+        )
+
+    def show_market_metric_detail(self, metric_key):
+        alerts = self.filtered_market_alerts(metric_key)
+        metric_labels = {
+            "active": self.t("metric_active"),
+            "high": self.t("metric_high"),
+            "bullish": self.t("metric_bullish"),
+            "bearish": self.t("metric_bearish"),
+            "mixed": self.t("metric_mixed"),
+            "top_category": self.t("metric_top_category"),
+        }
+        dialog = Toplevel(self.root)
+        dialog.title(f"{self.t('metric_detail')} - {metric_labels.get(metric_key, metric_key)}")
+        dialog.geometry("980x560")
+        dialog.configure(bg=COLORS["bg"])
+        dialog.transient(self.root)
+        if APP_ICON_PATH.exists():
+            try:
+                dialog.iconbitmap(str(APP_ICON_PATH))
+            except Exception:
+                pass
+
+        body = ttk.Frame(dialog, padding=14)
+        body.pack(fill=BOTH, expand=True)
+        ttk.Label(body, text=f"{self.t('metric_detail')} - {metric_labels.get(metric_key, metric_key)}", style="Section.TLabel").pack(anchor="w")
+        ttk.Label(body, text=self.t("metric_click_tip"), style="Muted.TLabel").pack(anchor="w", pady=(2, 8))
+
+        columns = ("time", "account", "category", "severity", "headline", "tickers")
+        tree = ttk.Treeview(body, columns=columns, show="headings", height=14)
+        headings = {
+            "time": self.t("col_time"),
+            "account": self.t("col_account"),
+            "category": self.t("col_category"),
+            "severity": self.t("col_severity"),
+            "headline": self.t("col_headline"),
+            "tickers": self.t("included_tickers"),
+        }
+        widths = {"time": 150, "account": 115, "category": 115, "severity": 60, "headline": 330, "tickers": 190}
+        for col in columns:
+            tree.heading(col, text=headings[col])
+            tree.column(col, width=widths[col], anchor="w")
+        tree.pack(fill=BOTH, expand=True)
+
+        detail = self._text_widget(body, height=7)
+        detail.pack(fill=X, pady=(8, 0))
+
+        alert_by_row = {}
+        for alert in alerts:
+            row_id = str(alert["id"])
+            alert_by_row[row_id] = alert
+            tree.insert(
+                "",
+                END,
+                iid=row_id,
+                values=(
+                    self._display_time(alert.get("created_at")),
+                    f"@{alert.get('account', '')}",
+                    alert.get("category", ""),
+                    alert.get("severity", ""),
+                    alert.get("headline", ""),
+                    self.tickers_for_metric(alert, metric_key),
+                ),
+            )
+        if not alerts:
+            detail.insert("1.0", self.t("metric_empty"))
+
+        def show_detail(_event=None):
+            selected = tree.selection()
+            if not selected:
+                return
+            alert = alert_by_row.get(selected[0])
+            if not alert:
+                return
+            analysis = alert.get("analysis", {})
+            text = (
+                f"{self.t('detail_title')}: {analysis.get('headline', alert.get('headline', ''))}\n"
+                f"{self.t('col_category')}: {alert.get('category', '')}  {self.t('detail_level')}: {alert.get('severity', '')}\n"
+                f"{self.t('included_tickers')}: {self.tickers_for_metric(alert, metric_key)}\n\n"
+                f"{analysis.get('summary', alert.get('summary', ''))}"
+            )
+            detail.delete("1.0", END)
+            detail.insert("1.0", text)
+
+        tree.bind("<<TreeviewSelect>>", show_detail)
+        children = tree.get_children()
+        if children:
+            tree.selection_set(children[0])
+            show_detail()
 
     def _fill_alert_tree(self, tree, alerts):
         tree.delete(*tree.get_children())
